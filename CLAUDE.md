@@ -15,14 +15,19 @@ Current state is an **MVP prototype**: a static mock dataset of **15 representat
 Deep business/industry/product context lives in `research_and_planning/` (start with
 `PROJECT_EXPLAINER.md` and `SESSION_LOG.md`); `research_and_planning/CLIENT_BRIEF.md` has the original brief.
 
+**Active work (a demo-readiness rebuild is in progress on branch `feat/demo-build`):** resume from
+`research_and_planning/BUILD_STATUS.md` (current phase, decisions, deviations). The visual direction is in
+`research_and_planning/DESIGN_STRATEGY.md` ("Instrument") and the task plan is in
+`docs/superpowers/plans/2026-06-26-vantra-demo-build.md`.
+
 ## Commands
 
-- **Install:** `npm install --legacy-peer-deps` — the `--legacy-peer-deps` flag is **required** (React 19 peer-dep ranges).
+- **Install:** `npm install` (plain; `--legacy-peer-deps` is no longer needed now that React 19 is stable).
 - **Dev server:** `npm run dev` (port 3000, hot reload)
 - **Production build + typecheck:** `npm run build` (also fails on TS or ESLint errors; this is the main correctness gate)
 - **Production server:** `npm run start`
-- **Lint:** `npm run lint`
-- **Tests:** none configured. There is no test runner; `npm run build` is the only automated verification.
+- **Lint:** `npm run lint` (ESLint, `next/core-web-vitals` + `next/typescript`)
+- **Tests:** `npm run test` (Vitest, unit + data-integrity tests under `src/**/*.test.ts` and `data/**/*.test.ts`)
 
 ## Architecture
 

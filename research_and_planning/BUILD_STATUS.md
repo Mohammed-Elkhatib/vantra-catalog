@@ -1,7 +1,7 @@
 # Build Status & Handoff: Vantra Catalog Demo
 
 **Living document. Update at every phase boundary.** This is the single place to resume
-from if the conversation context is lost. Last updated: 2026-06-26 (end of Phase 1).
+from if the conversation context is lost. Last updated: 2026-06-26 (end of Phase 2).
 
 ## How to resume (read in this order)
 
@@ -30,8 +30,8 @@ The memory files `vantra-catalog-demo` and `user-design-sensibility` load automa
 
 - [x] **Phase 0** - Tooling + design tokens. DONE.
 - [x] **Phase 1** - Data integrity. DONE (7 integrity tests pass; build green).
-- [ ] **Phase 2** - Tested logic layer (filter/format). NEXT.
-- [ ] **Phase 3** - Instrument signature components.
+- [x] **Phase 2** - Tested logic layer. DONE (16 tests pass; build green). `src/lib/catalog-filter.ts` (filter + facet, consumed by products page) and `src/lib/format.ts` exist and are tested. **Deferred:** wiring `formatFileSize`/`humanizeEnum` into `DynamicSpecs`/`ProductCard`/detail happens in Phase 4 when those are rewritten (avoids double work; `.replace` bug is latent).
+- [ ] **Phase 3** - Instrument signature components. NEXT.
 - [ ] **Phase 4** - Page redesign into the Instrument system.
 - [ ] **Phase 5** - SEO (metadata, JSON-LD, SSG, sitemap, robots).
 - [ ] **Phase 6** - Verification + truthful doc updates (README, CLAUDE.md, SESSION_LOG).

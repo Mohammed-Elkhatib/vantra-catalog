@@ -51,11 +51,11 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between border-b border-slate-100 pb-6 mb-8">
+      <div className="mb-8 flex flex-col gap-6 border-b border-rule pb-6 md:flex-row md:items-end md:justify-between">
         <div>
-          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight sm:text-4xl">Product Catalog</h1>
-          <p className="text-slate-500 text-sm mt-2">
-            Showing {filteredProducts.length} of {products.length} products
+          <h1 className="text-3xl font-semibold tracking-tight text-ink sm:text-4xl">Product Catalog</h1>
+          <p className="mt-2 font-mono text-xs uppercase tracking-[0.12em] text-steel">
+            {filteredProducts.length} / {products.length} products
           </p>
         </div>
         <div className="w-full md:w-80">
@@ -76,7 +76,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
         {/* Product Grid */}
         <main className="lg:col-span-3">
           {filteredProducts.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
               {filteredProducts.map((product) => {
                 const brand = brands.find((b) => b.id === product.brand_id);
                 return (
@@ -89,11 +89,11 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
               })}
             </div>
           ) : (
-            <div className="text-center py-20 border border-dashed border-slate-200 rounded-xl bg-slate-50/50">
-              <Search className="w-8 h-8 text-slate-400 mx-auto mb-4" />
-              <h3 className="font-bold text-slate-800 text-lg">No Products Found</h3>
-              <p className="text-slate-500 text-sm mt-1 max-w-sm mx-auto">
-                No products match your current filters. Try adjusting your search query or clearing active checkboxes.
+            <div className="border border-dashed border-rule bg-white py-20 text-center">
+              <Search className="mx-auto mb-4 h-7 w-7 text-steel" />
+              <h3 className="text-lg font-semibold text-ink">No products found</h3>
+              <p className="mx-auto mt-1 max-w-sm text-sm text-steel">
+                Nothing matches your current filters. Try clearing a facet or adjusting your search.
               </p>
             </div>
           )}

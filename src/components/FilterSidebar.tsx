@@ -3,7 +3,7 @@
 import { useTransition } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Category, Brand } from "@/lib/db";
-import { Filter, X, Check } from "lucide-react";
+import { Filter } from "lucide-react";
 
 interface FilterSidebarProps {
   categories: Category[];
@@ -18,293 +18,184 @@ interface FilterSidebarProps {
   };
 }
 
-export default function FilterSidebar({
-  categories,
-  brands,
-  availableCounts,
-}: FilterSidebarProps) {
+// Curated spec-facet option lists. Intentional subsets of the schema's full enums (the
+// demo data only spans these); extend here when the catalog grows.
+const EN1822_OPTIONS = ["E12", "H13", "H14"];
+const FIRE_RATING_OPTIONS = [1.5, 3];
+const LEAKAGE_OPTIONS = ["I", "II", "III"];
+const CERT_OPTIONS = ["UL", "ETL", "AMCA", "BSRIA", "IFC", "NAFA"];
+
+function FacetSection({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div className="border-t border-rule pt-5 first:border-t-0 first:pt-0">
+      <h4 className="mb-2.5 font-mono text-[10px] uppercase tracking-[0.14em] text-steel">{title}</h4>
+      <div className="flex flex-col gap-1">{children}</div>
+    </div>
+  );
+}
+
+function Option({
+  label,
+  count,
+  checked,
+  onToggle,
+}: {
+  label: string;
+  count: number;
+  checked: boolean;
+  onToggle: () => void;
+}) {
+  const disabled = count === 0 && !checked;
+  return (
+    <label
+      className={
+        disabled
+          ? "pointer-events-none flex select-none items-center justify-between py-1 text-sm text-steel/40"
+          : "flex cursor-pointer select-none items-center justify-between py-1 text-sm text-ink/80 transition-colors hover:text-ink"
+      }
+    >
+      <span className="flex items-center gap-2">
+        <input
+          type="checkbox"
+          checked={checked}
+          disabled={disabled}
+          onChange={onToggle}
+          className="h-3.5 w-3.5 accent-[var(--color-signal)]"
+        />
+        <span>{label}</span>
+      </span>
+      <span className="font-mono text-[10px] text-steel">{count}</span>
+    </label>
+  );
+}
+
+export default function FilterSidebar({ categories, brands, availableCounts }: FilterSidebarProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
 
-  // Active filters helper
-  const getActiveFilters = (key: string): string[] => {
-    const val = searchParams.get(key);
-    return val ? val.split(",") : [];
+  const active = (key: string): string[] => {
+    const v = searchParams.get(key);
+    return v ? v.split(",") : [];
   };
 
-  const activeCategories = getActiveFilters("category");
-  const activeBrands = getActiveFilters("brand");
-  const activeEn1822 = getActiveFilters("en1822");
-  const activeFireRating = getActiveFilters("fireRating");
-  const activeLeakageClass = getActiveFilters("leakageClass");
-  const activeCerts = getActiveFilters("cert");
-
-  // Toggle filter helper
-  const handleFilterToggle = (key: string, value: string) => {
+  const toggle = (key: string, value: string) => {
     const params = new URLSearchParams(searchParams.toString());
     const current = params.get(key) ? params.get(key)!.split(",") : [];
-
-    let updated: string[];
-    if (current.includes(value)) {
-      updated = current.filter((v) => v !== value);
-    } else {
-      updated = [...current, value];
-    }
-
-    if (updated.length > 0) {
-      params.set(key, updated.join(","));
-    } else {
-      params.delete(key);
-    }
-
-    // Reset pagination on filter change
+    const updated = current.includes(value) ? current.filter((v) => v !== value) : [...current, value];
+    if (updated.length > 0) params.set(key, updated.join(","));
+    else params.delete(key);
     params.delete("page");
-
-    startTransition(() => {
-      router.push(`/products?${params.toString()}`, { scroll: false });
-    });
+    startTransition(() => router.push(`/products?${params.toString()}`, { scroll: false }));
   };
 
-  const handleClearAll = () => {
-    startTransition(() => {
-      router.push("/products", { scroll: false });
-    });
-  };
+  const activeCategories = active("category");
+  const activeBrands = active("brand");
+  const activeEn1822 = active("en1822");
+  const activeFire = active("fireRating");
+  const activeLeakage = active("leakageClass");
+  const activeCerts = active("cert");
 
-  const hasActiveFilters =
-    activeCategories.length > 0 ||
-    activeBrands.length > 0 ||
-    activeEn1822.length > 0 ||
-    activeFireRating.length > 0 ||
-    activeLeakageClass.length > 0 ||
-    activeCerts.length > 0 ||
+  const hasActive =
+    [activeCategories, activeBrands, activeEn1822, activeFire, activeLeakage, activeCerts].some((a) => a.length > 0) ||
     searchParams.has("search");
 
   return (
-    <div className="flex flex-col gap-8 bg-white border border-slate-100 p-6 rounded-xl shadow-sm h-fit">
+    <div className="flex h-fit flex-col gap-5 border border-rule bg-white p-5">
       <div className="flex items-center justify-between">
-        <h3 className="text-sm uppercase font-bold text-slate-800 tracking-wider flex items-center gap-1.5">
-          <Filter className="w-4 h-4 text-sky-600" /> Filters
+        <h3 className="flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.16em] text-ink">
+          <Filter className="h-3.5 w-3.5 text-[var(--color-signal)]" /> Filters
         </h3>
-        {hasActiveFilters && (
+        {hasActive && (
           <button
-            onClick={handleClearAll}
+            onClick={() => startTransition(() => router.push("/products", { scroll: false }))}
             disabled={isPending}
-            className="text-xs text-sky-600 hover:text-sky-500 font-semibold flex items-center gap-0.5 hover:underline disabled:opacity-50"
+            className="font-mono text-[10px] uppercase tracking-[0.12em] text-[var(--color-signal)] hover:underline disabled:opacity-50"
           >
-            Clear All
+            Clear
           </button>
         )}
       </div>
 
-      <div className="divide-y divide-slate-100 flex flex-col gap-6">
-        {/* Category Filter */}
-        <div className="flex flex-col gap-3 pt-6 first:pt-0">
-          <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider">Categories</h4>
-          <div className="flex flex-col gap-2">
-            {categories.map((category) => {
-              const checked = activeCategories.includes(category.name);
-              const count = availableCounts.categories[category.name] || 0;
-              return (
-                <label
-                  key={category.id}
-                  className={`flex items-center justify-between text-sm cursor-pointer py-0.5 transition-colors select-none ${
-                    count === 0 && !checked
-                      ? "text-slate-300 pointer-events-none"
-                      : "text-slate-600 hover:text-slate-900"
-                  }`}
-                >
-                  <div className="flex items-center gap-2">
-                    <input
-                      type="checkbox"
-                      checked={checked}
-                      disabled={count === 0 && !checked}
-                      onChange={() => handleFilterToggle("category", category.name)}
-                      className="rounded border-slate-300 text-sky-600 focus:ring-sky-500 h-4 w-4"
-                    />
-                    <span>{category.name}</span>
-                  </div>
-                  <span className="text-xs font-medium text-slate-400">({count})</span>
-                </label>
-              );
-            })}
-          </div>
-        </div>
+      <FacetSection title="Category">
+        {categories.map((c) => (
+          <Option
+            key={c.id}
+            label={c.name}
+            count={availableCounts.categories[c.name] || 0}
+            checked={activeCategories.includes(c.name)}
+            onToggle={() => toggle("category", c.name)}
+          />
+        ))}
+      </FacetSection>
 
-        {/* Brand Filter */}
-        <div className="flex flex-col gap-3 pt-6">
-          <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider">Brands</h4>
-          <div className="flex flex-col gap-2">
-            {brands.map((brand) => {
-              const checked = activeBrands.includes(brand.id);
-              const count = availableCounts.brands[brand.id] || 0;
-              return (
-                <label
-                  key={brand.id}
-                  className={`flex items-center justify-between text-sm cursor-pointer py-0.5 transition-colors select-none ${
-                    count === 0 && !checked
-                      ? "text-slate-300 pointer-events-none"
-                      : "text-slate-600 hover:text-slate-900"
-                  }`}
-                >
-                  <div className="flex items-center gap-2">
-                    <input
-                      type="checkbox"
-                      checked={checked}
-                      disabled={count === 0 && !checked}
-                      onChange={() => handleFilterToggle("brand", brand.id)}
-                      className="rounded border-slate-300 text-sky-600 focus:ring-sky-500 h-4 w-4"
-                    />
-                    <span className="capitalize">{brand.name}</span>
-                  </div>
-                  <span className="text-xs font-medium text-slate-400">({count})</span>
-                </label>
-              );
-            })}
-          </div>
-        </div>
+      <FacetSection title="Brand">
+        {brands.map((b) => (
+          <Option
+            key={b.id}
+            label={b.name}
+            count={availableCounts.brands[b.id] || 0}
+            checked={activeBrands.includes(b.id)}
+            onToggle={() => toggle("brand", b.id)}
+          />
+        ))}
+      </FacetSection>
 
-        {/* HEPA Grade Filter */}
-        {Object.keys(availableCounts.en1822).length > 0 && (
-          <div className="flex flex-col gap-3 pt-6">
-            <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider">EN 1822 Classification</h4>
-            <div className="flex flex-col gap-2">
-              {["E12", "H13", "H14"].map((grade) => {
-                const checked = activeEn1822.includes(grade);
-                const count = availableCounts.en1822[grade] || 0;
-                return (
-                  <label
-                    key={grade}
-                    className={`flex items-center justify-between text-sm cursor-pointer py-0.5 transition-colors select-none ${
-                      count === 0 && !checked
-                        ? "text-slate-300 pointer-events-none"
-                        : "text-slate-600 hover:text-slate-900"
-                    }`}
-                  >
-                    <div className="flex items-center gap-2">
-                      <input
-                        type="checkbox"
-                        checked={checked}
-                        disabled={count === 0 && !checked}
-                        onChange={() => handleFilterToggle("en1822", grade)}
-                        className="rounded border-slate-300 text-sky-600 focus:ring-sky-500 h-4 w-4"
-                      />
-                      <span>{grade}</span>
-                    </div>
-                    <span className="text-xs font-medium text-slate-400">({count})</span>
-                  </label>
-                );
-              })}
-            </div>
-          </div>
-        )}
+      {Object.keys(availableCounts.en1822).length > 0 && (
+        <FacetSection title="EN 1822 Classification">
+          {EN1822_OPTIONS.map((g) => (
+            <Option
+              key={g}
+              label={g}
+              count={availableCounts.en1822[g] || 0}
+              checked={activeEn1822.includes(g)}
+              onToggle={() => toggle("en1822", g)}
+            />
+          ))}
+        </FacetSection>
+      )}
 
-        {/* Damper Fire Rating Filter */}
-        {Object.keys(availableCounts.fireRating).length > 0 && (
-          <div className="flex flex-col gap-3 pt-6">
-            <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider">Fire Rating</h4>
-            <div className="flex flex-col gap-2">
-              {[1.5, 3].map((hours) => {
-                const checked = activeFireRating.includes(hours.toString());
-                const count = availableCounts.fireRating[hours.toString()] || 0;
-                return (
-                  <label
-                    key={hours}
-                    className={`flex items-center justify-between text-sm cursor-pointer py-0.5 transition-colors select-none ${
-                      count === 0 && !checked
-                        ? "text-slate-300 pointer-events-none"
-                        : "text-slate-600 hover:text-slate-900"
-                    }`}
-                  >
-                    <div className="flex items-center gap-2">
-                      <input
-                        type="checkbox"
-                        checked={checked}
-                        disabled={count === 0 && !checked}
-                        onChange={() => handleFilterToggle("fireRating", hours.toString())}
-                        className="rounded border-slate-300 text-sky-600 focus:ring-sky-500 h-4 w-4"
-                      />
-                      <span>{hours} Hour{hours > 1 && "s"}</span>
-                    </div>
-                    <span className="text-xs font-medium text-slate-400">({count})</span>
-                  </label>
-                );
-              })}
-            </div>
-          </div>
-        )}
+      {Object.keys(availableCounts.fireRating).length > 0 && (
+        <FacetSection title="Fire Rating">
+          {FIRE_RATING_OPTIONS.map((h) => (
+            <Option
+              key={h}
+              label={`${h} hour${h > 1 ? "s" : ""}`}
+              count={availableCounts.fireRating[String(h)] || 0}
+              checked={activeFire.includes(String(h))}
+              onToggle={() => toggle("fireRating", String(h))}
+            />
+          ))}
+        </FacetSection>
+      )}
 
-        {/* Leakage Class Filter */}
-        {Object.keys(availableCounts.leakageClass).length > 0 && (
-          <div className="flex flex-col gap-3 pt-6">
-            <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider">Leakage Class</h4>
-            <div className="flex flex-col gap-2">
-              {["I", "II", "III"].map((leak) => {
-                const checked = activeLeakageClass.includes(leak);
-                const count = availableCounts.leakageClass[leak] || 0;
-                return (
-                  <label
-                    key={leak}
-                    className={`flex items-center justify-between text-sm cursor-pointer py-0.5 transition-colors select-none ${
-                      count === 0 && !checked
-                        ? "text-slate-300 pointer-events-none"
-                        : "text-slate-600 hover:text-slate-900"
-                    }`}
-                  >
-                    <div className="flex items-center gap-2">
-                      <input
-                        type="checkbox"
-                        checked={checked}
-                        disabled={count === 0 && !checked}
-                        onChange={() => handleFilterToggle("leakageClass", leak)}
-                        className="rounded border-slate-300 text-sky-600 focus:ring-sky-500 h-4 w-4"
-                      />
-                      <span>Class {leak}</span>
-                    </div>
-                    <span className="text-xs font-medium text-slate-400">({count})</span>
-                  </label>
-                );
-              })}
-            </div>
-          </div>
-        )}
+      {Object.keys(availableCounts.leakageClass).length > 0 && (
+        <FacetSection title="Leakage Class">
+          {LEAKAGE_OPTIONS.map((l) => (
+            <Option
+              key={l}
+              label={`Class ${l}`}
+              count={availableCounts.leakageClass[l] || 0}
+              checked={activeLeakage.includes(l)}
+              onToggle={() => toggle("leakageClass", l)}
+            />
+          ))}
+        </FacetSection>
+      )}
 
-        {/* Certifications Filter */}
-        {Object.keys(availableCounts.certifications).length > 0 && (
-          <div className="flex flex-col gap-3 pt-6">
-            <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider">Certifications</h4>
-            <div className="flex flex-col gap-2">
-              {["UL", "ETL", "AMCA", "BSRIA", "IFC"].map((cert) => {
-                const checked = activeCerts.includes(cert);
-                const count = availableCounts.certifications[cert] || 0;
-                return (
-                  <label
-                    key={cert}
-                    className={`flex items-center justify-between text-sm cursor-pointer py-0.5 transition-colors select-none ${
-                      count === 0 && !checked
-                        ? "text-slate-300 pointer-events-none"
-                        : "text-slate-600 hover:text-slate-900"
-                    }`}
-                  >
-                    <div className="flex items-center gap-2">
-                      <input
-                        type="checkbox"
-                        checked={checked}
-                        disabled={count === 0 && !checked}
-                        onChange={() => handleFilterToggle("cert", cert)}
-                        className="rounded border-slate-300 text-sky-600 focus:ring-sky-500 h-4 w-4"
-                      />
-                      <span>{cert}</span>
-                    </div>
-                    <span className="text-xs font-medium text-slate-400">({count})</span>
-                  </label>
-                );
-              })}
-            </div>
-          </div>
-        )}
-      </div>
+      {Object.keys(availableCounts.certifications).length > 0 && (
+        <FacetSection title="Certification">
+          {CERT_OPTIONS.map((c) => (
+            <Option
+              key={c}
+              label={c}
+              count={availableCounts.certifications[c] || 0}
+              checked={activeCerts.includes(c)}
+              onToggle={() => toggle("cert", c)}
+            />
+          ))}
+        </FacetSection>
+      )}
     </div>
   );
 }

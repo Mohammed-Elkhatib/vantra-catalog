@@ -1,188 +1,153 @@
 import Link from "next/link";
 import { getCategories, getBrands } from "@/lib/db";
-import { ShieldCheck, ArrowRight, PhoneCall, Award, Factory } from "lucide-react";
+import { ArrowRight, Factory } from "lucide-react";
+import EfficiencyCurve from "@/components/instruments/EfficiencyCurve";
 
-export const revalidate = 3600; // Cache for 1 hour
+export const revalidate = 3600;
+
+const STANDARDS = ["UL", "ETL", "AMCA", "BSRIA", "EN 1822", "ASTM"];
 
 export default async function Home() {
-  const [categories, brands] = await Promise.all([
-    getCategories(),
-    getBrands(),
-  ]);
+  const [categories, brands] = await Promise.all([getCategories(), getBrands()]);
 
   return (
-    <div className="bg-white">
-      {/* Hero Section */}
-      <section className="relative bg-slate-900 text-white overflow-hidden py-24 sm:py-32">
-        <div className="absolute inset-0 opacity-15">
-          <div className="absolute inset-0 bg-[radial-gradient(#0075b2_1.5px,transparent_1.5px)] [background-size:24px_24px]"></div>
-        </div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-sky-500/10 text-sky-400 border border-sky-500/20 mb-6">
-              <ShieldCheck className="w-3.5 h-3.5" /> Medical-Grade & Industrial HVAC Solutions
-            </span>
-            <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-white leading-tight">
-              Open Product Catalog <br />
-              <span className="text-sky-400">Zero Registration Required</span>
-            </h1>
-            <p className="mt-6 text-lg sm:text-xl text-slate-300 leading-relaxed max-w-2xl">
-              Vantra brings CMS Global&apos;s industry-leading air filtration, dampers, and acoustic attenuators to the Levant. Access all specifications and download catalog PDFs instantly.
+    <div>
+      {/* Hero */}
+      <section className="border-b border-rule">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-12 px-4 py-20 sm:px-6 lg:grid-cols-2 lg:items-center lg:px-8 lg:py-28">
+          <div>
+            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-steel">
+              Medical-grade HVAC · Open catalog
             </p>
-            <div className="mt-10 flex flex-wrap gap-4">
+            <h1 className="mt-5 text-4xl font-semibold leading-[1.05] tracking-tight text-ink sm:text-6xl">
+              Specifications,
+              <br />
+              not PDFs.
+            </h1>
+            <p className="mt-6 max-w-xl text-lg leading-relaxed text-steel">
+              Vantra brings CMS Global&apos;s air filtration, dampers, and acoustic attenuators to Lebanon. Browse,
+              filter, and read every datasheet in the browser. No registration, no gate.
+            </p>
+            <div className="mt-9 flex flex-wrap gap-3">
               <Link
                 href="/products"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-md bg-sky-600 hover:bg-sky-500 font-semibold text-white shadow-sm transition-all"
+                className="inline-flex items-center gap-2 bg-ink px-6 py-3 font-mono text-[12px] uppercase tracking-[0.12em] text-paper transition-colors hover:bg-[var(--color-signal)]"
               >
-                Browse Products <ArrowRight className="w-4 h-4" />
+                Browse Catalog <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-md bg-slate-800 hover:bg-slate-700 font-semibold text-slate-200 border border-slate-700 transition-all"
+                className="inline-flex items-center gap-2 border border-rule px-6 py-3 font-mono text-[12px] uppercase tracking-[0.12em] text-ink transition-colors hover:border-ink"
               >
-                Request Custom Specs <PhoneCall className="w-4 h-4" />
+                Request Specs
               </Link>
             </div>
           </div>
-        </div>
-      </section>
 
-      {/* Certifications Banner */}
-      <section className="border-b border-slate-100 bg-slate-50 py-8 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center md:text-left md:flex md:items-center md:justify-between gap-8">
-            <h2 className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-4 md:mb-0">
-              Trusted Certifications & Standards
-            </h2>
-            <div className="flex flex-wrap justify-center items-center gap-x-8 gap-y-4">
-              <div className="flex items-center gap-1 font-bold text-slate-700 text-sm">
-                <span className="text-red-600 font-extrabold">UL</span> LISTED
-              </div>
-              <div className="flex items-center gap-1 font-bold text-slate-700 text-sm">
-                <span className="text-sky-700">ETL</span> INTERTEK
-              </div>
-              <div className="flex items-center gap-1 font-bold text-slate-700 text-sm">
-                AMCA MEMBER
-              </div>
-              <div className="flex items-center gap-1 font-bold text-slate-700 text-sm">
-                BSRIA CERTIFIED
-              </div>
-              <div className="flex items-center gap-1 font-bold text-slate-700 text-sm">
-                SMACNA COMPLIANT
-              </div>
-              <div className="flex items-center gap-1 font-bold text-slate-700 text-sm">
-                EN 1822 TESTED
-              </div>
+          {/* Signature: the physics */}
+          <div className="border border-rule bg-white p-6">
+            <div className="mb-1 font-mono text-[10px] uppercase tracking-[0.14em] text-steel">
+              HEPA efficiency · particle size
             </div>
+            <EfficiencyCurve width={320} height={150} efficiencyLabel="99.995%" />
+            <p className="mt-4 border-t border-rule pt-4 text-xs leading-relaxed text-steel">
+              We render the engineering, not just a brochure: efficiency curves, classification scales, pressure
+              gauges, and octave-band acoustics, straight from each product&apos;s data.
+            </p>
           </div>
         </div>
       </section>
 
-      {/* Categories Grid Section */}
-      <section className="py-20 sm:py-28 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="max-w-3xl mx-auto text-center mb-16">
-          <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
-            Product Categories
-          </h2>
-          <p className="mt-4 text-lg text-slate-600">
-            Select a category to explore specifications and compare sizing models.
-          </p>
+      {/* Standards strip */}
+      <section className="border-b border-rule bg-white">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-8 gap-y-3 px-4 py-6 sm:px-6 lg:px-8">
+          <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-steel">Tested to</span>
+          {STANDARDS.map((s) => (
+            <span key={s} className="font-mono text-sm font-medium text-ink">
+              {s}
+            </span>
+          ))}
         </div>
+      </section>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {/* Categories */}
+      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+        <h2 className="text-2xl font-semibold tracking-tight text-ink sm:text-3xl">Browse by category</h2>
+        <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
           {categories.map((category) => (
             <Link
               key={category.id}
               href={`/products?category=${encodeURIComponent(category.name)}`}
-              className="group relative flex flex-col p-8 rounded-xl border border-slate-100 hover:border-sky-500/30 hover:shadow-xl hover:shadow-sky-500/5 bg-white transition-all overflow-hidden"
+              className="group flex flex-col border border-rule bg-white p-6 transition-colors hover:border-ink"
             >
-              <div className="absolute top-0 right-0 w-24 h-24 bg-sky-50 rounded-bl-full opacity-0 group-hover:opacity-100 transition-all -z-0"></div>
-              <div className="relative z-10 flex-1">
-                <span className="text-xs font-semibold px-2.5 py-1 rounded bg-sky-50 text-sky-700 uppercase tracking-wide">
-                  {category.name}
-                </span>
-                <h3 className="text-xl font-bold text-slate-900 mt-6 group-hover:text-sky-700 transition-colors">
-                  {category.name}
-                </h3>
-                <p className="mt-3 text-slate-600 text-sm leading-relaxed">
-                  {category.description}
-                </p>
-              </div>
-              <div className="relative z-10 mt-8 pt-6 border-t border-slate-50 flex items-center justify-between text-xs font-semibold text-slate-400 group-hover:text-sky-700 transition-colors">
-                <span>{category.product_count} Products listed</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              <h3 className="text-lg font-semibold text-ink transition-colors group-hover:text-[var(--color-signal)]">
+                {category.name}
+              </h3>
+              <p className="mt-3 flex-1 text-sm leading-relaxed text-steel">{category.description}</p>
+              <div className="mt-6 flex items-center justify-between border-t border-rule pt-4 font-mono text-[11px] uppercase tracking-[0.12em] text-steel">
+                <span>{category.product_count} products</span>
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </div>
             </Link>
           ))}
         </div>
       </section>
 
-      {/* Corporate Heritage Section */}
-      <section className="bg-slate-50 py-20 sm:py-28 border-y border-slate-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            <div>
-              <span className="text-xs font-bold text-sky-700 uppercase tracking-wider">CMS Global Heritage</span>
-              <h2 className="text-3xl font-bold tracking-tight text-slate-900 mt-2 sm:text-4xl">
-                35+ Years of Engineering Excellence
-              </h2>
-              <p className="mt-6 text-slate-600 leading-relaxed">
-                Vantra operates as the Levant subsidiary of Century Mechanical Systems (CMS Group). Founded in 1982, CMS operates 8 manufacturing facilities across the Gulf region and Sri Lanka, employing over 1,000 personnel.
-              </p>
-              <p className="mt-4 text-slate-600 leading-relaxed">
-                By maintaining these local warehouses and leveraging regional manufacturing capabilities, Vantra delivers certified, high-spec HVAC components directly to engineering projects in Lebanon with shortened lead times.
-              </p>
-              <div className="mt-8 grid grid-cols-2 gap-6 border-t border-slate-200 pt-8">
-                <div>
-                  <h3 className="text-2xl font-bold text-slate-900">8</h3>
-                  <p className="text-xs text-slate-500 uppercase tracking-wider mt-1">Factories</p>
-                </div>
-                <div>
-                  <h3 className="text-2xl font-bold text-slate-900">54+</h3>
-                  <p className="text-xs text-slate-500 uppercase tracking-wider mt-1">Export Countries</p>
-                </div>
+      {/* Heritage */}
+      <section className="border-y border-rule bg-white">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-12 px-4 py-20 sm:px-6 lg:grid-cols-2 lg:px-8">
+          <div>
+            <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-steel">CMS Global heritage</p>
+            <h2 className="mt-2 text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
+              Forty years of HVAC engineering
+            </h2>
+            <p className="mt-6 leading-relaxed text-steel">
+              Vantra is the Levant arm of Century Mechanical Systems (CMS Group), founded in 1982. CMS runs eight
+              manufacturing facilities across the Gulf and Sri Lanka, supplying certified components to projects in
+              over fifty countries.
+            </p>
+            <div className="mt-8 grid grid-cols-2 gap-6 border-t border-rule pt-8">
+              <div>
+                <div className="font-mono text-3xl font-semibold text-ink">8</div>
+                <div className="mt-1 font-mono text-[10px] uppercase tracking-[0.12em] text-steel">Factories</div>
+              </div>
+              <div>
+                <div className="font-mono text-3xl font-semibold text-ink">54+</div>
+                <div className="mt-1 font-mono text-[10px] uppercase tracking-[0.12em] text-steel">Export countries</div>
               </div>
             </div>
+          </div>
 
-            <div className="bg-white p-8 rounded-xl border border-slate-100 shadow-sm flex flex-col gap-6">
-              <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-                <Factory className="w-5 h-5 text-sky-600" /> Authorized Brands
-              </h3>
-              <div className="divide-y divide-slate-100">
-                {brands.map((brand) => (
-                  <div key={brand.id} className="py-4 first:pt-0 last:pb-0">
-                    <h4 className="font-bold text-slate-800 text-sm">{brand.name}</h4>
-                    <p className="text-xs text-slate-500 mt-1 leading-relaxed">{brand.description}</p>
-                    <span className="text-[10px] text-slate-400 mt-1 block">Origin: {brand.origin}</span>
-                  </div>
-                ))}
-              </div>
+          <div className="border border-rule p-6">
+            <h3 className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em] text-ink">
+              <Factory className="h-4 w-4 text-[var(--color-signal)]" /> Brands carried
+            </h3>
+            <div className="mt-4 divide-y divide-rule">
+              {brands.map((brand) => (
+                <div key={brand.id} className="py-4 first:pt-0 last:pb-0">
+                  <h4 className="text-sm font-semibold text-ink">{brand.name}</h4>
+                  <p className="mt-1 text-xs leading-relaxed text-steel">{brand.description}</p>
+                </div>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* Immediate Access Banner */}
-      <section className="py-20 sm:py-24 bg-sky-700 text-white relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]"></div>
-        </div>
-        <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <Award className="w-12 h-12 mx-auto text-sky-200 mb-6" />
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-            Get Technical Specifications Instantly
-          </h2>
-          <p className="mt-4 text-lg text-sky-100 max-w-2xl mx-auto">
-            Skip the registration forms, credential logins, and broken links. Find the exact product specifications you need for your HVAC projects.
+      {/* CTA */}
+      <section className="bg-carbon">
+        <div className="mx-auto max-w-5xl px-4 py-20 text-center sm:px-6 lg:px-8">
+          <h2 className="text-2xl font-semibold tracking-tight text-paper sm:text-3xl">Get technical specs instantly</h2>
+          <p className="mx-auto mt-4 max-w-2xl text-steel">
+            Skip the registration forms and broken links. Find the exact product for your project and download the
+            datasheet in one click.
           </p>
-          <div className="mt-8 flex justify-center gap-4">
-            <Link
-              href="/products"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-md bg-white hover:bg-slate-50 font-semibold text-sky-700 shadow-sm transition-all"
-            >
-              Explore Products <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
+          <Link
+            href="/products"
+            className="mt-8 inline-flex items-center gap-2 bg-paper px-6 py-3 font-mono text-[12px] uppercase tracking-[0.12em] text-ink transition-colors hover:bg-[var(--color-signal)] hover:text-paper"
+          >
+            Explore Products <ArrowRight className="h-4 w-4" />
+          </Link>
         </div>
       </section>
     </div>

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { getProductById, getBrands } from "@/lib/db";
 import DynamicSpecs from "@/components/DynamicSpecs";
 import SelectionTable from "@/components/SelectionTable";
@@ -30,12 +31,12 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {/* Back link */}
       <div className="mb-8">
-        <a
+        <Link
           href="/products"
           className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-sky-600 transition-colors uppercase tracking-wider"
         >
           <ArrowLeft className="w-3.5 h-3.5" /> Back to Catalog
-        </a>
+        </Link>
       </div>
 
       {/* Main product overview */}
@@ -160,12 +161,12 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
             <p className="text-slate-500 text-xs leading-relaxed">
               Need custom modifications or pricing for project tenders in Lebanon?
             </p>
-            <a
+            <Link
               href={`/contact?product=${encodeURIComponent(product.name)}`}
               className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold transition-colors w-full mt-2"
             >
               <Send className="w-3.5 h-3.5" /> Submit Inquiry
-            </a>
+            </Link>
           </div>
         </div>
       </div>

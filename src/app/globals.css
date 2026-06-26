@@ -1,7 +1,44 @@
 @import "tailwindcss";
 
+/* ---------------------------------------------------------------------------
+   "Instrument" design tokens. Single source of truth for the visual system.
+   A post-meeting re-skin should mostly happen here.
+   See research_and_planning/DESIGN_STRATEGY.md.
+--------------------------------------------------------------------------- */
+@theme {
+  --color-paper: #f6f7f9; /* background: cool grey-white, deliberately not warm cream */
+  --color-ink: #15181c; /* primary text, strong rules */
+  --color-steel: #5b636e; /* secondary text (galvanized-frame grey) */
+  --color-rule: #e3e5e8; /* hairlines, table separators */
+  --color-signal: #d6321e; /* instrument-red INDICATOR ONLY, never a fill */
+  --color-carbon: #0b0c0e; /* optional dark anchor (footer / single dark band) */
+
+  --font-sans: var(--font-plex-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, "SF Mono", Menlo, monospace;
+
+  --radius-sm: 3px;
+}
+
 @layer base {
   body {
-    @apply text-slate-800 bg-white font-sans antialiased;
+    @apply bg-paper text-ink font-sans antialiased;
+  }
+
+  /* Visible keyboard focus everywhere (quality floor). */
+  *:focus-visible {
+    outline: 2px solid var(--color-signal);
+    outline-offset: 2px;
+  }
+
+  /* Respect reduced-motion (quality floor). */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 }

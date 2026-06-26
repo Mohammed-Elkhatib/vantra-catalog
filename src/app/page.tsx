@@ -1,5 +1,6 @@
+import Link from "next/link";
 import { getCategories, getBrands } from "@/lib/db";
-import { ShieldCheck, ArrowRight, Download, PhoneCall, Award, Factory } from "lucide-react";
+import { ShieldCheck, ArrowRight, PhoneCall, Award, Factory } from "lucide-react";
 
 export const revalidate = 3600; // Cache for 1 hour
 
@@ -26,21 +27,21 @@ export default async function Home() {
               <span className="text-sky-400">Zero Registration Required</span>
             </h1>
             <p className="mt-6 text-lg sm:text-xl text-slate-300 leading-relaxed max-w-2xl">
-              Vantra brings CMS Global's industry-leading air filtration, dampers, and acoustic attenuators to the Levant. Access all specifications and download catalog PDFs instantly.
+              Vantra brings CMS Global&apos;s industry-leading air filtration, dampers, and acoustic attenuators to the Levant. Access all specifications and download catalog PDFs instantly.
             </p>
             <div className="mt-10 flex flex-wrap gap-4">
-              <a
+              <Link
                 href="/products"
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-md bg-sky-600 hover:bg-sky-500 font-semibold text-white shadow-sm transition-all"
               >
                 Browse Products <ArrowRight className="w-4 h-4" />
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/contact"
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-md bg-slate-800 hover:bg-slate-700 font-semibold text-slate-200 border border-slate-700 transition-all"
               >
                 Request Custom Specs <PhoneCall className="w-4 h-4" />
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -90,7 +91,7 @@ export default async function Home() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {categories.map((category) => (
-            <a
+            <Link
               key={category.id}
               href={`/products?category=${encodeURIComponent(category.name)}`}
               className="group relative flex flex-col p-8 rounded-xl border border-slate-100 hover:border-sky-500/30 hover:shadow-xl hover:shadow-sky-500/5 bg-white transition-all overflow-hidden"
@@ -111,7 +112,7 @@ export default async function Home() {
                 <span>{category.product_count} Products listed</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </div>
-            </a>
+            </Link>
           ))}
         </div>
       </section>
@@ -175,12 +176,12 @@ export default async function Home() {
             Skip the registration forms, credential logins, and broken links. Find the exact product specifications you need for your HVAC projects.
           </p>
           <div className="mt-8 flex justify-center gap-4">
-            <a
+            <Link
               href="/products"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-md bg-white hover:bg-slate-50 font-semibold text-sky-700 shadow-sm transition-all"
             >
               Explore Products <ArrowRight className="w-4 h-4" />
-            </a>
+            </Link>
           </div>
         </div>
       </section>

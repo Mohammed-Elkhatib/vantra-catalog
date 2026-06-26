@@ -7,35 +7,24 @@ interface ModelDecoderProps {
 
 export default function ModelDecoder({ scheme }: ModelDecoderProps) {
   return (
-    <div className="border border-slate-100 rounded-lg p-6 bg-slate-50/30">
-      <div className="flex items-center gap-1.5 mb-4">
-        <HelpCircle className="w-5 h-5 text-sky-600" />
-        <h4 className="text-sm font-bold text-slate-800 uppercase tracking-wider">
-          Understanding the Model Reference
-        </h4>
+    <div className="border border-rule bg-white p-6">
+      <div className="mb-4 flex items-center gap-1.5">
+        <HelpCircle className="h-4 w-4 text-[var(--color-signal)]" />
+        <h4 className="font-mono text-[11px] uppercase tracking-[0.14em] text-ink">Decoding the model reference</h4>
       </div>
-      <p className="text-slate-600 text-xs leading-relaxed mb-6">
-        HVAC engineers use reference codes to specify sizes and classifications. Here is how to decode the model numbers for this product line:
+      <p className="mb-5 max-w-2xl text-xs leading-relaxed text-steel">
+        Engineers specify size and class through the model code. Here is how each block reads:
       </p>
 
-      {/* Visual Pattern display */}
-      <div className="bg-slate-900 text-slate-100 rounded-lg p-4 font-mono text-center text-sm md:text-base border border-slate-800 shadow-inner mb-6 select-all">
-        {scheme.pattern}
-      </div>
+      <div className="mb-6 bg-carbon px-4 py-3 text-center font-mono text-sm text-paper">{scheme.pattern}</div>
 
-      {/* Explanation segments list */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
         {scheme.segments.map((seg) => (
-          <div
-            key={seg.code}
-            className="flex items-start gap-3 p-3 rounded-lg bg-white border border-slate-100 shadow-sm"
-          >
-            <span className="inline-flex items-center justify-center min-w-16 px-2 py-1 bg-sky-50 text-sky-700 rounded font-mono text-xs font-bold border border-sky-100 text-center">
+          <div key={seg.code} className="flex items-start gap-3 border border-rule p-3">
+            <span className="min-w-16 border border-rule bg-paper px-2 py-1 text-center font-mono text-xs font-semibold text-ink">
               {seg.code}
             </span>
-            <div className="flex-1">
-              <p className="text-xs font-semibold text-slate-800">{seg.meaning}</p>
-            </div>
+            <p className="flex-1 text-xs text-steel">{seg.meaning}</p>
           </div>
         ))}
       </div>

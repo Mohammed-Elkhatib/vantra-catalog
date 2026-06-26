@@ -1,7 +1,7 @@
 # Build Status & Handoff: Vantra Catalog Demo
 
 **Living document. Update at every phase boundary.** This is the single place to resume
-from if the conversation context is lost. Last updated: 2026-06-26 (end of Phase 0).
+from if the conversation context is lost. Last updated: 2026-06-26 (end of Phase 1).
 
 ## How to resume (read in this order)
 
@@ -29,8 +29,8 @@ The memory files `vantra-catalog-demo` and `user-design-sensibility` load automa
 ## Phase progress
 
 - [x] **Phase 0** - Tooling + design tokens. DONE.
-- [ ] **Phase 1** - Data integrity (NEXT; awaiting user go-ahead).
-- [ ] **Phase 2** - Tested logic layer (filter/format).
+- [x] **Phase 1** - Data integrity. DONE (7 integrity tests pass; build green).
+- [ ] **Phase 2** - Tested logic layer (filter/format). NEXT.
 - [ ] **Phase 3** - Instrument signature components.
 - [ ] **Phase 4** - Page redesign into the Instrument system.
 - [ ] **Phase 5** - SEO (metadata, JSON-LD, SSG, sitemap, robots).
@@ -53,12 +53,21 @@ The memory files `vantra-catalog-demo` and `user-design-sensibility` load automa
 - **Design direction = "Instrument"** (refined Direction A). Tokens are centralized in
   `src/app/globals.css` `@theme` + `src/app/fonts.ts` so a post-meeting re-skin is cheap.
 
+## Phase 1 decisions (resolved)
+
+- Removed the empty "Air Outlets & Accessories" category and the three product-less brands
+  (Durotape, Duraflex, Duro Dyne) per the approved default. The catalog is now 15 products
+  across 4 categories / 2 brands.
+- UL listing `R-27945` is now only on the Premier coatings it actually covers. The HEPA
+  filter keeps NAFA (UL claim dropped as unverifiable); the dampers keep the correct
+  UL 555 / UL 555S standards as `classified` with no borrowed number.
+- The 81-10 solvent adhesive no longer claims a fire classification (flame/smoke indices and
+  the UL cert removed) since a solvent product with VOC 450 / flash point -20 C cannot
+  credibly be flame-spread 0.
+
 ## Pending decisions (need the user)
 
-- **Phase 1 content default:** remove the empty "Air Outlets & Accessories" category and the
-  three product-less brands (Durotape, Duraflex, Duro Dyne) so no empty states show in the
-  demo. Default = remove. Alternative = keep as "coming soon". **Awaiting go-ahead to start
-  Phase 1.**
+- None open. (If a later phase surfaces one, record it here.)
 
 ## Why we are doing this (deep-review findings that drive the build)
 

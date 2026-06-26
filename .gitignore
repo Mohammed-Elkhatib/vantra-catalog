@@ -44,6 +44,7 @@ next-env.d.ts
 # local tooling / agent scratch (not part of the project)
 /.playwright-mcp/
 /.claude/
+/.superpowers/
 
 # stray screenshots / scratch images at repo root
 /*.png

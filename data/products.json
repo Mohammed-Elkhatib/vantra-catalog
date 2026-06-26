@@ -1,0 +1,845 @@
+[
+  {
+    "id": "hepa-ht-900",
+    "brand_id": "excelair",
+    "name": "HEPA HT-900 High-Temperature Filter",
+    "product_type": "hepa_filter",
+    "category": "Air Filters",
+    "subcategory": "HEPA Filters",
+    "description": "Deep pleated HEPA filter designed for extreme high-temperature environments, specifically pharmaceutical dehydrogenation tunnels, ovens, and sterilization chambers.",
+    "features": [
+      "Suitable for continuous temperatures up to 900°F / 482°C",
+      "Robust stainless steel frame with corrugated aluminum separators",
+      "High-purity micro glass fiber media",
+      "Ceramic cement sealant and ceramic fiberglass gasket for zero outgassing",
+      "Individually scan tested to EN 1822 H13/H14 standards"
+    ],
+    "applications": [
+      "Hospital",
+      "Pharmaceutical",
+      "Laboratory",
+      "Clean Room"
+    ],
+    "specifications": {
+      "spec_type": "filter",
+      "filter_classification_en1822": "H14",
+      "mpps_efficiency_pct": 99.995,
+      "efficiency_at_0_3_micron_pct": 99.999,
+      "filter_media": "Micro glass fiber",
+      "media_separator": "Corrugated Aluminium",
+      "frame_material": "Stainless Steel",
+      "media_sealant": "Ceramic Cement",
+      "gasket_type": "Ceramic Fiberglass",
+      "construction_type": "deep_pleat",
+      "max_temperature_f": 900,
+      "max_temperature_c": 482,
+      "final_pressure_drop_in_wg": 2.0,
+      "scan_tested": true
+    },
+    "certifications": [
+      {
+        "body": "Underwriters Laboratories",
+        "abbreviation": "UL",
+        "listing_number": "R-27945",
+        "type": "listed"
+      },
+      {
+        "body": "National Air Filtration Association",
+        "abbreviation": "NAFA",
+        "type": "member"
+      }
+    ],
+    "documents": [
+      {
+        "type": "technical_data_sheet",
+        "title": "HEPA HT-900 Datasheet",
+        "url": "/downloads/tds/HEPA_HT_900.pdf",
+        "file_size_kb": 1280
+      },
+      {
+        "type": "catalog",
+        "title": "Excelair HEPA Filters Catalogue",
+        "url": "/downloads/catalogs/Airfilters_list.pdf",
+        "file_size_kb": 4470
+      }
+    ],
+    "variants": [
+      {
+        "model_reference": "EHHT900-12x24x11.5-H14",
+        "dimensions": {
+          "width_in": 12,
+          "height_in": 24,
+          "depth_in": 11.5
+        },
+        "performance": {
+          "airflow_cfm": 240,
+          "pressure_drop_in_wg": 1.0,
+          "media_area_sqft": 39
+        }
+      },
+      {
+        "model_reference": "EHHT900-24x24x11.5-H14",
+        "dimensions": {
+          "width_in": 24,
+          "height_in": 24,
+          "depth_in": 11.5
+        },
+        "performance": {
+          "airflow_cfm": 525,
+          "pressure_drop_in_wg": 1.0,
+          "media_area_sqft": 83
+        }
+      }
+    ],
+    "model_numbering_scheme": {
+      "pattern": "EHHT900-[W]x[H]x[D]-[FLANGE]-[GRADE]",
+      "segments": [
+        { "code": "E", "meaning": "Excelair Brand" },
+        { "code": "HHT900", "meaning": "HEPA High Temp 900°F" },
+        { "code": "W x H x D", "meaning": "Width × Height × Depth (inches)" },
+        { "code": "FLANGE", "meaning": "Double Turn Flange (DTF) or Box Type (BX)" },
+        { "code": "GRADE", "meaning": "EN 1822 Grade (H13 or H14)" }
+      ]
+    }
+  },
+  {
+    "id": "hepa-bio",
+    "brand_id": "excelair",
+    "name": "HEPA BIO Biological Safety Filter",
+    "product_type": "hepa_filter",
+    "category": "Air Filters",
+    "subcategory": "HEPA Filters",
+    "description": "High-efficiency absolute filter designed for biological containment, hospital wards, and hospitality air intake systems where pathogen reduction is critical.",
+    "features": [
+      "H13 grade standard pathogen barrier",
+      "Available in metal or treated wood frames",
+      "Antimicrobial treated microfiber glass paper",
+      "Tested and certified to EN 1822"
+    ],
+    "applications": [
+      "Hospital",
+      "Biomedical",
+      "Laboratory",
+      "Operating Theatre"
+    ],
+    "specifications": {
+      "spec_type": "filter",
+      "filter_classification_en1822": "H13",
+      "mpps_efficiency_pct": 99.95,
+      "efficiency_at_0_3_micron_pct": 99.97,
+      "filter_media": "Micro glass fiber (Antimicrobial)",
+      "frame_material": "Galvanized Steel / MDF Wood",
+      "gasket_type": "Neoprene Flat Gasket",
+      "construction_type": "mini_pleat",
+      "max_temperature_f": 176,
+      "max_temperature_c": 80,
+      "final_pressure_drop_in_wg": 1.5,
+      "scan_tested": true
+    },
+    "certifications": [
+      {
+        "body": "Intertek / ETL",
+        "abbreviation": "ETL",
+        "type": "certified"
+      }
+    ],
+    "documents": [
+      {
+        "type": "catalog",
+        "title": "Excelair HEPA Filters Catalogue",
+        "url": "/downloads/catalogs/Airfilters_list.pdf",
+        "file_size_kb": 4470
+      }
+    ]
+  },
+  {
+    "id": "hepa-sc",
+    "brand_id": "excelair",
+    "name": "HEPA SC Standard Capacity Filter",
+    "product_type": "hepa_filter",
+    "category": "Air Filters",
+    "subcategory": "HEPA Filters",
+    "description": "Standard capacity deep-pleated absolute filter utilizing micro glass fiber paper and aluminum separators, suited for medium velocity cleanrooms.",
+    "features": [
+      "Available in E12 or H13 EN 1822 classifications",
+      "Deep pleat structure with corrugated aluminum separators",
+      "Available in aluminum, SS, or wood board frames",
+      "Supplied with unique test certificate per unit"
+    ],
+    "applications": [
+      "Hospital",
+      "Pharmaceutical",
+      "Clean Room"
+    ],
+    "specifications": {
+      "spec_type": "filter",
+      "filter_classification_en1822": "H13",
+      "mpps_efficiency_pct": 99.95,
+      "efficiency_at_0_3_micron_pct": 99.97,
+      "filter_media": "Micro glass fiber",
+      "media_separator": "Corrugated Aluminium",
+      "frame_material": "Galvanized Steel",
+      "gasket_type": "Continuous Polyurethane Foam Gasket",
+      "construction_type": "deep_pleat",
+      "max_temperature_f": 250,
+      "max_temperature_c": 120,
+      "final_pressure_drop_in_wg": 2.0,
+      "scan_tested": true
+    },
+    "certifications": [
+      {
+        "body": "Intertek / ETL",
+        "abbreviation": "ETL",
+        "type": "certified"
+      }
+    ],
+    "documents": [
+      {
+        "type": "catalog",
+        "title": "Excelair HEPA Filters Catalogue",
+        "url": "/downloads/catalogs/Airfilters_list.pdf",
+        "file_size_kb": 4470
+      }
+    ]
+  },
+  {
+    "id": "aluminum-pre-filter",
+    "brand_id": "excelair",
+    "name": "Excelair Washable Aluminum Pre-Filter",
+    "product_type": "pre_filter",
+    "category": "Air Filters",
+    "subcategory": "Pre-Filters",
+    "description": "All-metal washable pre-filter consisting of multi-layered wire meshes in a rugged aluminum frame, designed for heavy coarse dust removal and commercial kitchens.",
+    "features": [
+      "Permanent, washable design lowers long-term operating costs",
+      "Multi-layered woven aluminum wire mesh provides uniform arrestance",
+      "Aluminum frame handles high humidity and rough handling",
+      "Low initial resistance to airflow"
+    ],
+    "applications": [
+      "Commercial HVAC",
+      "Industrial",
+      "Food Processing"
+    ],
+    "specifications": {
+      "spec_type": "filter",
+      "filter_media": "Multi-layer Woven Aluminum Mesh",
+      "frame_material": "Aluminium",
+      "construction_type": "panel",
+      "max_temperature_f": 350,
+      "max_temperature_c": 176,
+      "final_pressure_drop_in_wg": 0.5,
+      "scan_tested": false
+    },
+    "documents": [
+      {
+        "type": "catalog",
+        "title": "Excelair Air Filters Catalogue",
+        "url": "/downloads/catalogs/Airfilters_list.pdf",
+        "file_size_kb": 4470
+      }
+    ]
+  },
+  {
+    "id": "super-pleat-merv-13",
+    "brand_id": "excelair",
+    "name": "Super Pleat MERV 13 Extended Surface Filter",
+    "product_type": "fine_filter",
+    "category": "Air Filters",
+    "subcategory": "Fine Filters",
+    "description": "Medium-efficiency pleated panel filter using synthetic media laminated to a metal grid, meeting LEED requirements for green buildings.",
+    "features": [
+      "MERV 13 efficiency rating satisfies LEED EQ Credit requirements",
+      "Radial pleat design optimizes dust holding capacity and air flow",
+      "Moisture-resistant double-wall beverage board frame",
+      "Welded wire backing prevents media sagging in operation"
+    ],
+    "applications": [
+      "Commercial HVAC",
+      "Hospital",
+      "Clean Room"
+    ],
+    "specifications": {
+      "spec_type": "filter",
+      "merv_rating": 13,
+      "filter_media": "Synthetic Fiber Grid Laminated",
+      "frame_material": "Beverage Board",
+      "construction_type": "panel",
+      "max_temperature_f": 180,
+      "max_temperature_c": 82,
+      "final_pressure_drop_in_wg": 0.8,
+      "scan_tested": false
+    },
+    "certifications": [
+      {
+        "body": "Intertek / ETL",
+        "abbreviation": "ETL",
+        "standard": "ASHRAE 52.2",
+        "type": "certified"
+      }
+    ],
+    "documents": [
+      {
+        "type": "catalog",
+        "title": "Excelair Air Filters Catalogue",
+        "url": "/downloads/catalogs/Airfilters_list.pdf",
+        "file_size_kb": 4470
+      }
+    ]
+  },
+  {
+    "id": "vcell-fg-3v",
+    "brand_id": "excelair",
+    "name": "V-Cell FG 3V Compact Filter",
+    "product_type": "fine_filter",
+    "category": "Air Filters",
+    "subcategory": "Fine Filters",
+    "description": "High-capacity V-bank filter featuring sub-micron fiberglass paper in a rigid plastic ABS frame, suited for high-volume air handlers.",
+    "features": [
+      "V-bank geometry doubles media surface area compared to traditional panels",
+      "High dust holding capacity for extended operational service intervals",
+      "Completely metal-free design is fully incinerable",
+      "Negligible bypass due to continuous polyurethane framing sealant"
+    ],
+    "applications": [
+      "Commercial HVAC",
+      "Hospital",
+      "Pharmaceutical"
+    ],
+    "specifications": {
+      "spec_type": "filter",
+      "merv_rating": 15,
+      "filter_media": "Sub-micron Glass Fiber",
+      "frame_material": "ABS Plastic",
+      "media_sealant": "Polyurethane",
+      "construction_type": "v_cell",
+      "max_temperature_f": 176,
+      "max_temperature_c": 80,
+      "final_pressure_drop_in_wg": 1.2,
+      "scan_tested": false
+    },
+    "certifications": [
+      {
+        "body": "RTI International",
+        "abbreviation": "RTI",
+        "standard": "ASHRAE 52.2-2012",
+        "type": "certified"
+      }
+    ],
+    "documents": [
+      {
+        "type": "catalog",
+        "title": "Excelair Air Filters Catalogue",
+        "url": "/downloads/catalogs/Airfilters_list.pdf",
+        "file_size_kb": 4470
+      }
+    ]
+  },
+  {
+    "id": "cacu-carbon",
+    "brand_id": "excelair",
+    "name": "CACU V-Type Carbon Panel",
+    "product_type": "carbon_filter",
+    "category": "Air Filters",
+    "subcategory": "Carbon Filters",
+    "description": "V-type carbon odor filter utilizing a high-efficiency blend of activated carbon, activated alumina, and potassium permanganate for organic chemical and acid gas removal.",
+    "features": [
+      "Tri-blend media captures VOCs, acid gases, and kitchen exhaust smells",
+      "V-shape panel arrangement optimizes face velocity and airflow",
+      "Rigid galvanized iron outer support framing",
+      "Easy maintenance panel replacement configuration"
+    ],
+    "applications": [
+      "Hospital",
+      "Food Processing",
+      "Commercial HVAC"
+    ],
+    "specifications": {
+      "spec_type": "filter",
+      "filter_media": "Activated Carbon / Alumina / Permanganate Blend",
+      "frame_material": "Galvanized Steel",
+      "construction_type": "v_cell",
+      "max_temperature_f": 122,
+      "max_temperature_c": 50,
+      "final_pressure_drop_in_wg": 0.8,
+      "scan_tested": false
+    },
+    "documents": [
+      {
+        "type": "catalog",
+        "title": "Excelair Air Filters Catalogue",
+        "url": "/downloads/catalogs/Airfilters_list.pdf",
+        "file_size_kb": 4470
+      }
+    ]
+  },
+  {
+    "id": "efd-140",
+    "brand_id": "excelair",
+    "name": "EFD-140 V-Lock Fire Damper",
+    "product_type": "fire_damper",
+    "category": "Dampers",
+    "subcategory": "Fire Dampers",
+    "description": "1.5-hour rated UL-classified fire damper utilizing interlocking V-lock blades in a rigid galvanized steel casing, suitable for static HVAC duct walls.",
+    "features": [
+      "UL 555 1.5-hour fire safety certification",
+      "Blades interlock (V-lock) when closed to restrict flame travel",
+      "Corrosion-resistant galvanized iron construction with stainless steel springs",
+      "Equipped with standard fusible link melting at 165°F (74°C)"
+    ],
+    "applications": [
+      "Commercial HVAC",
+      "Hospital",
+      "Industrial"
+    ],
+    "specifications": {
+      "spec_type": "damper",
+      "damper_function": "fire",
+      "fire_rating_hours": 1.5,
+      "blade_type": "v_lock",
+      "system_type": "static",
+      "actuation": "spring",
+      "construction_material": "galvanized_steel",
+      "velocity_rating_fpm_max": 2000,
+      "pressure_rating_wg_max": 4.0,
+      "temperature_rating_f": 165,
+      "shape": "rectangular"
+    },
+    "certifications": [
+      {
+        "body": "Underwriters Laboratories",
+        "abbreviation": "UL",
+        "standard": "UL 555",
+        "listing_number": "R-27945",
+        "type": "listed"
+      },
+      {
+        "body": "IFC Certification",
+        "abbreviation": "IFC",
+        "standard": "BS 476: Part 24",
+        "type": "certified"
+      }
+    ],
+    "documents": [
+      {
+        "type": "catalog",
+        "title": "Excelair Dampers Catalogue",
+        "url": "/downloads/catalogs/Dampers_list.pdf",
+        "file_size_kb": 2210
+      }
+    ]
+  },
+  {
+    "id": "efsd-342",
+    "brand_id": "excelair",
+    "name": "EFSD-342 Fire & Smoke Damper",
+    "product_type": "fire_smoke_damper",
+    "category": "Dampers",
+    "subcategory": "Fire Smoke Dampers",
+    "description": "3-hour rated combination fire and smoke damper featuring Class II low leakage airfoil blades, dynamic system rating, and high-temperature motorized-spring actuation.",
+    "features": [
+      "UL 555 3-hour fire rating & UL 555S Class II leakage rating",
+      "Aero-foil blades minimize pressure drop and operational noise",
+      "Equipped with Belimo high-temperature spring-return actuator",
+      "Handles high velocity (4000 FPM) and high pressure dynamic closures"
+    ],
+    "applications": [
+      "Hospital",
+      "Pharmaceutical",
+      "Clean Room"
+    ],
+    "specifications": {
+      "spec_type": "damper",
+      "damper_function": "fire_smoke",
+      "fire_rating_hours": 3.0,
+      "blade_type": "airfoil",
+      "leakage_class": "II",
+      "system_type": "dynamic",
+      "actuation": "motorized_spring",
+      "construction_material": "galvanized_steel",
+      "velocity_rating_fpm_max": 4000,
+      "pressure_rating_wg_max": 8.0,
+      "temperature_rating_f": 350,
+      "shape": "rectangular"
+    },
+    "certifications": [
+      {
+        "body": "Underwriters Laboratories",
+        "abbreviation": "UL",
+        "standard": "UL 555 / UL 555S",
+        "listing_number": "R-27945",
+        "type": "listed"
+      },
+      {
+        "body": "Air Movement and Control Association",
+        "abbreviation": "AMCA",
+        "type": "certified"
+      }
+    ],
+    "documents": [
+      {
+        "type": "catalog",
+        "title": "Excelair Dampers Catalogue",
+        "url": "/downloads/catalogs/Dampers_list.pdf",
+        "file_size_kb": 2210
+      }
+    ]
+  },
+  {
+    "id": "csa-rectangular",
+    "brand_id": "excelair",
+    "name": "CSA Rectangular Sound Attenuator",
+    "product_type": "sound_attenuator",
+    "category": "Sound Attenuators",
+    "description": "Commercial rectangular duct silencer lined with 32kg/m³ dense acoustic rockwool facing perforated steel sheets, providing high insertion loss across low-to-high octaves.",
+    "features": [
+      "Bull-nosed acoustic splitters reduce air turbulence and pressure drop",
+      "Incombustible sound absorbing rockwool filling",
+      "Galvanized iron sheet casing fully seam welded",
+      "Tested and certified to ASTM E477-06 specifications"
+    ],
+    "applications": [
+      "Commercial HVAC",
+      "Hospital",
+      "Hospitality"
+    ],
+    "specifications": {
+      "spec_type": "sound_attenuator",
+      "attenuator_type": "rectangular",
+      "casing_material": "galvanized_steel",
+      "casing_thickness_mm": 0.9,
+      "insulation_type": "Rockwool (Acoustic Grade)",
+      "insulation_density_kg_m3": 32,
+      "facing": "perforated_steel",
+      "facing_thickness_mm": 0.7,
+      "operating_temp_min_c": -10,
+      "operating_temp_max_c": 55,
+      "max_airway_velocity_m_s": 20,
+      "flange_size_mm": "30x30x3",
+      "insertion_loss_db": {
+        "63hz": 6,
+        "125hz": 12,
+        "250hz": 22,
+        "500hz": 34,
+        "1000hz": 41,
+        "2000hz": 38,
+        "4000hz": 29,
+        "8000hz": 19
+      }
+    },
+    "certifications": [
+      {
+        "body": "Intertek / ETL",
+        "abbreviation": "ETL",
+        "standard": "ASTM E477-06",
+        "type": "certified"
+      }
+    ],
+    "documents": [
+      {
+        "type": "catalog",
+        "title": "Excelair Sound Attenuators Catalogue",
+        "url": "/downloads/catalogs/Sound_attenuator.pdf",
+        "file_size_kb": 4260
+      }
+    ]
+  },
+  {
+    "id": "eco-ecology-unit",
+    "brand_id": "excelair",
+    "name": "ECO Series Kitchen Ecology Unit",
+    "product_type": "housing_filter",
+    "category": "Air Filters",
+    "subcategory": "Ecology Units",
+    "description": "Configurable multi-stage kitchen exhaust pollution control housing designed to eliminate grease, smoke, and food prep odors.",
+    "features": [
+      "5-stage filtration layout: ESP → Pre-Filters → Fine/Bag → Carbon → HEPA",
+      "Removes minimum 95% of exhaust oil & grease",
+      "Custom airflow configuration ranging from 500 to 60,000 CFM",
+      "Full integration support with BMS and kitchen fire alarm systems"
+    ],
+    "applications": [
+      "Food Processing",
+      "Hospitality"
+    ],
+    "specifications": {
+      "spec_type": "filter",
+      "filter_media": "Multi-stage Electrostatic + Mechanical Filter Stack",
+      "frame_material": "Heavy Gauge Galvanized Iron Case",
+      "construction_type": "roll",
+      "max_temperature_f": 180,
+      "max_temperature_c": 82,
+      "final_pressure_drop_in_wg": 1.5,
+      "scan_tested": false
+    },
+    "certifications": [
+      {
+        "body": "Underwriters Laboratories",
+        "abbreviation": "UL",
+        "standard": "UL 710",
+        "type": "member"
+      }
+    ],
+    "documents": [
+      {
+        "type": "catalog",
+        "title": "Excelair Ecology Units Catalogue",
+        "url": "/downloads/catalogs/Excelair-Eco.pdf",
+        "file_size_kb": 1289
+      }
+    ],
+    "model_numbering_scheme": {
+      "pattern": "ECO-[AIRFLOW]-[STAGES]-[ACCESS]",
+      "segments": [
+        { "code": "ECO", "meaning": "Ecology Unit Series" },
+        { "code": "AIRFLOW", "meaning": "CFM rating divided by 1000 (e.g. 10 = 10,000 CFM)" },
+        { "code": "STAGES", "meaning": "Filtration stages combination (A to E)" },
+        { "code": "ACCESS", "meaning": "Service access: Custom (C) or Standard (S)" }
+      ]
+    }
+  },
+  {
+    "id": "premier-30-36-ul",
+    "brand_id": "premier",
+    "name": "Premier 30-36 UL Canvas Duct Coating",
+    "product_type": "coating",
+    "category": "Coatings Adhesives & Sealants",
+    "description": "Zero VOC water-based, fire retardant lagging adhesive and protective coating for canvas and glass reinforcing insulation cloths.",
+    "features": [
+      "UL Classified fire spread and smoke developed index of 0",
+      "Zero VOC formula, fully LEED IEQ 4.2 compliant",
+      "Meets MIL-A-3316C Class 1 Grade A requirements",
+      "Antibacterial and antifungal properties inhibit mold growth"
+    ],
+    "applications": [
+      "Commercial HVAC",
+      "Hospital",
+      "Clean Room"
+    ],
+    "specifications": {
+      "spec_type": "coating",
+      "product_function": "duct_coating",
+      "base_material": "Water-based Thixotropic Paste",
+      "colour": "White",
+      "solid_content_pct": 63,
+      "specific_gravity": 1.35,
+      "service_temp_min_c": -18,
+      "service_temp_max_c": 120,
+      "application_temp_min_c": 10,
+      "application_temp_max_c": 40,
+      "flash_point": ">100°C",
+      "voc_content_g_l": 0.01,
+      "drying_time_touch_hours": 1.5,
+      "coverage_rate": "1.2 - 2.0 m²/liter",
+      "shelf_life_months": 18,
+      "water_resistance": "excellent",
+      "chemical_resistance": "excellent",
+      "flame_spread_index": 0,
+      "smoke_developed_index": 0,
+      "application_method": ["brush", "spray", "roller"],
+      "packing": "5 US Gallon Pails"
+    },
+    "certifications": [
+      {
+        "body": "Underwriters Laboratories",
+        "abbreviation": "UL",
+        "standard": "MIL-A-3316C",
+        "listing_number": "R-27945",
+        "type": "listed"
+      }
+    ],
+    "documents": [
+      {
+        "type": "technical_data_sheet",
+        "title": "Premier 30-36 UL Datasheet",
+        "url": "/downloads/tds/Premier_30_36_UL.pdf",
+        "file_size_kb": 880
+      },
+      {
+        "type": "catalog",
+        "title": "Premier Coatings Catalogue",
+        "url": "/downloads/catalogs/Premier-Normal-Catalogue.pdf",
+        "file_size_kb": 1200
+      }
+    ]
+  },
+  {
+    "id": "premier-vb-95-ul",
+    "brand_id": "premier",
+    "name": "Premier VB-95 UL Vapour Barrier Coating",
+    "product_type": "coating",
+    "category": "Coatings Adhesives & Sealants",
+    "description": "High-performance moisture vapor barrier coating designed for insulation panels and air conditioned duct structures to prevent sweating.",
+    "features": [
+      "Extremely low water permeance (0.013 perms) restricts moisture migration",
+      "UL Classified zero flame spread and smoke developed index",
+      "Flexible film accommodates structural thermal expansion and movement",
+      "Resistant to UV aging and weather erosion"
+    ],
+    "applications": [
+      "Commercial HVAC",
+      "Hospital",
+      "Industrial"
+    ],
+    "specifications": {
+      "spec_type": "coating",
+      "product_function": "vapour_barrier",
+      "base_material": "Aqueous Copolymer Emulsion",
+      "colour": "Grey / White",
+      "solid_content_pct": 65,
+      "specific_gravity": 1.39,
+      "service_temp_min_c": -18,
+      "service_temp_max_c": 120,
+      "application_temp_min_c": 10,
+      "application_temp_max_c": 40,
+      "flash_point": ">100°C",
+      "voc_content_g_l": 0.05,
+      "drying_time_touch_hours": 2.0,
+      "coverage_rate": "1.0 - 1.5 m²/liter",
+      "shelf_life_months": 18,
+      "water_resistance": "excellent",
+      "chemical_resistance": "good",
+      "flame_spread_index": 0,
+      "smoke_developed_index": 0,
+      "application_method": ["trowel", "brush", "spray"],
+      "packing": "5 US Gallon Pails"
+    },
+    "certifications": [
+      {
+        "body": "Underwriters Laboratories",
+        "abbreviation": "UL",
+        "listing_number": "R-27945",
+        "type": "listed"
+      }
+    ],
+    "documents": [
+      {
+        "type": "catalog",
+        "title": "Premier Coatings Catalogue",
+        "url": "/downloads/catalogs/Premier-Normal-Catalogue.pdf",
+        "file_size_kb": 1200
+      }
+    ]
+  },
+  {
+    "id": "premier-32-17-ul",
+    "brand_id": "premier",
+    "name": "Premier 32-17 UL Antibacterial Duct Sealant",
+    "product_type": "sealant",
+    "category": "Coatings Adhesives & Sealants",
+    "description": "Antibacterial and fire-resistive acrylic duct sealant for high-pressure sheet metal joints and flexible air duct connections.",
+    "features": [
+      "Rigid curing with high hardness (75-85 Shore A) stops high-pressure air leaks",
+      "Highly mold and mildew resistant, formulated for hot, humid climates",
+      "Excellent adhesion to galvanized iron, stainless steel, and aluminum",
+      "Water-based formula enables easy soap-and-water cleanup during application"
+    ],
+    "applications": [
+      "Commercial HVAC",
+      "Hospital",
+      "Clean Room"
+    ],
+    "specifications": {
+      "spec_type": "coating",
+      "product_function": "sealant",
+      "base_material": "Acrylic Acetoxy Emulsion",
+      "colour": "Clear / White / Black",
+      "solid_content_pct": 69,
+      "specific_gravity": 1.50,
+      "service_temp_min_c": -50,
+      "service_temp_max_c": 150,
+      "application_temp_min_c": 5,
+      "application_temp_max_c": 45,
+      "flash_point": ">100°C",
+      "voc_content_g_l": 0.01,
+      "drying_time_touch_hours": 0.15,
+      "coverage_rate": "35-40 meters per cartridge",
+      "shelf_life_months": 12,
+      "water_resistance": "good",
+      "chemical_resistance": "good",
+      "flame_spread_index": 0,
+      "smoke_developed_index": 0,
+      "application_method": ["caulking_gun", "trowel"],
+      "packing": "310 ml Cartridge"
+    },
+    "certifications": [
+      {
+        "body": "Underwriters Laboratories",
+        "abbreviation": "UL",
+        "listing_number": "R-27945",
+        "type": "listed"
+      }
+    ],
+    "documents": [
+      {
+        "type": "technical_data_sheet",
+        "title": "Premier 32-17 UL Datasheet",
+        "url": "/downloads/tds/Premier_32_17_UL.pdf",
+        "file_size_kb": 880
+      },
+      {
+        "type": "catalog",
+        "title": "Premier Coatings Catalogue",
+        "url": "/downloads/catalogs/Premier-Normal-Catalogue.pdf",
+        "file_size_kb": 1200
+      }
+    ]
+  },
+  {
+    "id": "premier-81-10-ul",
+    "brand_id": "premier",
+    "name": "Premier 81-10 UL Duct Adhesive",
+    "product_type": "adhesive",
+    "category": "Coatings Adhesives & Sealants",
+    "description": "Polychloroprene duct glue used to laminate acoustic/thermal insulation liners to sheet metal housings.",
+    "features": [
+      "Highly heat resistant polychloroprene synthetic rubber formula",
+      "Fast bonding tack prevents slippage during insulation alignment",
+      "UL Classified fire spread and smoke developed index of 0",
+      "Spans temperatures up to 90°C"
+    ],
+    "applications": [
+      "Commercial HVAC",
+      "Industrial"
+    ],
+    "specifications": {
+      "spec_type": "coating",
+      "product_function": "adhesive",
+      "base_material": "Polychloroprene Solvent-based Rubber",
+      "colour": "Green / Clear",
+      "solid_content_pct": 24,
+      "specific_gravity": 0.88,
+      "service_temp_min_c": -25,
+      "service_temp_max_c": 90,
+      "application_temp_min_c": 5,
+      "application_temp_max_c": 40,
+      "flash_point": "-20°C",
+      "voc_content_g_l": 450,
+      "drying_time_touch_hours": 0.1,
+      "coverage_rate": "6.0 - 9.0 m²/liter",
+      "shelf_life_months": 12,
+      "water_resistance": "good",
+      "chemical_resistance": "moderate",
+      "flame_spread_index": 0,
+      "smoke_developed_index": 0,
+      "application_method": ["brush", "spray"],
+      "packing": "5 US Gallon Pails"
+    },
+    "certifications": [
+      {
+        "body": "Underwriters Laboratories",
+        "abbreviation": "UL",
+        "listing_number": "R-27945",
+        "type": "listed"
+      }
+    ],
+    "documents": [
+      {
+        "type": "catalog",
+        "title": "Premier Coatings Catalogue",
+        "url": "/downloads/catalogs/Premier-Normal-Catalogue.pdf",
+        "file_size_kb": 1200
+      }
+    ]
+  }
+]

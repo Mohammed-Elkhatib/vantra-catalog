@@ -1,0 +1,443 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Vantra Product Catalog Schema",
+  "description": "Unified schema for all CMS/Excelair/Premier/Durotape/Duraflex/Duro Dyne products sold through Vantra Lebanon",
+  "type": "object",
+  "properties": {
+    "catalog_version": { "type": "string", "description": "Schema version for migration tracking" },
+    "last_updated": { "type": "string", "format": "date" },
+    "brands": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/Brand" }
+    },
+    "products": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/Product" }
+    }
+  },
+  "required": ["catalog_version", "products"],
+
+  "definitions": {
+
+    "Brand": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+        "name": { "type": "string" },
+        "tagline": { "type": "string" },
+        "logo_url": { "type": "string", "format": "uri" },
+        "parent_company": { "type": "string" },
+        "website": { "type": "string", "format": "uri" }
+      },
+      "required": ["id", "name"]
+    },
+
+    "Product": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9-]+$", "description": "URL-safe slug" },
+        "brand_id": { "type": "string" },
+        "name": { "type": "string", "description": "Display name, e.g. 'HEPA HT-900'" },
+        "product_type": {
+          "type": "string",
+          "enum": [
+            "pre_filter", "fine_filter", "hepa_filter", "carbon_filter",
+            "housing_filter", "media_roll",
+            "louver", "diffuser", "flow_bar_diffuser", "grille_register",
+            "jet_nozzle", "hvac_accessory",
+            "fire_damper", "smoke_damper", "fire_smoke_damper",
+            "curtain_damper", "round_damper",
+            "sound_attenuator",
+            "ecology_unit",
+            "coating", "adhesive", "sealant",
+            "flexible_duct_connector", "vane_rail",
+            "adhesive_tape",
+            "flexible_duct"
+          ],
+          "description": "Discriminator for the specifications union"
+        },
+        "category": {
+          "type": "string",
+          "enum": [
+            "Air Filters", "Air Outlets & Accessories", "Dampers",
+            "Sound Attenuators", "Ecology Units",
+            "Coatings Adhesives & Sealants",
+            "Flexible Duct Connectors", "Adhesive Tapes",
+            "Flexible Duct"
+          ]
+        },
+        "subcategory": { "type": "string", "description": "e.g. 'HEPA Filters', 'Fire Dampers'" },
+        "description": { "type": "string" },
+        "features": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Bullet-point feature list from catalog"
+        },
+        "applications": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "Hospital", "Pharmaceutical", "Biomedical", "Laboratory",
+              "Food Processing", "Hospitality", "Commercial HVAC",
+              "Industrial", "Residential", "Clean Room", "Data Center",
+              "Operating Theatre", "Kitchen Exhaust", "Marine",
+              "Nuclear", "Automotive"
+            ]
+          }
+        },
+        "specifications": {
+          "type": "object",
+          "description": "Shape varies by product_type. See oneOf definitions below.",
+          "oneOf": [
+            { "$ref": "#/definitions/FilterSpec" },
+            { "$ref": "#/definitions/DamperSpec" },
+            { "$ref": "#/definitions/SoundAttenuatorSpec" },
+            { "$ref": "#/definitions/CoatingSpec" },
+            { "$ref": "#/definitions/FlexConnectorSpec" },
+            { "$ref": "#/definitions/FlexDuctSpec" },
+            { "$ref": "#/definitions/EcologyUnitSpec" },
+            { "$ref": "#/definitions/AirOutletSpec" },
+            { "$ref": "#/definitions/TapeSpec" },
+            { "$ref": "#/definitions/GenericSpec" }
+          ]
+        },
+        "variants": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/Variant" },
+          "description": "Size/configuration variants with their own specs"
+        },
+        "certifications": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/Certification" }
+        },
+        "documents": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/Document" }
+        },
+        "images": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "url": { "type": "string", "format": "uri" },
+              "alt": { "type": "string" },
+              "type": { "type": "string", "enum": ["hero", "thumbnail", "technical_drawing", "installation"] }
+            },
+            "required": ["url", "type"]
+          }
+        },
+        "model_numbering_scheme": {
+          "type": "object",
+          "description": "Decoded model reference structure. E.g., EHHT900 breakdown.",
+          "properties": {
+            "pattern": { "type": "string", "description": "e.g. 'EHHT900-WxHxD-(Flange)-(Grade)'" },
+            "segments": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "code": { "type": "string" },
+                  "meaning": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "metadata": {
+          "type": "object",
+          "properties": {
+            "catalog_year": { "type": "integer" },
+            "source_pdf": { "type": "string" },
+            "last_verified": { "type": "string", "format": "date" }
+          }
+        }
+      },
+      "required": ["id", "brand_id", "name", "product_type", "category"]
+    },
+
+    "Variant": {
+      "type": "object",
+      "properties": {
+        "model_reference": { "type": "string", "description": "Full model code, e.g. EHHT900-24x24x12-(DTF/BX)-H14" },
+        "sku": { "type": "string" },
+        "dimensions": { "$ref": "#/definitions/Dimensions" },
+        "performance": {
+          "type": "object",
+          "properties": {
+            "airflow_cfm": { "type": "number" },
+            "airflow_cmh": { "type": "number" },
+            "pressure_drop_in_wg": { "type": "number" },
+            "media_area_sqft": { "type": "number" },
+            "velocity_fpm": { "type": "number" }
+          }
+        },
+        "specifications_override": {
+          "type": "object",
+          "description": "Any spec fields that differ from the parent product"
+        }
+      },
+      "required": ["model_reference"]
+    },
+
+    "Dimensions": {
+      "type": "object",
+      "properties": {
+        "width_in": { "type": "number", "description": "Width in inches" },
+        "height_in": { "type": "number", "description": "Height in inches" },
+        "depth_in": { "type": "number", "description": "Depth in inches" },
+        "width_mm": { "type": "number" },
+        "height_mm": { "type": "number" },
+        "depth_mm": { "type": "number" },
+        "diameter_in": { "type": "number", "description": "For round products" }
+      }
+    },
+
+    "FilterSpec": {
+      "type": "object",
+      "properties": {
+        "spec_type": { "const": "filter" },
+        "filter_classification_en1822": { "type": "string", "enum": ["E10", "E11", "E12", "H13", "H14", "U15", "U16", "U17"] },
+        "merv_rating": { "type": "integer", "minimum": 1, "maximum": 20 },
+        "mpps_efficiency_pct": { "type": "number" },
+        "efficiency_at_0_3_micron_pct": { "type": "number" },
+        "filter_media": { "type": "string" },
+        "media_separator": { "type": "string" },
+        "frame_material": { "type": "string" },
+        "media_sealant": { "type": "string" },
+        "gasket_type": { "type": "string" },
+        "construction_type": { "type": "string", "enum": ["deep_pleat", "mini_pleat", "v_cell", "bag", "panel", "rigid_cell", "pad", "roll"] },
+        "max_temperature_f": { "type": "number" },
+        "max_temperature_c": { "type": "number" },
+        "final_pressure_drop_in_wg": { "type": "number" },
+        "scan_tested": { "type": "boolean", "description": "Individual leak-test per EN 1822" }
+      },
+      "required": ["spec_type"]
+    },
+
+    "DamperSpec": {
+      "type": "object",
+      "properties": {
+        "spec_type": { "const": "damper" },
+        "damper_function": { "type": "string", "enum": ["fire", "smoke", "fire_smoke", "curtain", "volume_control", "pressure_relief"] },
+        "fire_rating_hours": { "type": "number", "enum": [1.5, 3] },
+        "blade_type": { "type": "string", "enum": ["v_lock", "airfoil", "parallel", "opposed"] },
+        "leakage_class": { "type": "string", "enum": ["I", "II", "III"] },
+        "system_type": { "type": "string", "enum": ["static", "dynamic", "both"] },
+        "actuation": { "type": "string", "enum": ["motorized", "spring", "motorized_spring", "cable"] },
+        "construction_material": { "type": "string", "enum": ["galvanized_steel", "stainless_steel"] },
+        "velocity_rating_fpm_min": { "type": "number" },
+        "velocity_rating_fpm_max": { "type": "number" },
+        "pressure_rating_wg_min": { "type": "number" },
+        "pressure_rating_wg_max": { "type": "number" },
+        "temperature_rating_f": { "type": "number" },
+        "shape": { "type": "string", "enum": ["rectangular", "round"] },
+        "style": { "type": "string", "description": "For curtain dampers: A, B, or C" }
+      },
+      "required": ["spec_type", "damper_function"]
+    },
+
+    "SoundAttenuatorSpec": {
+      "type": "object",
+      "properties": {
+        "spec_type": { "const": "sound_attenuator" },
+        "attenuator_type": { "type": "string", "enum": ["rectangular", "rectangular_hp", "tubular", "crosstalk", "bend_vertical", "bend_horizontal", "acoustic_splitter"] },
+        "casing_material": { "type": "string", "enum": ["galvanized_steel", "ss_304", "ss_316", "aluminium_3003"] },
+        "casing_thickness_mm": { "type": "number" },
+        "insulation_type": { "type": "string" },
+        "insulation_density_kg_m3": { "type": "number" },
+        "facing": { "type": "string", "enum": ["perforated_steel", "melinex", "none"] },
+        "facing_thickness_mm": { "type": "number" },
+        "operating_temp_min_c": { "type": "number" },
+        "operating_temp_max_c": { "type": "number" },
+        "max_airway_velocity_m_s": { "type": "number" },
+        "insertion_loss_db": {
+          "type": "object",
+          "description": "Insertion loss by octave band center frequency",
+          "properties": {
+            "63hz": { "type": "number" },
+            "125hz": { "type": "number" },
+            "250hz": { "type": "number" },
+            "500hz": { "type": "number" },
+            "1000hz": { "type": "number" },
+            "2000hz": { "type": "number" },
+            "4000hz": { "type": "number" },
+            "8000hz": { "type": "number" }
+          }
+        },
+        "flange_size_mm": { "type": "string", "description": "e.g. '30x30x3'" },
+        "max_section_dimensions_mm": {
+          "type": "object",
+          "properties": {
+            "width": { "type": "number", "description": "Max before multi-section: 2400" },
+            "height": { "type": "number", "description": "Max: 1800" },
+            "length": { "type": "number", "description": "Max: 2100" }
+          }
+        }
+      },
+      "required": ["spec_type", "attenuator_type"]
+    },
+
+    "CoatingSpec": {
+      "type": "object",
+      "properties": {
+        "spec_type": { "const": "coating" },
+        "product_function": { "type": "string", "enum": ["duct_coating", "vapour_barrier", "adhesive", "sealant", "foam_glue", "anti_fungal"] },
+        "base_material": { "type": "string" },
+        "colour": { "type": "string" },
+        "density_gm_cc": { "type": "number" },
+        "viscosity_cps": { "type": "string" },
+        "solid_content_pct": { "type": "number" },
+        "specific_gravity": { "type": "number" },
+        "service_temp_min_c": { "type": "number" },
+        "service_temp_max_c": { "type": "number" },
+        "application_temp_min_c": { "type": "number" },
+        "application_temp_max_c": { "type": "number" },
+        "flash_point": { "type": "string" },
+        "voc_content_g_l": { "type": "number" },
+        "drying_time_touch_hours": { "type": "number" },
+        "drying_time_thorough_hours": { "type": "number" },
+        "coverage_rate": { "type": "string" },
+        "shelf_life_months": { "type": "integer" },
+        "water_resistance": { "type": "string", "enum": ["excellent", "good", "moderate"] },
+        "chemical_resistance": { "type": "string", "enum": ["excellent", "good", "moderate"] },
+        "flame_spread_index": { "type": "integer" },
+        "smoke_developed_index": { "type": "integer" },
+        "application_method": { "type": "array", "items": { "type": "string" } },
+        "packing": { "type": "string" }
+      },
+      "required": ["spec_type", "product_function"]
+    },
+
+    "FlexConnectorSpec": {
+      "type": "object",
+      "properties": {
+        "spec_type": { "const": "flex_connector" },
+        "application_class": { "type": "string", "enum": ["industrial_commercial", "residential_light_commercial", "residential"] },
+        "gauge": { "type": "integer", "description": "Steel gauge: 24 or 28" },
+        "thickness_mm": { "type": "number" },
+        "seam_type": { "type": "string", "enum": ["grip_loc", "guard_loc"] },
+        "dimensions": { "type": "string", "description": "e.g. '3\" metal - 3\" fabric - 3\" metal'" },
+        "available_fabrics": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["excelon", "neoprene_standard", "neoprene_spec", "durolon", "insulflex", "thermafab", "teflon"] }
+        },
+        "pressure_range_wg": { "type": "string", "description": "e.g. '-10 to +15'" },
+        "available_in_stainless": { "type": "boolean" },
+        "available_in_aluminium": { "type": "boolean" }
+      },
+      "required": ["spec_type"]
+    },
+
+    "FlexDuctSpec": {
+      "type": "object",
+      "properties": {
+        "spec_type": { "const": "flex_duct" },
+        "standard_length_ft": { "type": "number" },
+        "diameter_range": { "type": "string", "description": "e.g. '4\" to 20\"'" },
+        "max_velocity_fpm": { "type": "number" },
+        "temp_range_min_f": { "type": "number" },
+        "temp_range_max_f": { "type": "number" },
+        "max_pressure_in_wg": { "type": "number" },
+        "insulation_thickness_mm": { "type": "number" },
+        "insulation_density_kg_m3": { "type": "number" },
+        "insulation_r_value": { "type": "number" },
+        "construction_type": { "type": "string", "enum": ["insulated", "uninsulated", "acoustic"] },
+        "antimicrobial": { "type": "boolean" }
+      },
+      "required": ["spec_type"]
+    },
+
+    "EcologyUnitSpec": {
+      "type": "object",
+      "properties": {
+        "spec_type": { "const": "ecology_unit" },
+        "airflow_cfm_min": { "type": "number" },
+        "airflow_cfm_max": { "type": "number" },
+        "filter_stages_min": { "type": "integer" },
+        "filter_stages_max": { "type": "integer" },
+        "available_options": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["esp", "air_damper", "reducer", "uv_lamp", "vfd", "heater", "odour_neutralizer", "sand_trap_louver"]
+          }
+        },
+        "stage_options": {
+          "type": "object",
+          "properties": {
+            "pre_filtration": { "type": "array", "items": { "type": "string" } },
+            "fine_filtration": { "type": "array", "items": { "type": "string" } },
+            "carbon_filtration": { "type": "array", "items": { "type": "string" } },
+            "hepa_filtration": { "type": "array", "items": { "type": "string" } }
+          }
+        }
+      },
+      "required": ["spec_type"]
+    },
+
+    "AirOutletSpec": {
+      "type": "object",
+      "properties": {
+        "spec_type": { "const": "air_outlet" },
+        "outlet_type": { "type": "string" },
+        "mounting": { "type": "string", "enum": ["ceiling", "wall", "floor", "duct"] },
+        "material": { "type": "string" },
+        "finish": { "type": "string" },
+        "adjustable": { "type": "boolean" },
+        "pattern": { "type": "string", "description": "Airflow pattern: radial, linear, swirl, etc." }
+      },
+      "required": ["spec_type"]
+    },
+
+    "TapeSpec": {
+      "type": "object",
+      "properties": {
+        "spec_type": { "const": "tape" },
+        "tape_type": { "type": "string" },
+        "backing_material": { "type": "string" },
+        "adhesive_type": { "type": "string" },
+        "thickness_mm": { "type": "number" },
+        "peel_adhesion": { "type": "string" },
+        "temp_resistance_c": { "type": "string" },
+        "elongation_pct": { "type": "number" },
+        "tensile_strength": { "type": "string" }
+      },
+      "required": ["spec_type"]
+    },
+
+    "GenericSpec": {
+      "type": "object",
+      "properties": {
+        "spec_type": { "const": "generic" }
+      },
+      "additionalProperties": true,
+      "required": ["spec_type"],
+      "description": "Fallback for product types not yet fully modeled"
+    },
+
+    "Certification": {
+      "type": "object",
+      "properties": {
+        "body": { "type": "string", "description": "e.g. 'Underwriters Laboratories'" },
+        "abbreviation": { "type": "string", "description": "e.g. 'UL'" },
+        "standard": { "type": "string", "description": "e.g. 'UL 555'" },
+        "listing_number": { "type": "string", "description": "e.g. 'R-27945'" },
+        "type": { "type": "string", "enum": ["classified", "listed", "certified", "member"] }
+      },
+      "required": ["abbreviation"]
+    },
+
+    "Document": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "enum": ["technical_data_sheet", "catalog", "installation_guide", "selection_chart", "cad_drawing", "bim_file", "test_report"] },
+        "title": { "type": "string" },
+        "url": { "type": "string", "format": "uri" },
+        "file_size_kb": { "type": "integer" },
+        "language": { "type": "string", "default": "en" }
+      },
+      "required": ["type", "url"]
+    }
+  }
+}

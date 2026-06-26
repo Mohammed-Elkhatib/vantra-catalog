@@ -1,0 +1,37 @@
+[
+  {
+    "id": "air-filters",
+    "name": "Air Filters",
+    "slug": "air-filters",
+    "description": "Pre-filters, fine/medium filters, HEPA systems, and carbon filtration designed for medical, commercial, and industrial HVAC applications.",
+    "product_count": 47
+  },
+  {
+    "id": "dampers",
+    "name": "Dampers",
+    "slug": "dampers",
+    "description": "UL-classified fire dampers, smoke dampers, dynamic curtain dampers, and volume control dampers for active building protection and air control.",
+    "product_count": 31
+  },
+  {
+    "id": "sound-attenuators",
+    "name": "Sound Attenuators",
+    "slug": "sound-attenuators",
+    "description": "Acoustic silencers (rectangular, tubular, crosstalk, bend) with high insertion loss ratings tested under ASTM standards to reduce HVAC noise.",
+    "product_count": 6
+  },
+  {
+    "id": "coatings-adhesives-sealants",
+    "name": "Coatings Adhesives & Sealants",
+    "slug": "coatings-adhesives-sealants",
+    "description": "UL-listed and green-certified canvas coatings, antibacterial sealants, and polychloroprene glues for insulation systems.",
+    "product_count": 12
+  },
+  {
+    "id": "air-outlets",
+    "name": "Air Outlets & Accessories",
+    "slug": "air-outlets",
+    "description": "Grilles, diffusers, sand trap louvers, jet nozzles, and linear slot terminals for optimized air distribution.",
+    "product_count": 34
+  }
+]

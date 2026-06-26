@@ -1,0 +1,37 @@
+[
+  {
+    "id": "excelair",
+    "name": "Excelair",
+    "origin": "Century Mechanical Systems, Dubai, UAE",
+    "description": "High-quality HVAC air filtration, air distribution outlets, dampers, and acoustic solutions.",
+    "logo_url": "/images/brands/excelair.png"
+  },
+  {
+    "id": "premier",
+    "name": "Premier",
+    "origin": "Century Mechanical Systems, Dubai, UAE",
+    "description": "UL-listed and standard coatings, adhesives, and sealants for ductwork, insulation, and vapor barriers.",
+    "logo_url": "/images/brands/premier.png"
+  },
+  {
+    "id": "durotape",
+    "name": "Durotape",
+    "origin": "CMS Manufacturing, Dubai, UAE",
+    "description": "Industrial adhesive tapes for insulation cladding, duct joints, and HVAC piping protection.",
+    "logo_url": "/images/brands/durotape.png"
+  },
+  {
+    "id": "duraflex",
+    "name": "Duraflex",
+    "origin": "CMS Manufacturing, Dubai, UAE",
+    "description": "Insulated, uninsulated, and acoustically dampened flexible air ducts.",
+    "logo_url": "/images/brands/duraflex.png"
+  },
+  {
+    "id": "durodyne",
+    "name": "Duro Dyne",
+    "origin": "CMS Group Partnership, USA",
+    "description": "Flexible duct connectors, insulation fasteners, hand tools, and dynamic cable locks.",
+    "logo_url": "/images/brands/durodyne.png"
+  }
+]

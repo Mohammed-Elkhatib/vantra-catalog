@@ -1,5 +1,7 @@
+import type { Metadata } from "next";
 import Link from "next/link";
-import { getProductById, getBrands } from "@/lib/db";
+import { getProductById, getProducts, getBrands } from "@/lib/db";
+import { buildProductMetadata, buildProductJsonLd } from "@/lib/seo";
 import DynamicSpecs from "@/components/DynamicSpecs";
 import SelectionTable from "@/components/SelectionTable";
 import ModelDecoder from "@/components/ModelDecoder";
@@ -14,6 +16,19 @@ interface ProductPageProps {
 
 export const revalidate = 3600;
 
+/** Pre-render every product page at build time (SSG). */
+export async function generateStaticParams() {
+  const products = await getProducts();
+  return products.map((p) => ({ slug: p.id }));
+}
+
+export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const product = await getProductById(slug);
+  if (!product) return { title: "Product not found | Vantra Lebanon" };
+  return buildProductMetadata(product);
+}
+
 export default async function ProductDetailPage({ params }: ProductPageProps) {
   const { slug } = await params;
   const product = await getProductById(slug);
@@ -26,6 +41,11 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      <script
+        type="application/ld+json"
+        // Trusted, static catalog data. Escape "<" so the payload can never break out of the script tag.
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(buildProductJsonLd(product, brand)).replace(/</g, "\\u003c") }}
+      />
       <Link
         href="/products"
         className="mb-8 inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.14em] text-steel transition-colors hover:text-ink"

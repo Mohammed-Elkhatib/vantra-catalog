@@ -1,10 +1,13 @@
+import type { Metadata } from "next";
 import { getProducts, getBrands, getCategories } from "@/lib/db";
 import { filterProducts, computeFacetCounts, type CatalogFilters } from "@/lib/catalog-filter";
+import { buildListingMetadata } from "@/lib/seo";
 import ProductCard from "@/components/ProductCard";
 import FilterSidebar from "@/components/FilterSidebar";
 import { Search } from "lucide-react";
 import SearchInput from "@/components/SearchInput";
 
+export const metadata: Metadata = buildListingMetadata();
 export const revalidate = 0; // Dynamic route based on search params
 
 interface ProductsPageProps {

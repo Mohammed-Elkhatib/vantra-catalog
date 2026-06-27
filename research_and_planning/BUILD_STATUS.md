@@ -1,7 +1,7 @@
 # Build Status & Handoff: Vantra Catalog Demo
 
 **Living document. Update at every phase boundary.** This is the single place to resume
-from if the conversation context is lost. Last updated: 2026-06-26 (end of Phase 4).
+from if the conversation context is lost. Last updated: 2026-06-26 (end of Phase 5).
 
 ## How to resume (read in this order)
 
@@ -33,8 +33,8 @@ The memory files `vantra-catalog-demo` and `user-design-sensibility` load automa
 - [x] **Phase 2** - Tested logic layer. DONE (16 tests pass; build green). `src/lib/catalog-filter.ts` (filter + facet, consumed by products page) and `src/lib/format.ts` exist and are tested. **Deferred:** wiring `formatFileSize`/`humanizeEnum` into `DynamicSpecs`/`ProductCard`/detail happens in Phase 4 when those are rewritten (avoids double work; `.replace` bug is latent).
 - [x] **Phase 3** - Instrument signature components. DONE (20 tests pass; build green). `src/lib/instruments.ts` + `src/components/instruments/` (EfficiencyCurve, GradeLadder, PressureGauge, OctaveBands, ProductGlyph). Visually verified via a temp preview route (removed). Not yet wired into pages.
 - [x] **Phase 4** - Page redesign into the Instrument system. DONE. All pages (chrome, catalog+cards+filter, detail with wired instruments, home, contact) restyled to tokens; format helpers wired; ProductCard/contact links converted; unused-import warnings cleared (db.ts, FilterSidebar). Contact refactored to server page + client form (data-driven select). Build green; 20 tests pass; visually verified.
-- [ ] **Phase 5** - SEO (metadata, JSON-LD, SSG, sitemap, robots). NEXT.
-- [ ] **Phase 6** - Verification + truthful doc updates (README, CLAUDE.md, SESSION_LOG).
+- [x] **Phase 5** - SEO. DONE. Per-page metadata (unique titles + canonical), JSON-LD Product, SSG product pages (`●`), sitemap.ts, robots.ts, OG defaults. Verified in build output. 23 tests pass.
+- [ ] **Phase 6** - Verification + truthful doc updates (README, CLAUDE.md, SESSION_LOG) + merge to main. NEXT (final phase). Includes a mobile/responsive + keyboard-a11y pass not yet done.
 
 ## Decisions & deviations from the plan (important for a clean resume)
 

@@ -1,122 +1,103 @@
+import Link from "next/link";
 import { Product } from "@/types/catalog";
 import { Download, FileText, ArrowRight } from "lucide-react";
+import ProductGlyph from "./instruments/ProductGlyph";
+import { formatFileSize, humanizeEnum } from "@/lib/format";
 
 interface ProductCardProps {
   product: Product;
   brandName: string;
 }
 
-export default function ProductCard({ product, brandName }: ProductCardProps) {
-  // Extract key badge details
-  const getHighlightBadge = () => {
-    const specs = product.specifications;
-    if (specs.spec_type === "filter") {
-      if (specs.filter_classification_en1822) {
-        return `EN 1822 ${specs.filter_classification_en1822}`;
-      }
-      if (specs.merv_rating) {
-        return `MERV ${specs.merv_rating}`;
-      }
-    } else if (specs.spec_type === "damper") {
-      if (specs.fire_rating_hours) {
-        return `${specs.fire_rating_hours} Hr Fire Rated`;
-      }
-      if (specs.leakage_class) {
-        return `Leakage Class ${specs.leakage_class}`;
-      }
-    } else if (specs.spec_type === "sound_attenuator") {
-      return "ASTM E477 Silencer";
-    } else if (specs.spec_type === "coating") {
-      const funcNames: Record<string, string> = {
-        duct_coating: "Duct Coating",
-        vapour_barrier: "Vapor Barrier",
-        adhesive: "Duct Glue",
-        sealant: "Joint Sealant",
-      };
-      return funcNames[specs.product_function] || "HVAC Coating";
-    }
-    return null;
-  };
+/** Up to three scannable mono key/value specs, chosen by spec type. */
+function quickSpecs(product: Product): { k: string; v: string }[] {
+  const s = product.specifications;
+  if (s.spec_type === "filter") {
+    return [
+      s.filter_classification_en1822
+        ? { k: "EN 1822", v: s.filter_classification_en1822 }
+        : s.merv_rating != null
+          ? { k: "MERV", v: String(s.merv_rating) }
+          : { k: "Type", v: humanizeEnum(s.construction_type) },
+      s.max_temperature_c != null ? { k: "Max temp", v: `${s.max_temperature_c}°C` } : null,
+      s.final_pressure_drop_in_wg != null ? { k: "Final ΔP", v: `${s.final_pressure_drop_in_wg}″ wg` } : null,
+    ].filter(Boolean) as { k: string; v: string }[];
+  }
+  if (s.spec_type === "damper") {
+    return [
+      s.fire_rating_hours != null ? { k: "Fire rating", v: `${s.fire_rating_hours} hr` } : null,
+      s.leakage_class ? { k: "Leakage", v: `Class ${s.leakage_class}` } : null,
+      s.velocity_rating_fpm_max != null ? { k: "Max vel.", v: `${s.velocity_rating_fpm_max} fpm` } : null,
+    ].filter(Boolean) as { k: string; v: string }[];
+  }
+  if (s.spec_type === "sound_attenuator") {
+    return [
+      { k: "Profile", v: humanizeEnum(s.attenuator_type) },
+      s.max_airway_velocity_m_s != null ? { k: "Max vel.", v: `${s.max_airway_velocity_m_s} m/s` } : null,
+    ].filter(Boolean) as { k: string; v: string }[];
+  }
+  return [
+    { k: "Function", v: humanizeEnum(s.product_function) },
+    s.solid_content_pct != null ? { k: "Solids", v: `${s.solid_content_pct}%` } : null,
+    s.voc_content_g_l != null ? { k: "VOC", v: `${s.voc_content_g_l} g/l` } : null,
+  ].filter(Boolean) as { k: string; v: string }[];
+}
 
-  const badgeText = getHighlightBadge();
-  const tdsDoc = product.documents?.find((doc) => doc.type === "technical_data_sheet");
-  const catalogDoc = product.documents?.find((doc) => doc.type === "catalog");
+export default function ProductCard({ product, brandName }: ProductCardProps) {
+  const tdsDoc = product.documents?.find((d) => d.type === "technical_data_sheet");
+  const catalogDoc = product.documents?.find((d) => d.type === "catalog");
+  const specs = quickSpecs(product);
 
   return (
-    <div className="flex flex-col rounded-xl border border-slate-100 bg-white hover:border-sky-500/20 hover:shadow-lg transition-all overflow-hidden h-full">
-      {/* Card Body */}
-      <div className="p-6 flex-1 flex flex-col">
-        <div className="flex items-center justify-between gap-2 mb-3">
-          <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">
-            {brandName}
-          </span>
-          {badgeText && (
-            <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-sky-50 text-sky-700 uppercase tracking-wide border border-sky-100">
-              {badgeText}
-            </span>
-          )}
+    <div className="group flex h-full flex-col border border-rule bg-white transition-colors hover:border-ink">
+      <div className="flex flex-1 flex-col p-5">
+        <div className="flex items-start justify-between">
+          <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-steel">{brandName}</div>
+          <ProductGlyph productType={product.product_type} size={40} />
         </div>
 
-        <h3 className="text-lg font-bold text-slate-900 group-hover:text-sky-700 transition-colors">
-          <a href={`/products/${product.id}`} className="hover:text-sky-700">
+        <h3 className="mt-3 text-base font-semibold leading-snug text-ink">
+          <Link href={`/products/${product.id}`} className="transition-colors group-hover:text-[var(--color-signal)]">
             {product.name}
-          </a>
+          </Link>
         </h3>
 
-        <p className="mt-2 text-slate-500 text-xs line-clamp-3 leading-relaxed flex-1">
-          {product.description}
-        </p>
-
-        {/* Technical tag pills */}
-        <div className="mt-4 flex flex-wrap gap-1">
-          {product.applications?.slice(0, 2).map((app) => (
-            <span
-              key={app}
-              className="text-[10px] px-2 py-0.5 rounded bg-slate-50 text-slate-600 font-medium"
-            >
-              {app}
-            </span>
+        <dl className="mt-4 divide-y divide-rule border-y border-rule">
+          {specs.map((row) => (
+            <div key={row.k} className="flex items-center justify-between py-1.5">
+              <dt className="font-mono text-[10px] uppercase tracking-[0.1em] text-steel">{row.k}</dt>
+              <dd className="font-mono text-xs text-ink">{row.v}</dd>
+            </div>
           ))}
-          {product.certifications?.slice(0, 2).map((cert) => (
-            <span
-              key={cert.abbreviation}
-              className="text-[10px] px-2 py-0.5 rounded bg-red-50 text-red-700 font-semibold border border-red-100"
-              title={cert.body}
-            >
-              {cert.abbreviation}
-            </span>
-          ))}
-        </div>
+        </dl>
       </div>
 
-      {/* Card Action Footer */}
-      <div className="border-t border-slate-50 bg-slate-50/50 p-4 flex flex-wrap items-center justify-between gap-2">
-        <a
+      <div className="flex items-center justify-between border-t border-rule px-5 py-3">
+        <Link
           href={`/products/${product.id}`}
-          className="inline-flex items-center gap-1 text-xs font-bold text-sky-700 hover:text-sky-600 hover:underline"
+          className="inline-flex items-center gap-1 font-mono text-[11px] uppercase tracking-[0.12em] text-ink transition-colors hover:text-[var(--color-signal)]"
         >
-          Specifications <ArrowRight className="w-3 h-3" />
-        </a>
-
+          Specs <ArrowRight className="h-3 w-3" />
+        </Link>
         <div className="flex gap-1.5">
           {tdsDoc && (
             <a
               href={tdsDoc.url}
               download
-              className="inline-flex items-center justify-center p-2 rounded bg-white hover:bg-slate-100 text-slate-600 hover:text-slate-950 border border-slate-200 transition-colors"
-              title={`Download TDS PDF (${(tdsDoc.file_size_kb || 1000) / 1000} MB)`}
+              aria-label={`Download datasheet PDF (${formatFileSize(tdsDoc.file_size_kb)})`}
+              className="inline-flex items-center justify-center border border-rule p-2 text-steel transition-colors hover:border-ink hover:text-ink"
             >
-              <FileText className="w-3.5 h-3.5" />
+              <FileText className="h-3.5 w-3.5" />
             </a>
           )}
           {catalogDoc && (
             <a
               href={catalogDoc.url}
               download
-              className="inline-flex items-center justify-center p-2 rounded bg-white hover:bg-slate-100 text-slate-600 hover:text-slate-950 border border-slate-200 transition-colors"
-              title={`Download Catalog PDF (${(catalogDoc.file_size_kb || 1000) / 1000} MB)`}
+              aria-label={`Download catalogue PDF (${formatFileSize(catalogDoc.file_size_kb)})`}
+              className="inline-flex items-center justify-center border border-rule p-2 text-steel transition-colors hover:border-ink hover:text-ink"
             >
-              <Download className="w-3.5 h-3.5" />
+              <Download className="h-3.5 w-3.5" />
             </a>
           )}
         </div>

@@ -2,6 +2,8 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
+> **Live progress & deviations: see `research_and_planning/BUILD_STATUS.md` (the authoritative resume-here doc).** As of 2026-06-26: Phase 0 complete on branch `feat/demo-build`; some lint fixes were pulled forward and Vitest is 4.1.9 — BUILD_STATUS records the specifics.
+
 **Goal:** Turn the existing draft into a credible, demo-ready MVP of the Vantra catalog: correct data, the "Instrument" design system, and the SEO that is the product's core value proposition.
 
 **Architecture:** Keep the existing Next.js 15 App Router + static-JSON architecture. Add a thin tested logic layer (`src/lib`) for filtering, formatting, SEO, and instrument geometry so presentation stays dumb and swappable. Centralize all visual decisions in design tokens (Tailwind v4 `@theme` + `next/font`) so the design can be re-skinned cheaply after client feedback.

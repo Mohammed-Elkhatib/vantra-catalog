@@ -11,101 +11,78 @@ interface SelectionTableProps {
 export default function SelectionTable({ variants }: SelectionTableProps) {
   const [filterText, setFilterText] = useState("");
 
-  const filteredVariants = variants.filter((v) => {
+  const filtered = variants.filter((v) => {
     if (!filterText) return true;
     const term = filterText.toLowerCase();
-    const modelMatch = v.model_reference.toLowerCase().includes(term);
-    const sizeMatch =
-      (v.dimensions?.width_in?.toString().includes(term)) ||
-      (v.dimensions?.height_in?.toString().includes(term)) ||
-      (v.dimensions?.depth_in?.toString().includes(term)) ||
-      (v.dimensions?.width_mm?.toString().includes(term)) ||
-      (v.dimensions?.height_mm?.toString().includes(term)) ||
-      (v.dimensions?.depth_mm?.toString().includes(term)) ||
-      false;
-    return modelMatch || sizeMatch;
+    const dims = v.dimensions;
+    return (
+      v.model_reference.toLowerCase().includes(term) ||
+      [dims?.width_in, dims?.height_in, dims?.depth_in, dims?.width_mm, dims?.height_mm, dims?.depth_mm].some((n) =>
+        n?.toString().includes(term),
+      )
+    );
   });
 
   return (
-    <div className="border border-slate-100 rounded-lg overflow-hidden bg-white shadow-sm">
-      {/* Table Header Filter Control */}
-      <div className="p-4 border-b border-slate-100 bg-slate-50/50 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <h4 className="text-sm font-bold text-slate-800 uppercase tracking-wider">
-          Variant Selection Chart
-        </h4>
+    <div className="border border-rule bg-white">
+      <div className="flex flex-col gap-3 border-b border-rule bg-paper p-4 sm:flex-row sm:items-center sm:justify-between">
+        <h4 className="font-mono text-[11px] uppercase tracking-[0.14em] text-ink">Variant selection chart</h4>
         <div className="relative w-full sm:w-64">
-          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <Search className="h-3.5 w-3.5 text-slate-400" />
+          <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+            <Search className="h-3.5 w-3.5 text-steel" />
           </div>
           <input
             type="text"
             value={filterText}
             onChange={(e) => setFilterText(e.target.value)}
-            placeholder="Search size or model..."
-            className="block w-full pl-9 pr-3 py-1.5 border border-slate-200 rounded-md text-xs bg-white text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 transition-all"
+            placeholder="Search size or model…"
+            aria-label="Search variants"
+            className="block w-full border border-rule bg-white py-1.5 pl-9 pr-3 text-xs text-ink placeholder-steel focus:border-ink focus:outline-none"
           />
         </div>
       </div>
 
-      {/* Table Container */}
       <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-slate-100 text-left text-xs">
-          <thead className="bg-slate-50 text-slate-500 font-semibold uppercase tracking-wider">
+        <table className="min-w-full text-left text-xs">
+          <thead className="bg-paper font-mono uppercase tracking-[0.1em] text-steel">
             <tr>
-              <th className="py-3 px-4">Model Reference</th>
-              <th className="py-3 px-4">Dimensions (W×H×D)</th>
-              <th className="py-3 px-4 text-right">Airflow</th>
-              <th className="py-3 px-4 text-right">Pressure Drop</th>
-              <th className="py-3 px-4 text-right">Media Area</th>
+              <th className="px-4 py-3 font-medium">Model Reference</th>
+              <th className="px-4 py-3 font-medium">Dimensions (W×H×D)</th>
+              <th className="px-4 py-3 text-right font-medium">Airflow</th>
+              <th className="px-4 py-3 text-right font-medium">ΔP</th>
+              <th className="px-4 py-3 text-right font-medium">Media Area</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-100 text-slate-700 font-medium">
-            {filteredVariants.length > 0 ? (
-              filteredVariants.map((v) => {
-                const sizeStr = v.dimensions
-                  ? v.dimensions.width_in
-                    ? `${v.dimensions.width_in}" × ${v.dimensions.height_in}" × ${v.dimensions.depth_in}"`
-                    : `${v.dimensions.width_mm} × ${v.dimensions.height_mm} × ${v.dimensions.depth_mm} mm`
-                  : "-";
-
-                const airflowStr = v.performance?.airflow_cfm
+          <tbody className="font-mono text-ink">
+            {filtered.length > 0 ? (
+              filtered.map((v) => {
+                const d = v.dimensions;
+                const size = d
+                  ? d.width_in != null
+                    ? `${d.width_in}″ × ${d.height_in}″ × ${d.depth_in}″`
+                    : `${d.width_mm} × ${d.height_mm} × ${d.depth_mm} mm`
+                  : "—";
+                const airflow = v.performance?.airflow_cfm
                   ? `${v.performance.airflow_cfm} CFM`
                   : v.performance?.airflow_cmh
-                  ? `${v.performance.airflow_cmh} CMH`
-                  : "-";
-
-                const pdStr = v.performance?.pressure_drop_in_wg !== undefined
-                  ? `${v.performance.pressure_drop_in_wg}" wg`
-                  : "-";
-
-                const areaStr = v.performance?.media_area_sqft !== undefined
-                  ? `${v.performance.media_area_sqft} sq.ft`
-                  : "-";
-
+                    ? `${v.performance.airflow_cmh} CMH`
+                    : "—";
+                const pd = v.performance?.pressure_drop_in_wg != null ? `${v.performance.pressure_drop_in_wg}″ wg` : "—";
+                const area = v.performance?.media_area_sqft != null ? `${v.performance.media_area_sqft} sq.ft` : "—";
                 return (
-                  <tr key={v.model_reference} className="hover:bg-slate-50/50">
-                    <td className="py-3 px-4 font-bold text-slate-900 font-mono">
-                      {v.model_reference}
-                    </td>
-                    <td className="py-3 px-4">
-                      {sizeStr}
-                    </td>
-                    <td className="py-3 px-4 text-right font-mono">
-                      {airflowStr}
-                    </td>
-                    <td className="py-3 px-4 text-right font-mono">
-                      {pdStr}
-                    </td>
-                    <td className="py-3 px-4 text-right font-mono">
-                      {areaStr}
-                    </td>
+                  <tr key={v.model_reference} className="border-t border-rule hover:bg-paper">
+                    <td className="px-4 py-3 font-semibold text-ink">{v.model_reference}</td>
+                    <td className="px-4 py-3 text-steel">{size}</td>
+                    <td className="px-4 py-3 text-right text-steel">{airflow}</td>
+                    <td className="px-4 py-3 text-right text-steel">{pd}</td>
+                    <td className="px-4 py-3 text-right text-steel">{area}</td>
                   </tr>
                 );
               })
             ) : (
               <tr>
-                <td colSpan={5} className="py-8 px-4 text-center text-slate-400 font-normal">
-                  No matching models or configurations found.
+                <td colSpan={5} className="px-4 py-8 text-center font-sans text-steel">
+                  No matching models.
                 </td>
               </tr>
             )}

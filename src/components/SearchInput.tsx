@@ -41,20 +41,22 @@ export default function SearchInput({ defaultValue = "" }: SearchInputProps) {
 
   return (
     <div className="relative">
-      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-        <Search className="h-4.5 w-4.5 text-slate-400" />
+      <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+        <Search className="h-4 w-4 text-steel" />
       </div>
       <input
         type="text"
         value={value}
         onChange={(e) => setValue(e.target.value)}
         placeholder="Search products, specifications..."
-        className="block w-full pl-10 pr-10 py-2.5 border border-slate-200 rounded-lg text-sm bg-white text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-all"
+        aria-label="Search products"
+        className="block w-full border border-rule bg-white py-2.5 pl-10 pr-10 text-sm text-ink placeholder-steel transition-colors focus:border-ink focus:outline-none"
       />
       {value && (
         <button
           onClick={handleClear}
-          className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600"
+          aria-label="Clear search"
+          className="absolute inset-y-0 right-0 flex items-center pr-3 text-steel hover:text-ink"
         >
           <X className="h-4.5 w-4.5" />
         </button>

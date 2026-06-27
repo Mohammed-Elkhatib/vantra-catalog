@@ -4,6 +4,28 @@
 
 ---
 
+## Update (2026-06-27): Demo-readiness rebuild
+
+A full review + rebuild turned the initial draft into a demo-ready MVP, on branch `feat/demo-build`
+(now merged to `main`). See `BUILD_STATUS.md` for the phase-by-phase log and `DESIGN_STRATEGY.md` for
+the visual direction. Highlights:
+
+- **Repo foundation:** git history, `.gitignore`/`.gitattributes`/`.nvmrc`, working ESLint, Vitest.
+  Verified `npm install` no longer needs `--legacy-peer-deps` (React 19 is stable).
+- **Data integrity:** corrected credibility issues (a UL listing number reused across categories, a
+  contradictory solvent-adhesive fire claim, inflated category counts) and added `data/catalog.test.ts`.
+  Curated to 15 products / 4 categories / 2 brands (dropped empty category + product-less brands).
+- **Tested logic layer (`src/lib`):** `catalog-filter` (fixes a count/results mismatch), `format`,
+  `instruments`, `seo`.
+- **"Instrument" redesign:** centralized tokens + IBM Plex; signature data-viz components; all pages
+  restyled; contact refactored to a server page + client form with a data-driven product select.
+- **SEO:** per-page metadata, JSON-LD, SSG product pages, sitemap, robots.
+
+Final state: 23 tests pass, lint clean, build green, responsive verified. Deferred (out of demo scope):
+a real contact backend, a CMS migration, AI features, and a mobile nav menu.
+
+---
+
 ## 1. Session Objectives Completed
 
 1. **Local Document Analysis (100%):** Parsed all 18 unique PDF documents in the `material/` folder, extracting exact product hierarchies, technical variables, certification lists, and brand descriptions.

@@ -1,6 +1,6 @@
 import fs from "fs/promises";
 import path from "path";
-import { Product, Variant, Certification, Document } from "@/types/catalog";
+import { Product } from "@/types/catalog";
 
 // Paths to static JSON files
 const DATA_DIR = path.join(process.cwd(), "data");

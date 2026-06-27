@@ -1,78 +1,81 @@
-import { getProductById, getBrands } from "@/lib/db";
+import type { Metadata } from "next";
+import Link from "next/link";
+import { getProductById, getProducts, getBrands } from "@/lib/db";
+import { buildProductMetadata, buildProductJsonLd } from "@/lib/seo";
 import DynamicSpecs from "@/components/DynamicSpecs";
 import SelectionTable from "@/components/SelectionTable";
 import ModelDecoder from "@/components/ModelDecoder";
+import ProductGlyph from "@/components/instruments/ProductGlyph";
+import { formatFileSize } from "@/lib/format";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Download, FileText, Send, BadgeAlert } from "lucide-react";
 
 interface ProductPageProps {
-  params: Promise<{
-    slug: string;
-  }>;
+  params: Promise<{ slug: string }>;
 }
 
-export const revalidate = 3600; // Cache individual pages for 1 hour
+export const revalidate = 3600;
+
+/** Pre-render every product page at build time (SSG). */
+export async function generateStaticParams() {
+  const products = await getProducts();
+  return products.map((p) => ({ slug: p.id }));
+}
+
+export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const product = await getProductById(slug);
+  if (!product) return { title: "Product not found | Vantra Lebanon" };
+  return buildProductMetadata(product);
+}
 
 export default async function ProductDetailPage({ params }: ProductPageProps) {
-  const resolvedParams = await params;
-  const product = await getProductById(resolvedParams.slug);
-
-  if (!product) {
-    notFound();
-  }
+  const { slug } = await params;
+  const product = await getProductById(slug);
+  if (!product) notFound();
 
   const brands = await getBrands();
   const brand = brands.find((b) => b.id === product.brand_id);
-  const tdsDoc = product.documents?.find((doc) => doc.type === "technical_data_sheet");
-  const catalogDoc = product.documents?.find((doc) => doc.type === "catalog");
+  const tdsDoc = product.documents?.find((d) => d.type === "technical_data_sheet");
+  const catalogDoc = product.documents?.find((d) => d.type === "catalog");
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      {/* Back link */}
-      <div className="mb-8">
-        <a
-          href="/products"
-          className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-sky-600 transition-colors uppercase tracking-wider"
-        >
-          <ArrowLeft className="w-3.5 h-3.5" /> Back to Catalog
-        </a>
-      </div>
+    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      <script
+        type="application/ld+json"
+        // Trusted, static catalog data. Escape "<" so the payload can never break out of the script tag.
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(buildProductJsonLd(product, brand)).replace(/</g, "\\u003c") }}
+      />
+      <Link
+        href="/products"
+        className="mb-8 inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.14em] text-steel transition-colors hover:text-ink"
+      >
+        <ArrowLeft className="h-3.5 w-3.5" /> Back to Catalog
+      </Link>
 
-      {/* Main product overview */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 mb-16 items-start">
-        {/* Left/Middle: Info & Features */}
-        <div className="lg:col-span-2 flex flex-col gap-6">
-          <div>
-            <div className="flex items-center gap-2 mb-2.5">
-              <span className="text-xs uppercase font-bold text-sky-700 tracking-wider">
-                {brand ? brand.name : product.brand_id}
-              </span>
-              <span className="text-slate-300 text-xs">|</span>
-              <span className="text-xs font-medium text-slate-500">
-                {product.category} {product.subcategory && `> ${product.subcategory}`}
-              </span>
+      <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-3">
+        {/* Overview */}
+        <div className="flex flex-col gap-6 lg:col-span-2">
+          <div className="flex items-start justify-between gap-6 border-b border-rule pb-6">
+            <div>
+              <div className="mb-2.5 font-mono text-[10px] uppercase tracking-[0.14em] text-steel">
+                {brand ? brand.name : product.brand_id} · {product.category}
+                {product.subcategory ? ` · ${product.subcategory}` : ""}
+              </div>
+              <h1 className="text-3xl font-semibold leading-tight tracking-tight text-ink sm:text-4xl">{product.name}</h1>
             </div>
-            <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
-              {product.name}
-            </h1>
+            <ProductGlyph productType={product.product_type} size={64} className="shrink-0" />
           </div>
 
-          <p className="text-slate-600 text-base leading-relaxed">
-            {product.description}
-          </p>
+          {product.description && <p className="text-base leading-relaxed text-steel">{product.description}</p>}
 
-          {/* Features list */}
           {product.features && product.features.length > 0 && (
-            <div className="mt-2">
-              <h3 className="text-sm font-bold text-slate-800 uppercase tracking-wider mb-3.5">
-                Key Features & Benefits
-              </h3>
-              <ul className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm text-slate-600">
-                {product.features.map((feat, index) => (
-                  <li key={index} className="flex gap-2.5 items-start">
-                    <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-sky-50 text-sky-600 text-xs font-bold mt-0.5 shrink-0">
-                      ✓
-                    </span>
+            <div>
+              <h3 className="mb-3 font-mono text-[10px] uppercase tracking-[0.14em] text-steel">Key features</h3>
+              <ul className="grid grid-cols-1 gap-2.5 text-sm text-ink md:grid-cols-2">
+                {product.features.map((feat, i) => (
+                  <li key={i} className="flex items-start gap-2.5">
+                    <span className="mt-2 h-1 w-1 shrink-0 bg-[var(--color-signal)]" />
                     <span>{feat}</span>
                   </li>
                 ))}
@@ -80,18 +83,12 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
             </div>
           )}
 
-          {/* Application pills */}
           {product.applications && product.applications.length > 0 && (
-            <div className="pt-2">
-              <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
-                Recommended Applications
-              </h3>
+            <div>
+              <h3 className="mb-2 font-mono text-[10px] uppercase tracking-[0.14em] text-steel">Applications</h3>
               <div className="flex flex-wrap gap-1.5">
                 {product.applications.map((app) => (
-                  <span
-                    key={app}
-                    className="text-xs px-3 py-1 rounded-full bg-slate-50 text-slate-700 font-semibold border border-slate-100"
-                  >
+                  <span key={app} className="border border-rule px-2.5 py-1 font-mono text-[11px] text-ink">
                     {app}
                   </span>
                 ))}
@@ -100,97 +97,67 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
           )}
         </div>
 
-        {/* Right Sidebar: Downloads & Quick CTAs */}
-        <div className="lg:col-span-1 flex flex-col gap-6">
-          {/* Quick Downloads Card */}
-          <div className="border border-slate-100 p-6 rounded-xl bg-slate-50/50 shadow-sm flex flex-col gap-4">
-            <h3 className="text-sm font-bold text-slate-800 uppercase tracking-wider">
-              Document Downloads
-            </h3>
-            <p className="text-slate-500 text-xs leading-relaxed">
-              Standard ungated access. Sourced from official UAE factories.
-            </p>
-            <div className="flex flex-col gap-2.5 mt-2">
+        {/* Sidebar: downloads + inquiry */}
+        <div className="flex flex-col gap-4 lg:col-span-1">
+          <div className="border border-rule bg-white p-5">
+            <h3 className="font-mono text-[10px] uppercase tracking-[0.14em] text-steel">Documents</h3>
+            <p className="mt-1.5 text-xs leading-relaxed text-steel">Ungated. Sourced from CMS Global factories.</p>
+            <div className="mt-4 flex flex-col gap-2">
               {tdsDoc ? (
-                <a
-                  href={tdsDoc.url}
-                  download
-                  className="flex items-center gap-3 p-3 rounded-lg bg-white border border-slate-200 hover:border-sky-500 hover:shadow-sm transition-all"
-                >
-                  <FileText className="w-5 h-5 text-sky-600 shrink-0" />
-                  <div className="flex-1 text-left min-w-0">
-                    <div className="text-xs font-bold text-slate-800 truncate">Technical Datasheet (TDS)</div>
-                    <div className="text-[10px] text-slate-400 mt-0.5">
-                      PDF • {tdsDoc.file_size_kb ? `${(tdsDoc.file_size_kb / 1000).toFixed(1)} MB` : "1.2 MB"}
-                    </div>
-                  </div>
-                  <Download className="w-4 h-4 text-slate-400 hover:text-sky-600 transition-colors" />
+                <a href={tdsDoc.url} download className="group flex items-center gap-3 border border-rule p-3 transition-colors hover:border-ink">
+                  <FileText className="h-5 w-5 shrink-0 text-[var(--color-signal)]" />
+                  <span className="flex-1 text-left">
+                    <span className="block text-xs font-semibold text-ink">Technical Datasheet</span>
+                    <span className="block font-mono text-[10px] text-steel">PDF · {formatFileSize(tdsDoc.file_size_kb)}</span>
+                  </span>
+                  <Download className="h-4 w-4 text-steel transition-colors group-hover:text-ink" />
                 </a>
               ) : (
-                <div className="flex items-center gap-3 p-3 rounded-lg border border-dashed border-slate-200 bg-white/50 text-slate-400">
-                  <BadgeAlert className="w-5 h-5 shrink-0" />
-                  <span className="text-xs">No Datasheet PDF available</span>
+                <div className="flex items-center gap-3 border border-dashed border-rule p-3 text-steel">
+                  <BadgeAlert className="h-5 w-5 shrink-0" />
+                  <span className="text-xs">No datasheet PDF yet</span>
                 </div>
               )}
-
               {catalogDoc && (
-                <a
-                  href={catalogDoc.url}
-                  download
-                  className="flex items-center gap-3 p-3 rounded-lg bg-white border border-slate-200 hover:border-sky-500 hover:shadow-sm transition-all"
-                >
-                  <Download className="w-5 h-5 text-emerald-600 shrink-0" />
-                  <div className="flex-1 text-left min-w-0">
-                    <div className="text-xs font-bold text-slate-800 truncate">Full Product Catalog</div>
-                    <div className="text-[10px] text-slate-400 mt-0.5">
-                      PDF • {catalogDoc.file_size_kb ? `${(catalogDoc.file_size_kb / 1000).toFixed(1)} MB` : "4.5 MB"}
-                    </div>
-                  </div>
-                  <Download className="w-4 h-4 text-slate-400 hover:text-emerald-600 transition-colors" />
+                <a href={catalogDoc.url} download className="group flex items-center gap-3 border border-rule p-3 transition-colors hover:border-ink">
+                  <Download className="h-5 w-5 shrink-0 text-ink" />
+                  <span className="flex-1 text-left">
+                    <span className="block text-xs font-semibold text-ink">Product Catalogue</span>
+                    <span className="block font-mono text-[10px] text-steel">PDF · {formatFileSize(catalogDoc.file_size_kb)}</span>
+                  </span>
+                  <Download className="h-4 w-4 text-steel transition-colors group-hover:text-ink" />
                 </a>
               )}
             </div>
           </div>
 
-          {/* Quick Inquiry Card */}
-          <div className="border border-slate-100 p-6 rounded-xl bg-white shadow-sm flex flex-col gap-4">
-            <h3 className="text-sm font-bold text-slate-800 uppercase tracking-wider">
-              Request Sizing & Pricing
-            </h3>
-            <p className="text-slate-500 text-xs leading-relaxed">
-              Need custom modifications or pricing for project tenders in Lebanon?
-            </p>
-            <a
+          <div className="border border-rule bg-white p-5">
+            <h3 className="font-mono text-[10px] uppercase tracking-[0.14em] text-steel">Request sizing &amp; pricing</h3>
+            <p className="mt-1.5 text-xs leading-relaxed text-steel">Need a custom size or project pricing for Lebanon tenders?</p>
+            <Link
               href={`/contact?product=${encodeURIComponent(product.name)}`}
-              className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold transition-colors w-full mt-2"
+              className="mt-4 inline-flex w-full items-center justify-center gap-2 bg-ink py-2.5 font-mono text-[11px] uppercase tracking-[0.12em] text-paper transition-colors hover:bg-[var(--color-signal)]"
             >
-              <Send className="w-3.5 h-3.5" /> Submit Inquiry
-            </a>
+              <Send className="h-3.5 w-3.5" /> Submit Inquiry
+            </Link>
           </div>
         </div>
       </div>
 
-      {/* Specifications Table Section */}
-      <section className="mb-16">
-        <h2 className="text-xl font-bold text-slate-900 tracking-tight mb-6">
-          Technical Specifications
-        </h2>
+      <section className="mt-16">
+        <h2 className="mb-5 text-lg font-semibold tracking-tight text-ink">Technical Specifications</h2>
         <DynamicSpecs specs={product.specifications} />
       </section>
 
-      {/* Sizing & Sizing Table (Variants) */}
       {product.variants && product.variants.length > 0 && (
-        <section className="mb-16">
-          <h2 className="text-xl font-bold text-slate-900 tracking-tight mb-6">
-            Dimensions & Sizing Chart
-          </h2>
+        <section className="mt-16">
+          <h2 className="mb-5 text-lg font-semibold tracking-tight text-ink">Dimensions &amp; Sizing</h2>
           <SelectionTable variants={product.variants} />
         </section>
       )}
 
-      {/* Model reference decoder helper */}
       {product.model_numbering_scheme && (
-        <section className="mb-16">
+        <section className="mt-16">
           <ModelDecoder scheme={product.model_numbering_scheme} />
         </section>
       )}

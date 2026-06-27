@@ -38,12 +38,6 @@
     },
     "certifications": [
       {
-        "body": "Underwriters Laboratories",
-        "abbreviation": "UL",
-        "listing_number": "R-27945",
-        "type": "listed"
-      },
-      {
         "body": "National Air Filtration Association",
         "abbreviation": "NAFA",
         "type": "member"
@@ -410,8 +404,7 @@
         "body": "Underwriters Laboratories",
         "abbreviation": "UL",
         "standard": "UL 555",
-        "listing_number": "R-27945",
-        "type": "listed"
+        "type": "classified"
       },
       {
         "body": "IFC Certification",
@@ -467,8 +460,7 @@
         "body": "Underwriters Laboratories",
         "abbreviation": "UL",
         "standard": "UL 555 / UL 555S",
-        "listing_number": "R-27945",
-        "type": "listed"
+        "type": "classified"
       },
       {
         "body": "Air Movement and Control Association",
@@ -795,7 +787,7 @@
     "features": [
       "Highly heat resistant polychloroprene synthetic rubber formula",
       "Fast bonding tack prevents slippage during insulation alignment",
-      "UL Classified fire spread and smoke developed index of 0",
+      "High shear-strength bond for laminating insulation liners to sheet metal",
       "Spans temperatures up to 90°C"
     ],
     "applications": [
@@ -820,19 +812,9 @@
       "shelf_life_months": 12,
       "water_resistance": "good",
       "chemical_resistance": "moderate",
-      "flame_spread_index": 0,
-      "smoke_developed_index": 0,
       "application_method": ["brush", "spray"],
       "packing": "5 US Gallon Pails"
     },
-    "certifications": [
-      {
-        "body": "Underwriters Laboratories",
-        "abbreviation": "UL",
-        "listing_number": "R-27945",
-        "type": "listed"
-      }
-    ],
     "documents": [
       {
         "type": "catalog",

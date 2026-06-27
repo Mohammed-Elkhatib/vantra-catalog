@@ -1,99 +1,57 @@
-# Vantra Lebanon - Product Catalog Platform
+# Vantra Lebanon — Product Catalog
 
-A modern, high-performance, medical-grade HVAC and air filtration product catalog for Vantra Lebanon (ventra-leb.com), a sister company of CMS Global (Dubai, UAE). 
+An open, un-gated product catalog for **Vantra Lebanon** (`ventra-leb.com`), the Levant sister
+company of CMS Global (Dubai). It sells medical-grade HVAC products — air filters, dampers, sound
+attenuators, and coatings/adhesives/sealants — and lets engineers browse, filter, and download spec
+sheets instantly, with no registration. It fixes the parent site's slow, gated, PDF-bound experience.
 
-This platform serves as an open, un-gated catalog designed for HVAC engineers, MEP contractors, and facility managers, replacing the slow, gated, and PDF-bound experience of the parent company's site.
+**Status:** demo-ready MVP. A curated, fact-checked dataset of **15 representative products** (of
+~170 catalogued). No live backend yet — the contact form is a mock submit, and a CMS/AI are on the
+roadmap, not in this build.
 
----
+## Tech stack
 
-## 🚀 Tech Stack
+- **Next.js 15** (App Router) · **React 19** · **TypeScript** (strict)
+- **Tailwind CSS v4** (CSS-first: tokens via `@theme` in `globals.css`, no `tailwind.config.js`)
+- **IBM Plex Sans / Mono** via `next/font`
+- **lucide-react** icons · **Vitest** for tests
+- Static JSON data layer (designed for a clean later swap to a headless CMS)
 
-- **Framework:** Next.js 15 (App Router, TypeScript, React 19)
-- **Styling:** Tailwind CSS v4
-- **Icons:** Lucide React
-- **Asset Storage:** Public static files (PDF catalogs, Technical Data Sheets)
+## Commands
 
----
-
-## 📂 Project Structure
-
-```text
-C:\Users\Admin\airfilters\
-├── data/
-│   ├── products.json           # Discriminated union records for 15 representative products
-│   ├── brands.json             # Brand profiles (Excelair, Premier, Durotape, etc.)
-│   └── categories.json         # Taxonomy details and product counts
-├── public/
-│   └── downloads/
-│       ├── tds/                # Sized technical datasheets (TDS) copied from materials
-│       └── catalogs/           # Sized general product line catalogs
-├── src/
-│   ├── app/
-│   │   ├── layout.tsx          # Main html structural shell with headers/footers
-│   │   ├── page.tsx            # Homepage layout
-│   │   ├── products/
-│   │   │   ├── page.tsx        # Dynamic list page with URL state management
-│   │   │   └── [slug]/
-│   │   │       └── page.tsx    # Details template (specs, variant charts, model decoders)
-│   │   ├── contact/
-│   │   │   └── page.tsx        # Sizing and project pricing quote form
-│   │   └── globals.css         # Tailwind v4 directives and base resets
-│   ├── components/
-│   │   ├── ProductCard.tsx     # Grid cards containing quick specs and PDF buttons
-│   │   ├── FilterSidebar.tsx   # Sidebar mapping search checkboxes to query states
-│   │   ├── SearchInput.tsx     # Debounced text search box matching URL variables
-│   │   ├── DynamicSpecs.tsx    # Renders specification rows based on product type
-│   │   ├── SelectionTable.tsx  # Sortable sizing matrices
-│   │   └── ModelDecoder.tsx    # Sizing model reference code explains
-│   ├── lib/
-│   │   └── db.ts               # File-system read wrappers for database access
-│   └── types/
-│       └── catalog.ts          # Discriminated union types matching schema.json
-├── package.json                # NPM manifest
-├── tsconfig.json               # TypeScript configurations
-├── next.config.ts              # Next.js configurations
-└── postcss.config.mjs          # PostCSS configurations
+```bash
+npm install        # plain install (React 19 is stable; no --legacy-peer-deps)
+npm run dev        # dev server on http://localhost:3000
+npm run build      # production build + typecheck + lint (the main correctness gate)
+npm run start      # serve the production build
+npm run lint       # ESLint (next/core-web-vitals + next/typescript)
+npm run test       # Vitest: unit + data-integrity tests
 ```
 
----
+## Architecture
 
-## 📦 Data Architecture
+- **Data layer:** static JSON in `data/` (`products.json`, `brands.json`, `categories.json`).
+  `src/lib/db.ts` is the only access path (server-only `fs` readers). `data/catalog.test.ts`
+  enforces integrity (unique ids, resolvable brands/categories, files exist, honest counts,
+  no reused certification numbers).
+- **Types:** `src/types/catalog.ts` — `Product` plus a `ProductSpecification` discriminated union
+  on `spec_type` (`filter | damper | sound_attenuator | coating`), mirroring
+  `research_and_planning/schema.json`.
+- **Logic (`src/lib`, all unit-tested):** `catalog-filter.ts` (filtering + faceting),
+  `format.ts` (display formatters), `instruments.ts` (data-viz geometry), `seo.ts` (metadata + JSON-LD).
+- **Design system ("Instrument"):** tokens in `src/app/globals.css` `@theme`; the signature visuals
+  live in `src/components/instruments/` (efficiency curve, EN 1822 grade ladder, pressure gauge,
+  octave-band bars, product glyphs). See `research_and_planning/DESIGN_STRATEGY.md`.
+- **Routes:** `/` (home), `/products` (catalog, URL search params as state), `/products/[slug]`
+  (SSG product pages), `/contact` (server page + client form). SEO: per-page metadata, JSON-LD,
+  `sitemap.ts`, `robots.ts`.
 
-Every product specification matches `research_and_planning/schema.json` and is validated against TypeScript interfaces in `src/types/catalog.ts` using discriminated unions based on the `spec_type` attribute. 
+## PDFs / downloads
 
-Supported types:
-- `FilterSpec`: EN 1822 ratings (H13/H14), MERV values, final pressure drops, and scan validation status.
-- `DamperSpec`: Fire hours (1.5hr/3hr), leakage classes (Class II), actuator configurations, velocity thresholds.
-- `SoundAttenuatorSpec`: Decibel insertion loss grids per frequency octave band, casing thickness, liner density.
-- `CoatingSpec`: Solid percentages, densities, VOC content, surface flame spreads (ASTM E 84).
+Served statically from `public/downloads/`. Ungated by design. Source material is in `material/`.
 
----
+## Project docs
 
-## 🛠️ Getting Started
-
-### 1. Install Dependencies
-Install packages with legacy peer-dependency resolution (necessary for React 19 RC type alignment):
-```powershell
-npm install --legacy-peer-deps
-```
-
-### 2. Run the Development Server
-Launch the compiler and live hot-reloader:
-```powershell
-npm run dev
-```
-Open [http://localhost:3000](http://localhost:3000) in your browser.
-
-### 3. Build for Production
-Compile, check type safety, and verify static code generation blocks:
-```powershell
-npm run build
-```
-
----
-
-## 📈 Quality & Validation Benchmarks
-
-- **Type Safety:** 100% compliant, compiles cleanly under strict TypeScript config rules.
-- **Build Verification:** All routes pre-render successfully during compilation (tested via Next.js compiler checks).
-- **Asset Integration:** PDFs resolve directly to static local folders (`public/downloads/`), ensuring downloads start instantly without gateways.
+`research_and_planning/` holds the business/industry context (`PROJECT_EXPLAINER.md`), the catalog
+inventory (`CATALOG_DEEP_DIVE.md`), the competitor audit (`CMS_WEBSITE_AUDIT.md`), the design strategy
+(`DESIGN_STRATEGY.md`), and the current build status (`BUILD_STATUS.md`).

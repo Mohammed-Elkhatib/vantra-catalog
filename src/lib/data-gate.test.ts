@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { test, expect } from "vitest";
 import schema from "../../research_and_planning/schema.json";
-import { createProductValidator, citeRequiredPaths, checkProvenance, type Sidecar } from "./data-gate";
+import { createProductValidator, citeRequiredPaths, checkProvenance, checkPlausibility, type Sidecar } from "./data-gate";
 
 const validate = createProductValidator(schema);
 
@@ -94,4 +94,24 @@ test("checkProvenance honors a recorded exception", () => {
   const partial: Sidecar = { ...goodSidecar, fields: { ...goodSidecar.fields }, exceptions: [{ field: "certifications.0", reason: "verbally confirmed by client 2026-06-28" }] };
   delete (partial.fields as any)["certifications.0"];
   expect(checkProvenance(coating, partial, schema)).toHaveLength(0);
+});
+
+test("solvent coating claiming flame_spread_index 0 is flagged", () => {
+  const p = { id: "p", specifications: { spec_type: "coating", base_material: "Solvent-based Acrylic", flame_spread_index: 0 } };
+  expect(checkPlausibility(p).join(" ")).toMatch(/flame_spread_index/);
+});
+
+test("pending-tds product linking a TDS is flagged", () => {
+  const p = {
+    id: "p",
+    specifications: { spec_type: "filter" },
+    metadata: { verification_status: "representative_pending_tds" },
+    documents: [{ type: "technical_data_sheet", url: "/x.pdf" }],
+  };
+  expect(checkPlausibility(p).join(" ")).toMatch(/technical_data_sheet/);
+});
+
+test("a clean product yields no plausibility violations", () => {
+  const p = { id: "p", specifications: { spec_type: "coating", base_material: "Synthetic Rubber", flame_spread_index: 0 } };
+  expect(checkPlausibility(p)).toHaveLength(0);
 });

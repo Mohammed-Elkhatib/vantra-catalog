@@ -4,6 +4,7 @@ import path from "node:path";
 import products from "./products.json";
 import categories from "./categories.json";
 import brands from "./brands.json";
+import { checkPlausibility } from "@/lib/data-gate";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const all = products as any[];
@@ -56,26 +57,11 @@ test("a UL listing number is never shared across different product categories", 
     expect(cats.size, `listing ${num} reused across categories: ${[...cats].join(", ")}`).toBe(1);
 });
 
-test("products flagged representative_pending_tds never link a technical_data_sheet", () => {
-  // We do not hold the TDS for these products, so we must not present one as theirs.
+test("all products pass the shared domain-plausibility rules", () => {
+  const failures: string[] = [];
   for (const p of all) {
-    if (p.metadata?.verification_status === "representative_pending_tds") {
-      const hasTds = (p.documents ?? []).some(
-        (d: any) => d.type === "technical_data_sheet"
-      );
-      expect(hasTds, `${p.id} is pending-TDS but links a technical_data_sheet`).toBe(false);
-    }
+    const errs = checkPlausibility(p);
+    if (errs.length) failures.push(`${p.id}: ${errs.join("; ")}`);
   }
-});
-
-test("solvent-based coatings do not claim a zero flame-spread index", () => {
-  for (const p of all) {
-    const s = p.specifications;
-    if (
-      s.spec_type === "coating" &&
-      /solvent/i.test(s.base_material ?? "") &&
-      s.flame_spread_index === 0
-    )
-      throw new Error(`${p.id}: solvent base with flame_spread_index 0 is implausible`);
-  }
+  expect(failures, failures.join("\n")).toHaveLength(0);
 });

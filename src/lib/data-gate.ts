@@ -102,6 +102,30 @@ export function citeRequiredPaths(product: any, schema: any): string[] {
   return paths;
 }
 
+/**
+ * Cross-field domain plausibility rules. Extend this list as new failure modes
+ * are found. Each returns a message when the product is implausible.
+ */
+export function checkPlausibility(product: any): string[] {
+  const errs: string[] = [];
+  const s = product.specifications ?? {};
+  if (
+    s.spec_type === "coating" &&
+    /solvent/i.test(s.base_material ?? "") &&
+    s.flame_spread_index === 0
+  ) {
+    errs.push("solvent-based coating claims flame_spread_index 0 (implausible)");
+  }
+  if (product.metadata?.verification_status === "representative_pending_tds") {
+    const hasTds = (product.documents ?? []).some(
+      (d: any) => d.type === "technical_data_sheet"
+    );
+    if (hasTds)
+      errs.push("representative_pending_tds product links a technical_data_sheet");
+  }
+  return errs;
+}
+
 /** Verifies every cite-required field has a confirmed sidecar entry (or a recorded exception). */
 export function checkProvenance(
   product: any,

@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Vantra provenance sidecar",
+  "type": "object",
+  "properties": {
+    "product_id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+    "source_pdf": { "type": "string" },
+    "batch": { "type": "string" },
+    "state": {
+      "type": "string",
+      "enum": ["todo", "extracted", "verified", "gated", "merged", "flagged"]
+    },
+    "fields": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "value": {},
+          "page": { "type": "integer", "minimum": 1 },
+          "quote": { "type": "string", "minLength": 1 },
+          "verdict": {
+            "type": "string",
+            "enum": ["confirmed", "mismatch", "quote-not-found", "value-not-in-quote", "uncertain"]
+          },
+          "note": { "type": "string" }
+        },
+        "required": ["page", "quote", "verdict"]
+      }
+    },
+    "free_text_sources": {
+      "type": "object",
+      "additionalProperties": { "type": "array", "items": { "type": "integer", "minimum": 1 } }
+    },
+    "exceptions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": { "field": { "type": "string" }, "reason": { "type": "string" } },
+        "required": ["field", "reason"]
+      }
+    }
+  },
+  "required": ["product_id", "source_pdf", "batch", "state", "fields"]
+}

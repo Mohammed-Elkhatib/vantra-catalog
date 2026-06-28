@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { test, expect } from "vitest";
 import schema from "../../research_and_planning/schema.json";
-import { createProductValidator, citeRequiredPaths, checkProvenance, checkPlausibility, type Sidecar } from "./data-gate";
+import provenanceSchema from "../../scripts/extract/provenance.schema.json";
+import { createProductValidator, citeRequiredPaths, checkProvenance, checkPlausibility, runGate, createSidecarValidator, type Sidecar, type Violation } from "./data-gate";
 
 const validate = createProductValidator(schema);
 
@@ -114,4 +115,40 @@ test("pending-tds product linking a TDS is flagged", () => {
 test("a clean product yields no plausibility violations", () => {
   const p = { id: "p", specifications: { spec_type: "coating", base_material: "Synthetic Rubber", flame_spread_index: 0 } };
   expect(checkPlausibility(p)).toHaveLength(0);
+});
+
+test("runGate flags a source_verified product with no sidecar", () => {
+  const products = [
+    {
+      id: "c-1",
+      brand_id: "premier",
+      name: "T",
+      product_type: "adhesive",
+      category: "Coatings Adhesives & Sealants",
+      specifications: { spec_type: "coating", product_function: "adhesive", solid_content_pct: 28 },
+      metadata: { verification_status: "source_verified" },
+    },
+  ];
+  const violations: Violation[] = runGate({ products, sidecars: {}, schema, provenanceSchema });
+  expect(violations.some((v) => v.rule === "provenance")).toBe(true);
+});
+
+test("runGate ignores provenance for products that are not source_verified", () => {
+  const products = [
+    {
+      id: "c-2",
+      brand_id: "premier",
+      name: "T",
+      product_type: "adhesive",
+      category: "Coatings Adhesives & Sealants",
+      specifications: { spec_type: "coating", product_function: "adhesive", solid_content_pct: 28 },
+    },
+  ];
+  const violations = runGate({ products, sidecars: {}, schema, provenanceSchema });
+  expect(violations.filter((v) => v.rule === "provenance")).toHaveLength(0);
+});
+
+test("createSidecarValidator rejects a malformed sidecar", () => {
+  const validate = createSidecarValidator(provenanceSchema);
+  expect(validate({ product_id: "c-1" }).length).toBeGreaterThan(0);
 });

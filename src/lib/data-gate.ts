@@ -126,6 +126,59 @@ export function checkPlausibility(product: any): string[] {
   return errs;
 }
 
+export interface Violation {
+  productId: string;
+  rule: "structural" | "provenance" | "plausibility" | "sidecar";
+  message: string;
+}
+
+/** Compiles a validator for a single sidecar document. */
+export function createSidecarValidator(
+  provSchema: unknown
+): (sidecar: unknown) => string[] {
+  const ajv = new Ajv({ allErrors: true, strict: false });
+  addFormats(ajv);
+  const validate = ajv.compile(provSchema as object);
+  return (sidecar: unknown) => {
+    if (validate(sidecar)) return [];
+    return (validate.errors ?? []).map(
+      (e) => `${e.instancePath || "(root)"} ${e.message ?? "invalid"}`
+    );
+  };
+}
+
+/**
+ * Runs the full deterministic gate over a product set. Structural and
+ * plausibility checks apply to every product; provenance applies only to
+ * products marked metadata.verification_status === "source_verified".
+ * Any present sidecar is structurally validated.
+ */
+export function runGate(input: {
+  products: any[];
+  sidecars: Record<string, Sidecar>;
+  schema: any;
+  provenanceSchema: any;
+}): Violation[] {
+  const { products, sidecars, schema, provenanceSchema } = input;
+  const validateProduct = createProductValidator(schema);
+  const validateSidecar = createSidecarValidator(provenanceSchema);
+  const out: Violation[] = [];
+  for (const p of products) {
+    for (const m of validateProduct(p))
+      out.push({ productId: p.id, rule: "structural", message: m });
+    for (const m of checkPlausibility(p))
+      out.push({ productId: p.id, rule: "plausibility", message: m });
+    const sidecar = sidecars[p.id];
+    if (sidecar)
+      for (const m of validateSidecar(sidecar))
+        out.push({ productId: p.id, rule: "sidecar", message: m });
+    if (p.metadata?.verification_status === "source_verified")
+      for (const m of checkProvenance(p, sidecar, schema))
+        out.push({ productId: p.id, rule: "provenance", message: m });
+  }
+  return out;
+}
+
 /** Verifies every cite-required field has a confirmed sidecar entry (or a recorded exception). */
 export function checkProvenance(
   product: any,

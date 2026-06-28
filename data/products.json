@@ -36,13 +36,6 @@
       "final_pressure_drop_in_wg": 2.0,
       "scan_tested": true
     },
-    "certifications": [
-      {
-        "body": "National Air Filtration Association",
-        "abbreviation": "NAFA",
-        "type": "member"
-      }
-    ],
     "documents": [
       {
         "type": "technical_data_sheet",
@@ -94,6 +87,11 @@
         { "code": "FLANGE", "meaning": "Double Turn Flange (DTF) or Box Type (BX)" },
         { "code": "GRADE", "meaning": "EN 1822 Grade (H13 or H14)" }
       ]
+    },
+    "metadata": {
+      "source_pdf": "material/Air Filters - EXCELAIR - UAE/HEPA HT 900.pdf",
+      "last_verified": "2026-06-28",
+      "verification_status": "source_verified"
     }
   },
   {
@@ -808,17 +806,14 @@
       "base_material": "Polychloroprene Synthetic Rubber",
       "colour": "Green / Clear",
       "solid_content_pct": 28,
-      "specific_gravity": 0.88,
+      "specific_gravity": 0.85,
       "service_temp_min_c": -25,
       "service_temp_max_c": 90,
-      "application_temp_min_c": 5,
-      "application_temp_max_c": 40,
       "flash_point": ">10°C",
-      "drying_time_touch_hours": 0.1,
       "coverage_rate": "6.0 - 9.0 m²/liter",
       "shelf_life_months": 18,
-      "water_resistance": "good",
-      "chemical_resistance": "moderate",
+      "water_resistance": "excellent",
+      "chemical_resistance": "excellent",
       "flame_spread_index": 0,
       "smoke_developed_index": 0,
       "application_method": ["brush", "spray"],
@@ -845,6 +840,11 @@
         "url": "/downloads/catalogs/Premier-Normal-Catalogue.pdf",
         "file_size_kb": 1200
       }
-    ]
+    ],
+    "metadata": {
+      "source_pdf": "material/PREMIER - UAE/PREMIER UL/81-10 UL-Duct Adhesive.pdf",
+      "last_verified": "2026-06-28",
+      "verification_status": "source_verified"
+    }
   }
 ]

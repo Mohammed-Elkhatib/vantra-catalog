@@ -1,0 +1,103 @@
+{
+  "product_id": "hepa-ht-900",
+  "source_pdf": "material/Air Filters - EXCELAIR - UAE/HEPA HT 900.pdf",
+  "batch": "dry-run",
+  "state": "merged",
+  "fields": {
+    "specifications.filter_classification_en1822": {
+      "value": "H14",
+      "page": 2,
+      "quote": "Filter Grades (EN 1822)  E12 / H13 / H14",
+      "verdict": "confirmed",
+      "note": "Sheet lists three available grades (E12/H13/H14) in a slash-separated family row; H14 is the third and highest grade listed. Efficiencies are listed in the same slash-separated format mapping to E12/H13/H14 respectively. The selection chart (page 3) confirms H14 units are sold. Value derives from the rightmost grade in the slash-list."
+    },
+    "specifications.mpps_efficiency_pct": {
+      "value": 99.995,
+      "page": 2,
+      "quote": "MPPS Efficiency  ≤ 99.5% / ≤ 99.95% / ≤ 99.995%",
+      "verdict": "confirmed",
+      "note": "Three minimum-efficiency values correspond to E12/H13/H14 respectively; 99.995 is the rightmost (H14) value. Efficiencies are generic to the product family, not stated as a standalone H14-only row."
+    },
+    "specifications.efficiency_at_0_3_micron_pct": {
+      "value": 99.999,
+      "page": 2,
+      "quote": "Efficiency @ 0.3μ  ≤ 99.97% / ≤ 99.99% / 99.999%",
+      "verdict": "confirmed",
+      "note": "Three values correspond to E12/H13/H14 respectively; 99.999 is the rightmost (H14) value. Note the H14 value lacks the ≤ sign that precedes the E12/H13 values — an apparent PDF typesetting inconsistency."
+    },
+    "specifications.construction_type": {
+      "value": "deep_pleat",
+      "page": 2,
+      "quote": "Type  Deep pleat construction",
+      "verdict": "confirmed"
+    },
+    "specifications.max_temperature_f": {
+      "value": 900,
+      "page": 2,
+      "quote": "Maximum Temperature  900°F / 482°C",
+      "verdict": "confirmed"
+    },
+    "specifications.max_temperature_c": {
+      "value": 482,
+      "page": 2,
+      "quote": "Maximum Temperature  900°F / 482°C",
+      "verdict": "confirmed"
+    },
+    "specifications.final_pressure_drop_in_wg": {
+      "value": 2.0,
+      "page": 2,
+      "quote": "Final Pressure Drop  2.00\" wg ( Recommended)",
+      "verdict": "confirmed"
+    },
+    "specifications.scan_tested": {
+      "value": true,
+      "page": 2,
+      "quote": "Each filter is scan tested individually per EN 1822, ensuring a leak proof performance.",
+      "verdict": "confirmed"
+    },
+    "variants.0.performance.airflow_cfm": {
+      "value": 475,
+      "page": 3,
+      "quote": "EHHT900-12x24x12-(DTF/BX)-H14  12  24  11.50  H14  475  805  1.10  77",
+      "verdict": "confirmed"
+    },
+    "variants.0.performance.pressure_drop_in_wg": {
+      "value": 1.10,
+      "page": 3,
+      "quote": "EHHT900-12x24x12-(DTF/BX)-H14  12  24  11.50  H14  475  805  1.10  77",
+      "verdict": "confirmed",
+      "note": "This is the Initial Pressure Drop from the selection chart, not the recommended final pressure drop (2.00 in wg from page 2)."
+    },
+    "variants.0.performance.media_area_sqft": {
+      "value": 77,
+      "page": 3,
+      "quote": "EHHT900-12x24x12-(DTF/BX)-H14  12  24  11.50  H14  475  805  1.10  77",
+      "verdict": "confirmed"
+    },
+    "variants.1.performance.airflow_cfm": {
+      "value": 1000,
+      "page": 3,
+      "quote": "EHHT900-24x24x12-(DTF/BX)-H14  24  24  11.50  H14  1000  1700  1.10  166",
+      "verdict": "confirmed",
+      "note": "Two rows exist for the EHHT900-24x24x12 model reference in the selection chart: (1) actual dims 23.30x23.30x11.50 → CFM=950, media=155; (2) actual dims 24x24x11.50 → CFM=1000, media=166. The 24x24x11.50 row is the correct match for a variant declared as 24x24x11.5 inches. The 23.30x23.30 row represents the same nominal size with tighter actual dimensions."
+    },
+    "variants.1.performance.pressure_drop_in_wg": {
+      "value": 1.10,
+      "page": 3,
+      "quote": "EHHT900-24x24x12-(DTF/BX)-H14  24  24  11.50  H14  1000  1700  1.10  166",
+      "verdict": "confirmed",
+      "note": "Initial Pressure Drop from the selection chart."
+    },
+    "variants.1.performance.media_area_sqft": {
+      "value": 166,
+      "page": 3,
+      "quote": "EHHT900-24x24x12-(DTF/BX)-H14  24  24  11.50  H14  1000  1700  1.10  166",
+      "verdict": "confirmed"
+    }
+  },
+  "free_text_sources": {
+    "description": [2],
+    "features": [2]
+  },
+  "exceptions": []
+}

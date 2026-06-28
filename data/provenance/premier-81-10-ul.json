@@ -1,0 +1,83 @@
+{
+  "product_id": "premier-81-10-ul",
+  "source_pdf": "material/PREMIER - UAE/PREMIER UL/81-10 UL-Duct Adhesive.pdf",
+  "batch": "dry-run",
+  "state": "merged",
+  "fields": {
+    "specifications.product_function": {
+      "value": "adhesive",
+      "page": 1,
+      "quote": "UL Listed Duct Adhesive.",
+      "verdict": "confirmed"
+    },
+    "specifications.solid_content_pct": {
+      "value": 28,
+      "page": 1,
+      "quote": "Solid  28±2  %",
+      "verdict": "confirmed",
+      "note": "Nominal value; ±2% tolerance stated on the datasheet."
+    },
+    "specifications.specific_gravity": {
+      "value": 0.85,
+      "page": 1,
+      "quote": "Specific Gravity  0.85±.10  kg/l",
+      "verdict": "confirmed",
+      "note": "Nominal value; ±0.10 tolerance stated on the datasheet."
+    },
+    "specifications.service_temp_min_c": {
+      "value": -25,
+      "page": 1,
+      "quote": "Service Temperature  -25°C to 90°C",
+      "verdict": "confirmed"
+    },
+    "specifications.service_temp_max_c": {
+      "value": 90,
+      "page": 1,
+      "quote": "Service Temperature  -25°C to 90°C",
+      "verdict": "confirmed"
+    },
+    "specifications.shelf_life_months": {
+      "value": 18,
+      "page": 2,
+      "quote": "18 months from date of manufacturing in an original unopened container.",
+      "verdict": "confirmed"
+    },
+    "specifications.water_resistance": {
+      "value": "excellent",
+      "page": 1,
+      "quote": "It has excellent water and alkali resistance",
+      "verdict": "confirmed"
+    },
+    "specifications.chemical_resistance": {
+      "value": "excellent",
+      "page": 1,
+      "quote": "Chemical Resistance  Excellent",
+      "verdict": "confirmed"
+    },
+    "specifications.flame_spread_index": {
+      "value": 0,
+      "page": 1,
+      "quote": "Surface Flame Spread  0",
+      "verdict": "confirmed"
+    },
+    "specifications.smoke_developed_index": {
+      "value": 0,
+      "page": 1,
+      "quote": "Smoked Developed  0",
+      "verdict": "confirmed",
+      "note": "PDF uses the spelling 'Smoked Developed' (not 'Smoke Developed'); quote is an exact match to the PDF text."
+    },
+    "certifications.0": {
+      "value": "R-27945",
+      "page": 1,
+      "quote": "COATING GENERAL PURPOSE  R-27945",
+      "verdict": "confirmed",
+      "note": "UL listing number from the Underwriters Laboratories Building Materials Directory table reproduced on the datasheet. Full context: 'PREMIER 81-10 UL is produced under the classification and follow up service of Underwriters Laboratory, Inc.' The UL Classified mark logo also appears in the top-right corner of the datasheet. This is a genuine product classification, unlike the IAQA/NAFA membership logos on the HEPA sheet."
+    }
+  },
+  "free_text_sources": {
+    "description": [1],
+    "features": [1]
+  },
+  "exceptions": []
+}

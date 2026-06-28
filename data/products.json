@@ -66,9 +66,9 @@
           "depth_in": 11.5
         },
         "performance": {
-          "airflow_cfm": 240,
-          "pressure_drop_in_wg": 1.0,
-          "media_area_sqft": 39
+          "airflow_cfm": 475,
+          "pressure_drop_in_wg": 1.1,
+          "media_area_sqft": 77
         }
       },
       {
@@ -79,9 +79,9 @@
           "depth_in": 11.5
         },
         "performance": {
-          "airflow_cfm": 525,
-          "pressure_drop_in_wg": 1.0,
-          "media_area_sqft": 83
+          "airflow_cfm": 1000,
+          "pressure_drop_in_wg": 1.1,
+          "media_area_sqft": 166
         }
       }
     ],
@@ -144,7 +144,11 @@
         "url": "/downloads/catalogs/Airfilters_list.pdf",
         "file_size_kb": 4470
       }
-    ]
+    ],
+    "metadata": {
+      "verification_status": "representative_pending_tds",
+      "notes": "Name confirmed in the Excelair catalogue index; individual TDS not in the source set, so spec values are representative and not source-verified. TDS requested from client."
+    }
   },
   {
     "id": "hepa-sc",
@@ -194,7 +198,11 @@
         "url": "/downloads/catalogs/Airfilters_list.pdf",
         "file_size_kb": 4470
       }
-    ]
+    ],
+    "metadata": {
+      "verification_status": "representative_pending_tds",
+      "notes": "Name confirmed in the Excelair catalogue index; individual TDS not in the source set, so spec values are representative and not source-verified. TDS requested from client."
+    }
   },
   {
     "id": "aluminum-pre-filter",
@@ -232,7 +240,11 @@
         "url": "/downloads/catalogs/Airfilters_list.pdf",
         "file_size_kb": 4470
       }
-    ]
+    ],
+    "metadata": {
+      "verification_status": "representative_pending_tds",
+      "notes": "Name confirmed in the Excelair catalogue index; individual TDS not in the source set, so spec values are representative and not source-verified. TDS requested from client."
+    }
   },
   {
     "id": "super-pleat-merv-13",
@@ -279,7 +291,11 @@
         "url": "/downloads/catalogs/Airfilters_list.pdf",
         "file_size_kb": 4470
       }
-    ]
+    ],
+    "metadata": {
+      "verification_status": "representative_pending_tds",
+      "notes": "Name confirmed in the Excelair catalogue index; individual TDS not in the source set, so spec values are representative and not source-verified. TDS requested from client."
+    }
   },
   {
     "id": "vcell-fg-3v",
@@ -327,7 +343,11 @@
         "url": "/downloads/catalogs/Airfilters_list.pdf",
         "file_size_kb": 4470
       }
-    ]
+    ],
+    "metadata": {
+      "verification_status": "representative_pending_tds",
+      "notes": "Name confirmed in the Excelair catalogue index; individual TDS not in the source set, so spec values are representative and not source-verified. TDS requested from client."
+    }
   },
   {
     "id": "cacu-carbon",
@@ -365,7 +385,11 @@
         "url": "/downloads/catalogs/Airfilters_list.pdf",
         "file_size_kb": 4470
       }
-    ]
+    ],
+    "metadata": {
+      "verification_status": "representative_pending_tds",
+      "notes": "Name confirmed in the Excelair catalogue index; individual TDS not in the source set, so spec values are representative and not source-verified. TDS requested from client."
+    }
   },
   {
     "id": "efd-140",
@@ -396,7 +420,7 @@
       "construction_material": "galvanized_steel",
       "velocity_rating_fpm_max": 2000,
       "pressure_rating_wg_max": 4.0,
-      "temperature_rating_f": 165,
+      "temperature_rating_f": 250,
       "shape": "rectangular"
     },
     "certifications": [
@@ -405,12 +429,6 @@
         "abbreviation": "UL",
         "standard": "UL 555",
         "type": "classified"
-      },
-      {
-        "body": "IFC Certification",
-        "abbreviation": "IFC",
-        "standard": "BS 476: Part 24",
-        "type": "certified"
       }
     ],
     "documents": [
@@ -429,10 +447,10 @@
     "product_type": "fire_smoke_damper",
     "category": "Dampers",
     "subcategory": "Fire Smoke Dampers",
-    "description": "3-hour rated combination fire and smoke damper featuring Class II low leakage airfoil blades, dynamic system rating, and high-temperature motorized-spring actuation.",
+    "description": "3-hour rated combination fire and smoke damper featuring Class II low leakage V-lock blades, dynamic system rating, and high-temperature motorized-spring actuation.",
     "features": [
       "UL 555 3-hour fire rating & UL 555S Class II leakage rating",
-      "Aero-foil blades minimize pressure drop and operational noise",
+      "Interlocking V-lock blades close tightly for Class II low-leakage performance",
       "Equipped with Belimo high-temperature spring-return actuator",
       "Handles high velocity (4000 FPM) and high pressure dynamic closures"
     ],
@@ -445,7 +463,7 @@
       "spec_type": "damper",
       "damper_function": "fire_smoke",
       "fire_rating_hours": 3.0,
-      "blade_type": "airfoil",
+      "blade_type": "v_lock",
       "leakage_class": "II",
       "system_type": "dynamic",
       "actuation": "motorized_spring",
@@ -461,11 +479,6 @@
         "abbreviation": "UL",
         "standard": "UL 555 / UL 555S",
         "type": "classified"
-      },
-      {
-        "body": "Air Movement and Control Association",
-        "abbreviation": "AMCA",
-        "type": "certified"
       }
     ],
     "documents": [
@@ -546,32 +559,21 @@
     "description": "Configurable multi-stage kitchen exhaust pollution control housing designed to eliminate grease, smoke, and food prep odors.",
     "features": [
       "5-stage filtration layout: ESP → Pre-Filters → Fine/Bag → Carbon → HEPA",
-      "Removes minimum 95% of exhaust oil & grease",
-      "Custom airflow configuration ranging from 500 to 60,000 CFM",
-      "Full integration support with BMS and kitchen fire alarm systems"
+      "Multi-stage capture of grease, smoke, and odour from kitchen exhaust",
+      "Custom airflow configuration ranging from 500 to 40,000 CFM",
+      "Optional fire damper, VFD, and emergency shut-off controls"
     ],
     "applications": [
-      "Food Processing",
-      "Hospitality"
+      "Hospitality",
+      "Commercial HVAC",
+      "Hospital"
     ],
     "specifications": {
       "spec_type": "filter",
       "filter_media": "Multi-stage Electrostatic + Mechanical Filter Stack",
-      "frame_material": "Heavy Gauge Galvanized Iron Case",
-      "construction_type": "roll",
-      "max_temperature_f": 180,
-      "max_temperature_c": 82,
-      "final_pressure_drop_in_wg": 1.5,
+      "frame_material": "Pre-coated double-skin panels with PUF insulation on an aluminum extruded-profile frame (GI mounting rails)",
       "scan_tested": false
     },
-    "certifications": [
-      {
-        "body": "Underwriters Laboratories",
-        "abbreviation": "UL",
-        "standard": "UL 710",
-        "type": "member"
-      }
-    ],
     "documents": [
       {
         "type": "catalog",
@@ -581,12 +583,12 @@
       }
     ],
     "model_numbering_scheme": {
-      "pattern": "ECO-[AIRFLOW]-[STAGES]-[ACCESS]",
+      "pattern": "ECO-[AIRFLOW]-[STAGES]-[TYPE]",
       "segments": [
         { "code": "ECO", "meaning": "Ecology Unit Series" },
         { "code": "AIRFLOW", "meaning": "CFM rating divided by 1000 (e.g. 10 = 10,000 CFM)" },
         { "code": "STAGES", "meaning": "Filtration stages combination (A to E)" },
-        { "code": "ACCESS", "meaning": "Service access: Custom (C) or Standard (S)" }
+        { "code": "TYPE", "meaning": "Filtration type: Standard filtration only (S) or Customized with options (C)" }
       ]
     }
   },
@@ -677,17 +679,17 @@
       "spec_type": "coating",
       "product_function": "vapour_barrier",
       "base_material": "Aqueous Copolymer Emulsion",
-      "colour": "Grey / White",
-      "solid_content_pct": 65,
+      "colour": "White",
+      "solid_content_pct": 62,
       "specific_gravity": 1.39,
       "service_temp_min_c": -18,
       "service_temp_max_c": 120,
       "application_temp_min_c": 10,
       "application_temp_max_c": 40,
       "flash_point": ">100°C",
-      "voc_content_g_l": 0.05,
-      "drying_time_touch_hours": 2.0,
-      "coverage_rate": "1.0 - 1.5 m²/liter",
+      "voc_content_g_l": 0.01,
+      "drying_time_touch_hours": 0.75,
+      "coverage_rate": "1.5 - 2.5 m²/liter",
       "shelf_life_months": 18,
       "water_resistance": "excellent",
       "chemical_resistance": "good",
@@ -705,6 +707,12 @@
       }
     ],
     "documents": [
+      {
+        "type": "technical_data_sheet",
+        "title": "Premier VB-95 UL Datasheet",
+        "url": "/downloads/tds/Premier_VB_95_UL.pdf",
+        "file_size_kb": 886
+      },
       {
         "type": "catalog",
         "title": "Premier Coatings Catalogue",
@@ -797,25 +805,40 @@
     "specifications": {
       "spec_type": "coating",
       "product_function": "adhesive",
-      "base_material": "Polychloroprene Solvent-based Rubber",
+      "base_material": "Polychloroprene Synthetic Rubber",
       "colour": "Green / Clear",
-      "solid_content_pct": 24,
+      "solid_content_pct": 28,
       "specific_gravity": 0.88,
       "service_temp_min_c": -25,
       "service_temp_max_c": 90,
       "application_temp_min_c": 5,
       "application_temp_max_c": 40,
-      "flash_point": "-20°C",
-      "voc_content_g_l": 450,
+      "flash_point": ">10°C",
       "drying_time_touch_hours": 0.1,
       "coverage_rate": "6.0 - 9.0 m²/liter",
-      "shelf_life_months": 12,
+      "shelf_life_months": 18,
       "water_resistance": "good",
       "chemical_resistance": "moderate",
+      "flame_spread_index": 0,
+      "smoke_developed_index": 0,
       "application_method": ["brush", "spray"],
       "packing": "5 US Gallon Pails"
     },
+    "certifications": [
+      {
+        "body": "Underwriters Laboratories",
+        "abbreviation": "UL",
+        "listing_number": "R-27945",
+        "type": "listed"
+      }
+    ],
     "documents": [
+      {
+        "type": "technical_data_sheet",
+        "title": "Premier 81-10 UL Datasheet",
+        "url": "/downloads/tds/Premier_81_10_UL.pdf",
+        "file_size_kb": 882
+      },
       {
         "type": "catalog",
         "title": "Premier Coatings Catalogue",

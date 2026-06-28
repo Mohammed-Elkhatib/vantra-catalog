@@ -50,6 +50,10 @@ roadmap, not built. Deep context lives in `research_and_planning/` (start with `
 - `src/types/catalog.ts` defines `Product` and the `ProductSpecification` **discriminated union** keyed on
   `spec_type`: `'filter' | 'damper' | 'sound_attenuator' | 'coating'`. Always switch on `spec_type` first.
   Mirrors `research_and_planning/schema.json` 1:1 for a clean later CMS import.
+- `Product.metadata` is an **internal, never-rendered** provenance block (`verification_status`, `source_pdf`,
+  `notes`, …). Six filters whose individual TDS was never provided carry
+  `metadata.verification_status: "representative_pending_tds"`; a `catalog.test.ts` guard forbids a pending-TDS
+  product from linking a `technical_data_sheet`. Provenance/findings live in `research_and_planning/DATA_VERIFICATION.md`.
 
 ### Logic layer (`src/lib`, all unit-tested)
 - `catalog-filter.ts` — pure `filterProducts` + `computeFacetCounts` (one shared `matchesSearch`, so counts

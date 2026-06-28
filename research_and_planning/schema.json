@@ -146,10 +146,13 @@
         },
         "metadata": {
           "type": "object",
+          "description": "Internal provenance/verification notes; never rendered in the UI.",
           "properties": {
             "catalog_year": { "type": "integer" },
             "source_pdf": { "type": "string" },
-            "last_verified": { "type": "string", "format": "date" }
+            "last_verified": { "type": "string", "format": "date" },
+            "verification_status": { "type": "string", "enum": ["source_verified", "representative_pending_tds"] },
+            "notes": { "type": "string" }
           }
         }
       },

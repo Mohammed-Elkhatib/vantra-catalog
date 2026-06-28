@@ -56,6 +56,18 @@ test("a UL listing number is never shared across different product categories", 
     expect(cats.size, `listing ${num} reused across categories: ${[...cats].join(", ")}`).toBe(1);
 });
 
+test("products flagged representative_pending_tds never link a technical_data_sheet", () => {
+  // We do not hold the TDS for these products, so we must not present one as theirs.
+  for (const p of all) {
+    if (p.metadata?.verification_status === "representative_pending_tds") {
+      const hasTds = (p.documents ?? []).some(
+        (d: any) => d.type === "technical_data_sheet"
+      );
+      expect(hasTds, `${p.id} is pending-TDS but links a technical_data_sheet`).toBe(false);
+    }
+  }
+});
+
 test("solvent-based coatings do not claim a zero flame-spread index", () => {
   for (const p of all) {
     const s = p.specifications;

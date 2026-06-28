@@ -179,4 +179,14 @@ export interface Product {
       meaning: string;
     }[];
   };
+  // Internal provenance/verification notes. Never rendered in the UI; carried
+  // through to a future CMS import. `representative_pending_tds` flags products
+  // whose individual datasheet was not in the source set (specs unverified).
+  metadata?: {
+    catalog_year?: number;
+    source_pdf?: string;
+    last_verified?: string;
+    verification_status?: 'source_verified' | 'representative_pending_tds';
+    notes?: string;
+  };
 }

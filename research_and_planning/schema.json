@@ -120,7 +120,7 @@
           "items": {
             "type": "object",
             "properties": {
-              "url": { "type": "string", "format": "uri" },
+              "url": { "type": "string", "format": "uri-reference" },
               "alt": { "type": "string" },
               "type": { "type": "string", "enum": ["hero", "thumbnail", "technical_drawing", "installation"] }
             },
@@ -168,11 +168,11 @@
         "performance": {
           "type": "object",
           "properties": {
-            "airflow_cfm": { "type": "number" },
-            "airflow_cmh": { "type": "number" },
-            "pressure_drop_in_wg": { "type": "number" },
-            "media_area_sqft": { "type": "number" },
-            "velocity_fpm": { "type": "number" }
+            "airflow_cfm": { "type": "number", "minimum": 0 },
+            "airflow_cmh": { "type": "number", "minimum": 0 },
+            "pressure_drop_in_wg": { "type": "number", "minimum": 0 },
+            "media_area_sqft": { "type": "number", "minimum": 0 },
+            "velocity_fpm": { "type": "number", "minimum": 0 }
           }
         },
         "specifications_override": {
@@ -202,17 +202,17 @@
         "spec_type": { "const": "filter" },
         "filter_classification_en1822": { "type": "string", "enum": ["E10", "E11", "E12", "H13", "H14", "U15", "U16", "U17"] },
         "merv_rating": { "type": "integer", "minimum": 1, "maximum": 20 },
-        "mpps_efficiency_pct": { "type": "number" },
-        "efficiency_at_0_3_micron_pct": { "type": "number" },
+        "mpps_efficiency_pct": { "type": "number", "minimum": 0, "maximum": 100 },
+        "efficiency_at_0_3_micron_pct": { "type": "number", "minimum": 0, "maximum": 100 },
         "filter_media": { "type": "string" },
         "media_separator": { "type": "string" },
         "frame_material": { "type": "string" },
         "media_sealant": { "type": "string" },
         "gasket_type": { "type": "string" },
         "construction_type": { "type": "string", "enum": ["deep_pleat", "mini_pleat", "v_cell", "bag", "panel", "rigid_cell", "pad", "roll"] },
-        "max_temperature_f": { "type": "number" },
-        "max_temperature_c": { "type": "number" },
-        "final_pressure_drop_in_wg": { "type": "number" },
+        "max_temperature_f": { "type": "number", "minimum": -50, "maximum": 1200 },
+        "max_temperature_c": { "type": "number", "minimum": -50, "maximum": 650 },
+        "final_pressure_drop_in_wg": { "type": "number", "minimum": 0, "maximum": 5 },
         "scan_tested": { "type": "boolean", "description": "Individual leak-test per EN 1822" }
       },
       "required": ["spec_type"]
@@ -233,7 +233,7 @@
         "velocity_rating_fpm_max": { "type": "number" },
         "pressure_rating_wg_min": { "type": "number" },
         "pressure_rating_wg_max": { "type": "number" },
-        "temperature_rating_f": { "type": "number" },
+        "temperature_rating_f": { "type": "number", "minimum": 0, "maximum": 2000 },
         "shape": { "type": "string", "enum": ["rectangular", "round"] },
         "style": { "type": "string", "description": "For curtain dampers: A, B, or C" }
       },
@@ -288,24 +288,24 @@
         "product_function": { "type": "string", "enum": ["duct_coating", "vapour_barrier", "adhesive", "sealant", "foam_glue", "anti_fungal"] },
         "base_material": { "type": "string" },
         "colour": { "type": "string" },
-        "density_gm_cc": { "type": "number" },
+        "density_gm_cc": { "type": "number", "minimum": 0 },
         "viscosity_cps": { "type": "string" },
-        "solid_content_pct": { "type": "number" },
-        "specific_gravity": { "type": "number" },
+        "solid_content_pct": { "type": "number", "minimum": 0, "maximum": 100 },
+        "specific_gravity": { "type": "number", "minimum": 0 },
         "service_temp_min_c": { "type": "number" },
         "service_temp_max_c": { "type": "number" },
         "application_temp_min_c": { "type": "number" },
         "application_temp_max_c": { "type": "number" },
         "flash_point": { "type": "string" },
-        "voc_content_g_l": { "type": "number" },
-        "drying_time_touch_hours": { "type": "number" },
-        "drying_time_thorough_hours": { "type": "number" },
+        "voc_content_g_l": { "type": "number", "minimum": 0 },
+        "drying_time_touch_hours": { "type": "number", "minimum": 0 },
+        "drying_time_thorough_hours": { "type": "number", "minimum": 0 },
         "coverage_rate": { "type": "string" },
-        "shelf_life_months": { "type": "integer" },
+        "shelf_life_months": { "type": "integer", "minimum": 0 },
         "water_resistance": { "type": "string", "enum": ["excellent", "good", "moderate"] },
         "chemical_resistance": { "type": "string", "enum": ["excellent", "good", "moderate"] },
-        "flame_spread_index": { "type": "integer" },
-        "smoke_developed_index": { "type": "integer" },
+        "flame_spread_index": { "type": "integer", "minimum": 0, "maximum": 200 },
+        "smoke_developed_index": { "type": "integer", "minimum": 0, "maximum": 450 },
         "application_method": { "type": "array", "items": { "type": "string" } },
         "packing": { "type": "string" }
       },
@@ -436,7 +436,7 @@
       "properties": {
         "type": { "type": "string", "enum": ["technical_data_sheet", "catalog", "installation_guide", "selection_chart", "cad_drawing", "bim_file", "test_report"] },
         "title": { "type": "string" },
-        "url": { "type": "string", "format": "uri" },
+        "url": { "type": "string", "format": "uri-reference" },
         "file_size_kb": { "type": "integer" },
         "language": { "type": "string", "default": "en" }
       },

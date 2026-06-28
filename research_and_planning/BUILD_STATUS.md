@@ -2,8 +2,8 @@
 
 **Living document.** This is the single place to resume from if the conversation context is lost.
 Last updated: 2026-06-28. **Status: all six phases complete; `feat/demo-build` merged to `main`.**
-Data-verification epic also done (fixes applied; see the 2026-06-28 note below). 24 tests pass, lint clean,
-build green, responsive verified.
+Data-verification epic also done (fixes applied; see the 2026-06-28 note below). Extraction pipeline + data
+gate built and dry-run-proven (Tasks 1-7). **38 tests pass**, lint clean, build green, responsive verified.
 
 **2026-06-28 - CMS Global audit re-verified.** The competitor audit in `CMS_WEBSITE_AUDIT.md` was
 independently re-checked against the live site (real browser: network, console, headers, computed styles).
@@ -68,6 +68,15 @@ kept and flagged in-data via a new non-rendering `Product.metadata.verification_
 `public/downloads/tds/` and linked. Full applied-list in `DATA_VERIFICATION.md` ("Status: fixes applied").
 **Deferred (demo-acceptable):** Low items 6-8 (storage-temp relabel, csa insertion-loss caveat, minor
 base_material/colour). **Open (client):** the 3 asks below.
+
+**2026-06-28 - Catalog extraction pipeline + data gate built (Tasks 1-7 DONE).** Built the deterministic pipeline for adding products from PDFs: a structural + provenance gate in `src/lib/data-gate.ts` (ajv-backed; validates each product against `schema.json`, enforces provenance for `source_verified` products, runs shared plausibility rules); a provenance sidecar format at `data/provenance/<id>.json` validated by `scripts/extract/provenance.schema.json`; a thin driver `scripts/extract/driver.mjs` (scaffold / status / gate); and the operator runbook `scripts/extract/PROTOCOL.md`. New dev dependencies: `ajv`, `ajv-formats`. Test suite grew from 24 to **38 passing**; build green throughout.
+
+Dry run on two products surfaced real, previously undetected corrections:
+
+- **hepa-ht-900**: all 15 spec/performance values reproduced exactly from the TDS; gate passed clean. The NAFA "member" entry was removed from `certifications` (a distributor association logo, not a product certification). Product marked `source_verified`.
+- **premier-81-10-ul**: the gate caught 5 values the prior manual data-verification epic had not checked: `specific_gravity` 0.88 -> 0.85; `water_resistance` good -> excellent; `chemical_resistance` moderate -> excellent; `application_temp_min_c`/`application_temp_max_c` removed (no application temperature on the TDS); `drying_time_touch_hours` removed (not on the TDS). All fields the manual epic had already fixed (solids, flash point, shelf life, flame/smoke indices, UL R-27945) were confirmed correct. Product marked `source_verified`.
+
+Bulk extraction of the remaining ~155 products is the ongoing post-demo work this pipeline enables.
 
 ### Next-session queue (updated 2026-06-28)
 

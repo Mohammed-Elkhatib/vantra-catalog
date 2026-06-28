@@ -54,6 +54,16 @@ roadmap, not built. Deep context lives in `research_and_planning/` (start with `
   `notes`, …). Six filters whose individual TDS was never provided carry
   `metadata.verification_status: "representative_pending_tds"`; a `catalog.test.ts` guard forbids a pending-TDS
   product from linking a `technical_data_sheet`. Provenance/findings live in `research_and_planning/DATA_VERIFICATION.md`.
+- **Extraction pipeline / data gate.** New products are added from catalog PDFs via the protocol in
+  `scripts/extract/PROTOCOL.md` (extract subagent, then a separate verify subagent). Every
+  cite-required value (numerics, enums, certifications, variant performance) is recorded in a
+  provenance sidecar `data/provenance/<id>.json` with `{page, quote, verdict}`. The deterministic gate
+  lives in `src/lib/data-gate.ts` (pure; server/test-only; ajv-backed) and runs in the Vitest suite:
+  it validates each product against `schema.json`, enforces provenance for products marked
+  `metadata.verification_status: "source_verified"`, validates any present sidecar against
+  `scripts/extract/provenance.schema.json`, and applies the shared domain-plausibility rules
+  (`checkPlausibility`). `scripts/extract/driver.mjs` scaffolds sidecars and runs the gate. New deps:
+  `ajv`, `ajv-formats` (dev).
 
 ### Logic layer (`src/lib`, all unit-tested)
 - `catalog-filter.ts` — pure `filterProducts` + `computeFacetCounts` (one shared `matchesSearch`, so counts

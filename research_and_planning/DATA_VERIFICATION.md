@@ -254,6 +254,22 @@ catalogue, Premier -> the Premier coatings catalogue, and the three published TD
 **Remaining (open):** the three Low/nuance items (6-8 below) are deliberately left for the demo; the three client
 asks ("What to request from the client") are still pending the client meeting.
 
+## Extraction-pipeline dry run (2026-06-28)
+
+The automated extraction pipeline (`scripts/extract/PROTOCOL.md`, gate in `src/lib/data-gate.ts`)
+independently re-verified two products after the manual epic was closed:
+
+- **hepa-ht-900**: all 15 spec/performance values reproduced from the TDS exactly; gate passed with no
+  corrections. The NAFA "member" entry was removed from `certifications` -- it was a distributor
+  association membership shown as a logo on the TDS, not a product-level certification.
+- **premier-81-10-ul**: the pipeline caught 5 residual values the manual epic had not checked (it
+  focused on the base-material / UL / flame-smoke mischaracterization): `specific_gravity` 0.88 -> 0.85;
+  `water_resistance` good -> excellent; `chemical_resistance` moderate -> excellent;
+  `application_temp_min_c`/`application_temp_max_c` removed (no application temperature on the TDS);
+  `drying_time_touch_hours` removed (not on the TDS). All fields the manual epic had fixed (solids,
+  flash point, shelf life, flame/smoke indices, UL R-27945) were confirmed correct. Both products are
+  now marked `metadata.verification_status: "source_verified"`.
+
 ## What to request from the client (open items, plain language)
 
 **What a TDS is.** A **TDS (Technical Data Sheet)** is the manufacturer's official one- or two-page spec sheet for a

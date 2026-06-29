@@ -1,7 +1,7 @@
 # Build Status & Handoff: Vantra Catalog Demo
 
 **Living document.** This is the single place to resume from if the conversation context is lost.
-Last updated: 2026-06-28. **Status: all six phases complete; `feat/demo-build` merged to `main`.**
+Last updated: 2026-06-29. **Status: all six phases complete; `feat/demo-build` merged to `main`.**
 Data-verification epic also done (fixes applied; see the 2026-06-28 note below). Extraction pipeline + data
 gate built and dry-run-proven (Tasks 1-7). **38 tests pass**, lint clean, build green, responsive verified.
 
@@ -96,6 +96,31 @@ roadmap items (expand toward ~170 products, Sanity CMS migration, real contact b
 **Client asks (for the meeting, see `CLIENT_MEETING_BRIEF.md`):** (1) the 6 missing filter TDS; (2) confirm whether
 the ecology *unit* is UL 710 listed or only its filters are "UL Listed" (we dropped the unit-level UL claim until
 confirmed); (3) any dedicated Premier UL catalogue.
+
+### Post-demo repo migration (deferred backlog item)
+
+The public catalog repo currently carries internal-only content and binary assets in git history. Clean this up
+**after the demo**, done as a **fresh-repo migration** (not in-place history surgery), so the public repo starts
+without the internal material in its history at all.
+
+What moves:
+
+1. **Internal docs and source material -> a private repo.** `material/` (source catalog PDFs, in-repo but never
+   served) and `research_and_planning/` (briefs, design strategy, verification notes, deep-dive) are not part of
+   the shipped product and should not live in the public repo.
+2. **Served PDFs -> object storage.** Stop committing the served `public/downloads/{tds,catalogs}/` binaries into
+   git; host them in object storage and reference each by URL from `documents[].url`, so the public repo stays
+   lean and binary-free.
+
+Open questions (undecided - resolve during a brainstorm before doing this):
+
+- **Object-storage target** (e.g. S3 / Cloudflare R2 / a CDN) - nothing chosen yet.
+- **Private-repo layout** - a true separate repo vs a submodule/sibling checkout.
+- **History scrub** - whether to scrub `material/` (and the binaries) out of the existing public history, or just
+  stop carrying them going forward in the new repo.
+
+This is non-trivial multi-file/infra work; run it through the brainstorm-first workflow rather than ad hoc.
+Cross-session memory also records this in `vantra-catalog-demo` (kept in sync with this entry).
 
 **Minimal context needed to resume:** this file + `research_and_planning/DATA_VERIFICATION.md` + `data/products.json`
 (+ the specific `material/` PDF for whichever item you tackle). Nothing from the website-audit phase is needed for

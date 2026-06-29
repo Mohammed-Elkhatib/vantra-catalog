@@ -48,6 +48,12 @@ front of the client.
   `/v2/products/[slug]`, `/v2/contact`) and its own nested layout.
 - A nested `src/app/v2/layout.tsx` provides the CMS header/footer and font, and wraps its subtree in
   `data-theme="cms"`.
+- **Root-layout split (required).** The current `src/app/layout.tsx` renders Design A's header/footer
+  for *every* route, so `/v2` would render both chromes. To fix this cleanly, the existing Design A
+  pages move into a `(site)` route group with its own `(site)/layout.tsx` holding the A chrome, and
+  the root `layout.tsx` slims to just `<html>`/`<body>` + fonts + metadata base. Route groups do
+  **not** change URLs, so `/`, `/products`, `/contact` are byte-identical in output; only file
+  locations change. This is the lone structural touch to Design A.
 - A small **A↔B switcher** (a labeled link in each header, e.g. "View: A | B") lets the presenter
   jump between `/` and the equivalent `/v2` page during the demo.
 
@@ -106,8 +112,11 @@ hardcoded `bg-white` / `var(--color-signal)` usages must be checked).
 | `src/components/v2/ThemeSwitcher.tsx` | A↔B switcher link (shared, also added to Design A header) |
 | `public/v2/*` | Royalty-free domain-true imagery (see §7) |
 
-**Edited:** `src/app/globals.css` (add scoped theme block), `src/app/fonts.ts` (register the
-Avenir-stand-in font), `src/app/layout.tsx` (add the A↔B switcher link), `CLAUDE.md` (document `/v2`).
+**Edited / moved:** `src/app/globals.css` (add scoped theme block), `src/app/fonts.ts` (register the
+Avenir-stand-in font), `src/app/layout.tsx` (slim to `<html>`/`<body>` + fonts), new
+`src/app/(site)/layout.tsx` (the moved Design A chrome + the A↔B switcher), the existing
+`page.tsx` / `products/` / `contact/` moved under `src/app/(site)/` (URLs unchanged), `CLAUDE.md`
+(document `/v2`, the route-group split, and the theming mechanism).
 
 ## 6. Design B visual direction
 
@@ -185,7 +194,13 @@ All four `/v2` routes, in value order for the demo:
 ## 10. Testing & definition of done
 
 - Data / logic / data-gate tests unchanged and still green (`npm run test`).
-- Add a light smoke test asserting the four `/v2` routes render without error.
+- **`npm run build` is the render smoke test.** Next.js statically generates the `/v2` home, the
+  `/v2/products/[slug]` detail pages (SSG via `generateStaticParams`), and `/v2/contact` at build
+  time, executing those components; a render error fails the build. (`/v2/products` is dynamic on
+  search params, so it is compiled but not pre-rendered — its logic is the already-tested
+  `catalog-filter`.) No new component-render test infra (jsdom/RTL) is added, matching the project's
+  existing pure-function + data-integrity test style; importing page modules directly in Vitest is
+  not viable because they pull in `next/font`, which only runs inside the Next build.
 - `npm run build` (production build + typecheck + lint) passes — the main correctness gate.
 - `/v2` carries `robots: noindex` metadata so the demo creates no duplicate-content (the exact issue
   the audit dings CMS for).

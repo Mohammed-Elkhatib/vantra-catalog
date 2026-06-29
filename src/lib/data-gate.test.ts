@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { test, expect } from "vitest";
-import schema from "../../research_and_planning/schema.json";
+import schema from "../../data/schema.json";
 import provenanceSchema from "../../scripts/extract/provenance.schema.json";
 import { createProductValidator, citeRequiredPaths, checkProvenance, checkPlausibility, runGate, createSidecarValidator, type Sidecar, type Violation } from "./data-gate";
 

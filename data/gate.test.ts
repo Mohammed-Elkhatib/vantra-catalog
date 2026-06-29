@@ -2,7 +2,7 @@ import { test, expect } from "vitest";
 import fs from "node:fs";
 import path from "node:path";
 import products from "./products.json";
-import schema from "../research_and_planning/schema.json";
+import schema from "./schema.json";
 import provenanceSchema from "../scripts/extract/provenance.schema.json";
 import { runGate, type Sidecar } from "@/lib/data-gate";
 

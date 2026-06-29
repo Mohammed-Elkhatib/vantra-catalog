@@ -12,8 +12,9 @@ PDF-bound, gated, slow experience.
 
 Current state is a **demo-ready MVP**: a curated, fact-checked dataset of **15 representative products**
 (of ~170 catalogued). No live backend yet — the contact form is a mock submit; a CMS and AI features are
-roadmap, not built. Deep context lives in `research_and_planning/` (start with `PROJECT_EXPLAINER.md`,
-`CLIENT_BRIEF.md`, `DESIGN_STRATEGY.md`, and `BUILD_STATUS.md`).
+roadmap, not built. Deep context lives in the **local-only** `research_and_planning/` directory (internal
+notes — gitignored, not committed to this repo). Start with its `INDEX.md`, which maps every doc and flags
+which is authoritative on contested points.
 
 ## Commands
 
@@ -49,7 +50,12 @@ roadmap, not built. Deep context lives in `research_and_planning/` (start with `
   component. The `Brand` and `Category` interfaces are defined here, **not** in `catalog.ts`.
 - `src/types/catalog.ts` defines `Product` and the `ProductSpecification` **discriminated union** keyed on
   `spec_type`: `'filter' | 'damper' | 'sound_attenuator' | 'coating'`. Always switch on `spec_type` first.
-  Mirrors `research_and_planning/schema.json` 1:1 for a clean later CMS import.
+  `data/schema.json` is the forward-looking schema for a clean later CMS import: it defines the full
+  10-`spec_type` universe (the 4 above plus `flex_connector | flex_duct | ecology_unit | air_outlet | tape |
+  generic`). The TS union implements only the 4 currently in use — adding a new product family means adding
+  its TS interface and wiring `DynamicSpecs.tsx` + `FilterSidebar.tsx`. (Note: `data/schema.json` is a build
+  artifact — `data/gate.test.ts` and `src/lib/data-gate.test.ts` import it — so it stays committed even though
+  the rest of the planning docs do not.)
 - `Product.metadata` is an **internal, never-rendered** provenance block (`verification_status`, `source_pdf`,
   `notes`, …). Six filters whose individual TDS was never provided carry
   `metadata.verification_status: "representative_pending_tds"`; a `catalog.test.ts` guard forbids a pending-TDS
@@ -59,7 +65,7 @@ roadmap, not built. Deep context lives in `research_and_planning/` (start with `
   cite-required value (numerics, enums, certifications, variant performance) is recorded in a
   provenance sidecar `data/provenance/<id>.json` with `{page, quote, verdict}`. The deterministic gate
   lives in `src/lib/data-gate.ts` (pure; server/test-only; ajv-backed) and runs in the Vitest suite:
-  it validates each product against `schema.json`, enforces provenance for products marked
+  it validates each product against `data/schema.json`, enforces provenance for products marked
   `metadata.verification_status: "source_verified"`, validates any present sidecar against
   `scripts/extract/provenance.schema.json`, and applies the shared domain-plausibility rules
   (`checkPlausibility`). `scripts/extract/driver.mjs` scaffolds sidecars and runs the gate. New deps:
@@ -103,14 +109,15 @@ Server by default. The only `"use client"` files: `FilterSidebar`, `SearchInput`
 
 ### PDFs / downloads
 Served statically from `public/downloads/{tds,catalogs}/`, referenced via each product's `documents[].url`.
-Source PDFs are in `material/` (not served). Ungated by design.
+Source PDFs are in the **local-only** `material/` directory (gitignored, not committed, and not served;
+`metadata.source_pdf` paths point into it). Served PDFs in `public/downloads/` are committed. Ungated by design.
 
 ## Next.js 15 gotchas
 - `params` and `searchParams` are **Promises**; `await` them.
 - Any component using `useSearchParams()` must sit under a `<Suspense>` boundary (see `contact/page.tsx`).
 
 ## Definition of done for changes here
-When editing the data shape, keep these in sync: `src/types/catalog.ts`, `research_and_planning/schema.json`,
+When editing the data shape, keep these in sync: `src/types/catalog.ts`, `data/schema.json`,
 the JSON in `data/`, and the curated facet option lists in `FilterSidebar.tsx`. Run `npm run test` and
 `npm run build` before claiming done.
 

@@ -49,3 +49,11 @@ next-env.d.ts
 # stray screenshots / scratch images at repo root
 /*.png
 /*.jpg
+
+# internal-only, kept local (not part of the public repo).
+#   material/             = source catalog/TDS PDFs (also not served; served PDFs live in public/downloads/)
+#   research_and_planning/ = internal research, planning, and status notes (see its INDEX.md)
+# The data schema these depend on was moved to data/schema.json so the build/test gate stays self-contained.
+# Scrubbing the already-committed history of these paths is the deferred fresh-repo/object-storage migration.
+/material/
+/research_and_planning/

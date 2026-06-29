@@ -152,3 +152,35 @@ test("createSidecarValidator rejects a malformed sidecar", () => {
   const validate = createSidecarValidator(provenanceSchema);
   expect(validate({ product_id: "c-1" }).length).toBeGreaterThan(0);
 });
+
+test("checkProvenance flags a confirmed citation whose value differs from the product", () => {
+  const product = {
+    id: "c-9",
+    specifications: { spec_type: "coating", product_function: "adhesive", solid_content_pct: 28 },
+    metadata: { verification_status: "source_verified" },
+  };
+  const sidecar: Sidecar = {
+    product_id: "c-9", source_pdf: "x.pdf", batch: "t", state: "verified",
+    fields: {
+      "specifications.product_function": { value: "adhesive", page: 1, quote: "Adhesive", verdict: "confirmed" },
+      "specifications.solid_content_pct": { value: 99, page: 1, quote: "Solids 99%", verdict: "confirmed" },
+    },
+  };
+  expect(checkProvenance(product, sidecar, schema).join(" ")).toMatch(/value mismatch for specifications\.solid_content_pct/);
+});
+
+test("checkProvenance passes when confirmed citations match the product values", () => {
+  const product = {
+    id: "c-10",
+    specifications: { spec_type: "coating", product_function: "adhesive", solid_content_pct: 28 },
+    metadata: { verification_status: "source_verified" },
+  };
+  const sidecar: Sidecar = {
+    product_id: "c-10", source_pdf: "x.pdf", batch: "t", state: "verified",
+    fields: {
+      "specifications.product_function": { value: "adhesive", page: 1, quote: "Adhesive", verdict: "confirmed" },
+      "specifications.solid_content_pct": { value: 28, page: 1, quote: "Solids 28%", verdict: "confirmed" },
+    },
+  };
+  expect(checkProvenance(product, sidecar, schema)).toHaveLength(0);
+});

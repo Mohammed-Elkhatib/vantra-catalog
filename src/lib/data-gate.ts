@@ -66,6 +66,10 @@ export interface Sidecar {
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+function resolvePath(obj: any, dotted: string): unknown {
+  return dotted.split(".").reduce((o: any, k) => (o == null ? undefined : o[k]), obj);
+}
+
 /**
  * Field paths that must carry a citation: spec fields that are numeric/boolean
  * or schema-enum (high-stakes), plus each certification, plus each numeric
@@ -206,6 +210,14 @@ export function checkProvenance(
       errs.push(`citation for ${path} has empty quote`);
     if (typeof entry.page !== "number" || entry.page < 1)
       errs.push(`citation for ${path} has invalid page`);
+    if (entry.verdict === "confirmed" && !path.startsWith("certifications.")) {
+      const actual = resolvePath(product, path);
+      if (String(actual) !== String(entry.value)) {
+        errs.push(
+          `value mismatch for ${path}: products.json has ${JSON.stringify(actual)} but the confirmed citation is for ${JSON.stringify(entry.value)}`
+        );
+      }
+    }
   }
   return errs;
 }

@@ -23,7 +23,7 @@
       "page": 2,
       "quote": "Efficiency @ 0.3μ  ≤ 99.97% / ≤ 99.99% / 99.999%",
       "verdict": "confirmed",
-      "note": "Three values correspond to E12/H13/H14 respectively; 99.999 is the rightmost (H14) value. Note the H14 value lacks the ≤ sign that precedes the E12/H13 values — an apparent PDF typesetting inconsistency."
+      "note": "Three values correspond to E12/H13/H14 respectively; 99.999 is the rightmost (H14) value. Note the H14 value lacks the ≤ sign that precedes the E12/H13 values - an apparent PDF typesetting inconsistency."
     },
     "specifications.construction_type": {
       "value": "deep_pleat",

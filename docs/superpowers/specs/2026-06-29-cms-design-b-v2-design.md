@@ -66,14 +66,15 @@ component** rendered under `/v2` with no per-component edits.
   --color-ink:   #222a35;   /* deep corporate navy-ink (body + headings) */
   --color-steel: #5b6b7d;   /* secondary text */
   --color-rule:  #dbe2ea;   /* hairlines / separators, slightly cooler */
-  --color-signal:#1f6fb8;   /* CMS blue — here a confident accent/FILL, not indicator-only */
+  --color-signal:#1f6fb8;   /* CMS blue — here allowed as accent/fill (used with restraint, §6), not indicator-only */
   --color-carbon:#1a2230;   /* dark band anchor */
   --font-sans:   var(--font-cms);
 }
 ```
 
 This is the inversion that kills the "too mono" feeling: in Design A `signal` is red and forbidden
-as a fill; in Design B `signal` is blue and used confidently as a fill/accent.
+as a fill; in Design B `signal` is blue and may be used as a structural accent and occasional fill
+(with restraint — see §6).
 
 Note the deliberate divergence from CMS's *literal* palette: their real site is white + `#333` body
 + stock Bootstrap blue `#337ab7`. Design B keeps the recognizable blue+white+Avenir DNA but uses a
@@ -108,24 +109,44 @@ hardcoded `bg-white` / `var(--color-signal)` usages must be checked).
 **Edited:** `src/app/globals.css` (add scoped theme block), `src/app/fonts.ts` (register the
 Avenir-stand-in font), `src/app/layout.tsx` (add the A↔B switcher link), `CLAUDE.md` (document `/v2`).
 
-## 6. Design B visual direction (grounded in `research_and_planning/CMS_WEBSITE_AUDIT.md` §B.5)
+## 6. Design B visual direction
 
-Built from the *measured* CMS DNA, executed to Design A's quality bar:
+Grounded in the measured DNA in `research_and_planning/CMS_WEBSITE_AUDIT.md` §B.5 **and a first-hand
+live visit to cmsglobal.com on 2026-06-29** (homepage + HEPA category page). The live look is
+**airier and lighter** than the audit's "stock Bootstrap blue" shorthand suggests — that nuance
+drives the bullets below. Executed to Design A's quality bar:
 
-- **Palette:** white ground, navy-ink text, **blue `#1f6fb8` as a confident fill/accent**.
+- **Gestalt — airy, light, generous whitespace.** The defining quality of the real site is open
+  space + large **light-weight headings** + centered, calm body copy. Design B adopts the airy
+  feeling and the structural rhythm, while fixing the live site's *low-contrast/too-thin* headings
+  with a proper weight hierarchy.
+- **Palette & blue usage:** white ground, navy-ink text (`#222a35`), blue `#1f6fb8` used **with
+  restraint as a structural accent** — logo lockup, active nav, the footer band, key CTAs and
+  rules — *not* a blanket fill. (The live site only goes full-blue inside its photographic bands and
+  the footer; the chrome stays white/grey + blue accents.) The deepening from CMS's literal
+  `#337ab7` to `#1f6fb8` is the one intentional "polished, not cloned" move.
 - **Typography:** an Avenir-family feel. Avenir is a licensed Linotype font we cannot bundle, so the
-  demo uses a close **free stand-in** — **Mulish** (preferred) or **Nunito Sans** — via `next/font`,
-  with heavy weights (800/900) for headings to echo Avenir Black. Real Avenir drops in later if the
-  client licenses it.
-- **Layout:** full-bleed **photographic hero banners** + **card grids** (CMS's structural
-  signature), but with honest copy, generous spacing, and everything actually working.
+  demo uses a close **free stand-in** — **Mulish** (preferred) or **Nunito Sans** — via `next/font`.
+  Use a genuine weight hierarchy (light/regular for large display, 600–800 for emphasis) rather than
+  the live site's uniformly thin headings. Real Avenir drops in later if the client licenses it.
+- **CTA style:** **thin outline / ghost buttons** (uppercase, letter-spaced) are a CMS signature and
+  a clean contrast to Design A's solid-ink buttons — adopt them as Design B's primary CTA, with the
+  blue accent on hover/active.
+- **Layout:** full-bleed **photographic bands** alternating with content, and **card grids** for
+  categories/products — CMS's structural signature — with honest copy, generous spacing, and
+  everything actually working (specs, datasheets, filtering — all the things the live site lacks).
+- **Imagery (two modes observed live):** (a) full-bleed **aspirational/metaphor** photos between
+  sections — on the live site these are *generic* (a dancer, blue umbrellas, a paper boat) and are
+  the part to **replace with domain-true imagery** (cleanroom / HVAC / filtration); (b) clean
+  **studio product shots on white/grey**, which the live site does genuinely well and which Design B
+  reuses in that spirit. See §7.
 - **Instruments (HYBRID):** homepage / marketing leans photographic + corporate blue; **product
   detail pages keep the real `DynamicSpecs` + instruments**, recolored to blue. Design B reads as a
   polished corporate site up front while keeping the data-viz depth where specs live.
-- **Anti-"AI-slop" guardrail:** CMS's actual identity is "stock Bootstrap blue + generic
-  cyclist/sky/mountain photos." Design B deliberately uses **domain-true imagery**
-  (cleanroom / HVAC / filtration), never random generic stock, so it is a *better version of their
-  brand*, not generic corporate filler.
+- **Anti-"AI-slop" guardrail:** the live site's weak spot is its *generic metaphor* photography and
+  low-contrast type, not its blue. Design B keeps the recognizable airy-blue-and-white DNA but uses
+  **domain-true imagery** and real type contrast, so it reads as a *better version of their brand*,
+  not generic corporate filler.
 
 ## 7. Imagery & assets
 

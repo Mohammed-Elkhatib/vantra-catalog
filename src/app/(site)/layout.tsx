@@ -9,7 +9,7 @@ export default function SiteLayout({ children }: Readonly<{ children: React.Reac
             <span className="text-lg font-bold tracking-[0.16em] text-ink">VANTRA</span>
             <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-steel">Lebanon</span>
           </Link>
-          <nav className="flex items-center gap-7 font-mono text-[11px] uppercase tracking-[0.14em] text-steel">
+          <nav className="flex gap-7 font-mono text-[11px] uppercase tracking-[0.14em] text-steel">
             <Link href="/" className="transition-colors hover:text-ink">Home</Link>
             <Link href="/products" className="transition-colors hover:text-ink">Catalog</Link>
             <Link href="/contact" className="transition-colors hover:text-ink">Contact</Link>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import ThemeSwitcher from "@/components/ThemeSwitcher";
 import { mulish } from "../fonts";
 
 export const metadata: Metadata = {
@@ -24,6 +25,7 @@ export default function V2Layout({ children }: Readonly<{ children: React.ReactN
             <Link href="/v2" className="transition-colors hover:text-[var(--color-signal)]">Home</Link>
             <Link href="/v2/products" className="transition-colors hover:text-[var(--color-signal)]">Products</Link>
             <Link href="/v2/contact" className="transition-colors hover:text-[var(--color-signal)]">Contact</Link>
+            <ThemeSwitcher current="b" />
           </nav>
         </div>
       </header>

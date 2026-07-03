@@ -8,6 +8,13 @@ export const revalidate = 3600;
 
 const STANDARDS = ["UL", "ETL", "AMCA", "BSRIA", "EN 1822", "ASTM"];
 
+// Domain-true imagery sourced under public/v2 (see public/v2/CREDITS.md).
+// Categories without a sourced photo fall back to CategoryTile's placeholder block.
+const CATEGORY_IMAGES: Record<string, string> = {
+  "air-filters": "/v2/cat-air-filters.jpg",
+  dampers: "/v2/cat-dampers.jpg",
+};
+
 export default async function V2Home() {
   const [categories, brands] = await Promise.all([getCategories(), getBrands()]);
 
@@ -17,6 +24,7 @@ export default async function V2Home() {
         eyebrow="Medical-grade HVAC"
         title="Engineered air, delivered with confidence."
         subtitle="Vantra brings CMS Global's certified air filtration, dampers, and acoustic attenuators to Lebanon. Open catalog, instant datasheets, no registration."
+        imageSrc="/v2/hero-air-handling-unit.jpg"
       />
 
       {/* Standards strip */}
@@ -43,6 +51,7 @@ export default async function V2Home() {
               name={category.name}
               description={category.description}
               productCount={category.product_count}
+              imageSrc={CATEGORY_IMAGES[category.id]}
             />
           ))}
         </div>

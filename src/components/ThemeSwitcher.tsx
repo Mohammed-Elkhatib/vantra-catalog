@@ -15,13 +15,13 @@ export default function ThemeSwitcher({ current }: { current: "a" | "b" }) {
     <span className="inline-flex items-center overflow-hidden rounded-sm border border-rule">
       {current === "a" ? (
         <>
-          <span className={onCls}>A</span>
-          <Link href={target} className={offCls} prefetch={false}>B</Link>
+          <span className={onCls} aria-current="true">A</span>
+          <Link href={target} className={offCls} prefetch={false} aria-label="Switch to Design B">B</Link>
         </>
       ) : (
         <>
-          <Link href={target} className={offCls} prefetch={false}>A</Link>
-          <span className={onCls}>B</span>
+          <Link href={target} className={offCls} prefetch={false} aria-label="Switch to Design A">A</Link>
+          <span className={onCls} aria-current="true">B</span>
         </>
       )}
     </span>

@@ -1,4 +1,4 @@
-# Design B ("CMS-flavored") at `/v2` — Design Spec
+# Design B ("CMS-flavored") at `/v2`: Design Spec
 
 **Date:** 2026-06-29
 **Branch:** `design-b-cms-v2`
@@ -9,15 +9,15 @@
 Add a second, visually distinct design ("Design B") to the Vantra Lebanon catalog so the
 client can see two directions side by side in the demo:
 
-- **Design A** — the existing "Instrument" system (restrained paper/ink/steel palette,
+- **Design A**: the existing "Instrument" system (restrained paper/ink/steel palette,
   signal-red as indicator-only, mono labels, hairline rules, signature data-viz). Stays on `/`
   visually unchanged except for one small, trivially removable addition: the A↔B demo switcher link
   in its header (see §3).
-- **Design B** — a polished, corporate look derived from **CMS Global's own measured brand DNA**
+- **Design B**: a polished, corporate look derived from **CMS Global's own measured brand DNA**
   (blue accent, Avenir-family type, photographic banners, card grids), executed to Design A's
   quality bar. Lives at `/v2`.
 
-The narrative for the pitch: *"Design A — a distinctive system we'd argue for. Design B — your own
+The narrative for the pitch: *"Design A: a distinctive system we'd argue for. Design B: your own
 brand identity, done right."*
 
 Motivation: the current design is clean but reads "too mono / a bit bland." Design B answers that
@@ -28,22 +28,22 @@ A/B choice rather than a single take-it-or-leave-it design.
 
 The codebase already separates concerns cleanly, so Design B touches **only the View**:
 
-- **Model** — `data/*.json`, `src/lib/db.ts`, `src/types/catalog.ts`
-- **Controller / logic** — `src/lib/catalog-filter.ts`, `format.ts`, `seo.ts`, `instruments.ts`
+- **Model**: `data/*.json`, `src/lib/db.ts`, `src/types/catalog.ts`
+- **Controller / logic**: `src/lib/catalog-filter.ts`, `format.ts`, `seo.ts`, `instruments.ts`
   (geometry), and the data-integrity / data-gate test suites
-- **View** — `layout.tsx`, the four route `page.tsx` files, and ~11 components, styled with inline
+- **View**: `layout.tsx`, the four route `page.tsx` files, and ~11 components, styled with inline
   Tailwind utilities that resolve to **semantic design tokens** in `src/app/globals.css`
 
 Design B reuses 100% of Model + Controller. Nothing in this work touches the database, filtering,
 faceting, SEO helpers, or the instrument math.
 
-## 3. Mechanism — one branch, a real `/v2` route segment
+## 3. Mechanism: one branch, a real `/v2` route segment
 
 Both designs ship on the **same branch / same deploy**, sharing data and logic, switchable live in
 front of the client.
 
 - Design B lives under a real Next.js **`/v2` path segment** (`src/app/v2/...`), **not** a
-  parenthesized `(group)` — parenthesized groups do not change the URL and would collide with the
+  parenthesized `(group)`: parenthesized groups do not change the URL and would collide with the
   existing routes. A `/v2` segment gives distinct URLs (`/v2`, `/v2/products`,
   `/v2/products/[slug]`, `/v2/contact`) and its own nested layout.
 - A nested `src/app/v2/layout.tsx` provides the CMS header/footer and font, and wraps its subtree in
@@ -60,7 +60,7 @@ front of the client.
 Rejected alternatives: token-only recolor (too shallow for a real A/B); separate branches with
 separate deploy URLs (no live toggle, ongoing sync overhead).
 
-## 4. Theming mechanism — scoped token override (the cost-saver)
+## 4. Theming mechanism: scoped token override (the cost-saver)
 
 Add one scoped block to `src/app/globals.css`. Because Tailwind v4 utilities compile to
 `var(--color-*)`, overriding the tokens inside a `[data-theme="cms"]` scope re-skins **every shared
@@ -72,7 +72,7 @@ component** rendered under `/v2` with no per-component edits.
   --color-ink:   #222a35;   /* deep corporate navy-ink (body + headings) */
   --color-steel: #5b6b7d;   /* secondary text */
   --color-rule:  #dbe2ea;   /* hairlines / separators, slightly cooler */
-  --color-signal:#1f6fb8;   /* CMS blue — here allowed as accent/fill (used with restraint, §6), not indicator-only */
+  --color-signal:#1f6fb8;   /* CMS blue, here allowed as accent/fill (used with restraint, §6), not indicator-only */
   --color-carbon:#1a2230;   /* dark band anchor */
   --font-sans:   var(--font-cms);
 }
@@ -80,7 +80,7 @@ component** rendered under `/v2` with no per-component edits.
 
 This is the inversion that kills the "too mono" feeling: in Design A `signal` is red and forbidden
 as a fill; in Design B `signal` is blue and may be used as a structural accent and occasional fill
-(with restraint — see §6).
+(with restraint; see §6).
 
 Note the deliberate divergence from CMS's *literal* palette: their real site is white + `#333` body
 + stock Bootstrap blue `#337ab7`. Design B keeps the recognizable blue+white+Avenir DNA but uses a
@@ -93,8 +93,8 @@ brand, not a clone of a dated Bootstrap-3 theme.
 `format.ts`, `seo.ts`, `instruments.ts`, and the full data-integrity / data-gate test suite.
 
 **Reused, auto-reskinned via `[data-theme="cms"]` (no fork):** the interactive / logic-bound
-components — `FilterSidebar`, `SearchInput`, `SelectionTable`, `ContactForm`, `DynamicSpecs`, and the
-instrument SVG components. A verification pass confirms each re-skins cleanly (see §9, Risks — some
+components: `FilterSidebar`, `SearchInput`, `SelectionTable`, `ContactForm`, `DynamicSpecs`, and the
+instrument SVG components. A verification pass confirms each re-skins cleanly (see §9, Risks: some
 hardcoded `bg-white` / `var(--color-signal)` usages must be checked).
 
 **Net-new for `/v2`:**
@@ -122,30 +122,30 @@ Avenir-stand-in font), `src/app/layout.tsx` (slim to `<html>`/`<body>` + fonts),
 
 Grounded in the measured DNA in `research_and_planning/CMS_WEBSITE_AUDIT.md` §B.5 **and a first-hand
 live visit to cmsglobal.com on 2026-06-29** (homepage + HEPA category page). The live look is
-**airier and lighter** than the audit's "stock Bootstrap blue" shorthand suggests — that nuance
+**airier and lighter** than the audit's "stock Bootstrap blue" shorthand suggests; that nuance
 drives the bullets below. Executed to Design A's quality bar:
 
-- **Gestalt — airy, light, generous whitespace.** The defining quality of the real site is open
+- **Gestalt: airy, light, generous whitespace.** The defining quality of the real site is open
   space + large **light-weight headings** + centered, calm body copy. Design B adopts the airy
   feeling and the structural rhythm, while fixing the live site's *low-contrast/too-thin* headings
   with a proper weight hierarchy.
 - **Palette & blue usage:** white ground, navy-ink text (`#222a35`), blue `#1f6fb8` used **with
-  restraint as a structural accent** — logo lockup, active nav, the footer band, key CTAs and
-  rules — *not* a blanket fill. (The live site only goes full-blue inside its photographic bands and
+  restraint as a structural accent** (logo lockup, active nav, the footer band, key CTAs and
+  rules), *not* a blanket fill. (The live site only goes full-blue inside its photographic bands and
   the footer; the chrome stays white/grey + blue accents.) The deepening from CMS's literal
   `#337ab7` to `#1f6fb8` is the one intentional "polished, not cloned" move.
 - **Typography:** an Avenir-family feel. Avenir is a licensed Linotype font we cannot bundle, so the
-  demo uses a close **free stand-in** — **Mulish** (preferred) or **Nunito Sans** — via `next/font`.
+  demo uses a close **free stand-in**, **Mulish** (preferred) or **Nunito Sans**, via `next/font`.
   Use a genuine weight hierarchy (light/regular for large display, 600–800 for emphasis) rather than
   the live site's uniformly thin headings. Real Avenir drops in later if the client licenses it.
 - **CTA style:** **thin outline / ghost buttons** (uppercase, letter-spaced) are a CMS signature and
-  a clean contrast to Design A's solid-ink buttons — adopt them as Design B's primary CTA, with the
+  a clean contrast to Design A's solid-ink buttons; adopt them as Design B's primary CTA, with the
   blue accent on hover/active.
 - **Layout:** full-bleed **photographic bands** alternating with content, and **card grids** for
-  categories/products — CMS's structural signature — with honest copy, generous spacing, and
-  everything actually working (specs, datasheets, filtering — all the things the live site lacks).
+  categories/products (CMS's structural signature) with honest copy, generous spacing, and
+  everything actually working (specs, datasheets, filtering: all the things the live site lacks).
 - **Imagery (two modes observed live):** (a) full-bleed **aspirational/metaphor** photos between
-  sections — on the live site these are *generic* (a dancer, blue umbrellas, a paper boat) and are
+  sections; on the live site these are *generic* (a dancer, blue umbrellas, a paper boat) and are
   the part to **replace with domain-true imagery** (cleanroom / HVAC / filtration); (b) clean
   **studio product shots on white/grey**, which the live site does genuinely well and which Design B
   reuses in that spirit. See §7.
@@ -173,15 +173,15 @@ The client provides nothing; imagery is sourced during implementation:
 
 All four `/v2` routes, in value order for the demo:
 
-1. **Homepage** — first impression (highest value)
-2. **Products listing** — the catalog UX
-3. **Product detail** — the depth (hybrid instruments live here)
-4. **Contact** — thin reskin of the existing mock form (lowest value; first to cut if scope tightens)
+1. **Homepage**: first impression (highest value)
+2. **Products listing**: the catalog UX
+3. **Product detail**: the depth (hybrid instruments live here)
+4. **Contact**: thin reskin of the existing mock form (lowest value; first to cut if scope tightens)
 
 ## 9. Risks & open verification
 
-- **Shared-component re-skin pass.** Some shared components hardcode `bg-white` (literal — fine on
-  both) or `var(--color-signal)` / `bg-ink` / `bg-carbon` (resolve via tokens — re-skinned). One
+- **Shared-component re-skin pass.** Some shared components hardcode `bg-white` (literal, fine on
+  both) or `var(--color-signal)` / `bg-ink` / `bg-carbon` (resolve via tokens, re-skinned). One
   pass during implementation must confirm each shared component renders correctly under
   `[data-theme="cms"]`, especially anywhere `signal` red was assumed.
 - **Avenir-stand-in fidelity.** Mulish/Nunito Sans approximate Avenir; acceptable for a demo, called
@@ -197,11 +197,11 @@ All four `/v2` routes, in value order for the demo:
 - **`npm run build` is the render smoke test.** Next.js statically generates the `/v2` home, the
   `/v2/products/[slug]` detail pages (SSG via `generateStaticParams`), and `/v2/contact` at build
   time, executing those components; a render error fails the build. (`/v2/products` is dynamic on
-  search params, so it is compiled but not pre-rendered — its logic is the already-tested
+  search params, so it is compiled but not pre-rendered; its logic is the already-tested
   `catalog-filter`.) No new component-render test infra (jsdom/RTL) is added, matching the project's
   existing pure-function + data-integrity test style; importing page modules directly in Vitest is
   not viable because they pull in `next/font`, which only runs inside the Next build.
-- `npm run build` (production build + typecheck + lint) passes — the main correctness gate.
+- `npm run build` (production build + typecheck + lint) passes: the main correctness gate.
 - `/v2` carries `robots: noindex` metadata so the demo creates no duplicate-content (the exact issue
   the audit dings CMS for).
 - `CLAUDE.md` updated: document the `/v2` Design B variant, the scoped `[data-theme="cms"]` theming
@@ -209,7 +209,7 @@ All four `/v2` routes, in value order for the demo:
 
 ## 11. Cost estimate
 
-**Medium** — roughly **2–4 focused work sessions**:
+**Medium**, roughly **2-4 focused work sessions**:
 
 - ~1 session: scoped theme + nested `v2/layout` + font registration + routing scaffold + A↔B switcher
 - ~1–2 sessions: homepage + listing + detail

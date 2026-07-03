@@ -3,8 +3,8 @@
 All images are sourced from Unsplash or Pexels under their respective free-to-use licenses
 ([Unsplash License](https://unsplash.com/license), [Pexels License](https://www.pexels.com/license/)),
 both of which permit commercial use with no attribution legally required; credited here anyway as
-good practice. Downloaded at reduced width/quality (`?q=75-80&fm=jpg&w=1200-1920`) to keep each file
-under ~500 KB.
+good practice. Images downscaled at the source CDN via each provider's URL parameters, to keep
+each file under ~500 KB.
 
 | File | Depicts | Source | Photographer | Published |
 |---|---|---|---|---|

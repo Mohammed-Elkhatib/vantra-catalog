@@ -21,7 +21,7 @@ export const plexMono = IBM_Plex_Mono({
 // (which is licensed and cannot be bundled). Heavy weights echo Avenir Black.
 export const mulish = Mulish({
   subsets: ["latin"],
-  weight: ["300", "400", "600", "700", "800"],
+  weight: ["300", "400", "500", "600", "700", "800"],
   variable: "--font-cms",
   display: "swap",
 });

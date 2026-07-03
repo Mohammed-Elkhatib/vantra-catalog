@@ -93,10 +93,10 @@ which is authoritative on contested points.
 The catalog ships **two visually distinct front ends over the same Model + Controller**, so the
 client can compare designs live in one demo:
 
-- **Design A** (`src/app/(site)/`) — the "Instrument" system described above, at `/`, `/products`,
+- **Design A** (`src/app/(site)/`): the "Instrument" system described above, at `/`, `/products`,
   `/products/[slug]`, `/contact`. `(site)` is a route group: it does not change URLs, it only holds
   Design A's chrome (`(site)/layout.tsx`) apart from the root layout.
-- **Design B** (`src/app/v2/`) — a corporate CMS-brand-derived look at `/v2`, `/v2/products`,
+- **Design B** (`src/app/v2/`): a corporate CMS-brand-derived look at `/v2`, `/v2/products`,
   `/v2/products/[slug]`, `/v2/contact`, with its own nested `v2/layout.tsx` (CMS header/footer).
   `/v2` carries `robots: { index: false, follow: false }` (no duplicate-content indexing).
 - **Theming with zero forking:** `src/app/globals.css` scopes a second token set under

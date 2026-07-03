@@ -24,7 +24,7 @@ export default async function V2Home() {
         eyebrow="Medical-grade HVAC"
         title="Engineered air, delivered with confidence."
         subtitle="Vantra brings CMS Global's certified air filtration, dampers, and acoustic attenuators to Lebanon. Open catalog, instant datasheets, no registration."
-        imageSrc="/v2/hero-air-handling-unit.jpg"
+        imageSrc="/v2/hero-hvac-ductwork-corridor.jpg"
       />
 
       {/* Standards strip */}

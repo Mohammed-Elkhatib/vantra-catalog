@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Search, X } from "lucide-react";
 
@@ -10,6 +10,7 @@ interface SearchInputProps {
 
 export default function SearchInput({ defaultValue = "" }: SearchInputProps) {
   const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
   const [value, setValue] = useState(defaultValue);
 
@@ -29,11 +30,16 @@ export default function SearchInput({ defaultValue = "" }: SearchInputProps) {
       }
       // Reset page number on search
       params.delete("page");
-      router.push(`/products?${params.toString()}`, { scroll: false });
+      const nextQuery = params.toString();
+      // No-op guard: without this, the effect's unconditional push fires even on
+      // mount (when value already matches the URL), which silently redirects
+      // /v2/products to a hardcoded path and litters history with junk entries.
+      if (nextQuery === searchParams.toString()) return;
+      router.push(`${pathname}?${nextQuery}`, { scroll: false });
     }, 300);
 
     return () => clearTimeout(handler);
-  }, [value, router, searchParams]);
+  }, [value, router, pathname, searchParams]);
 
   const handleClear = () => {
     setValue("");

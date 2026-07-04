@@ -89,6 +89,32 @@ which is authoritative on contested points.
   `ContactForm` (`src/components/ContactForm.tsx`). Mock submit (setTimeout); reads `?product=` to prefill.
 - SEO files: `sitemap.ts`, `robots.ts`; `metadataBase` + OpenGraph defaults in `layout.tsx`.
 
+### Design A vs Design B (`/v2`)
+The catalog ships **two visually distinct front ends over the same Model + Controller**, so the
+client can compare designs live in one demo:
+
+- **Design A** (`src/app/(site)/`): the "Instrument" system described above, at `/`, `/products`,
+  `/products/[slug]`, `/contact`. `(site)` is a route group: it does not change URLs, it only holds
+  Design A's chrome (`(site)/layout.tsx`) apart from the root layout.
+- **Design B** (`src/app/v2/`): a corporate CMS-brand-derived look at `/v2`, `/v2/products`,
+  `/v2/products/[slug]`, `/v2/contact`, with its own nested `v2/layout.tsx` (CMS header/footer).
+  `/v2` carries `robots: { index: false, follow: false }` (no duplicate-content indexing).
+- **Theming with zero forking:** `src/app/globals.css` scopes a second token set under
+  `[data-theme="cms"]` (white ground, navy ink, CMS blue `--color-signal`, `--font-cms`). The `v2`
+  layout wraps its subtree in `data-theme="cms"`; because every shared component is styled with
+  Tailwind utilities that resolve to `var(--color-*)`, this single CSS block re-skins
+  `FilterSidebar`, `SearchInput`, `SelectionTable`, `ContactForm`, `DynamicSpecs`, and the
+  instrument SVGs for Design B with **no per-component edits or fork**.
+- **Font:** `src/app/fonts.ts` registers `mulish` (`--font-cms`) as a free stand-in for CMS's
+  licensed Avenir; wired only inside the `cms` theme scope.
+- **A/B switcher:** `src/components/ThemeSwitcher.tsx` (client) + `src/lib/design-switch.ts`
+  (`counterpartPath`, pure) render an "A | B" pill in both headers that jumps to the equivalent page
+  in the other design.
+- Root layout (`src/app/layout.tsx`) is slimmed to `<html>`/`<body>` + fonts + metadata base only;
+  both `(site)/layout.tsx` and `v2/layout.tsx` supply their own chrome on top of it.
+- Full rationale and visual spec: `docs/superpowers/specs/2026-06-29-cms-design-b-v2-design.md`;
+  implementation plan: `docs/superpowers/plans/2026-06-29-cms-design-b-v2.md`.
+
 ### Listing state — URL search params are the single source of truth
 Multi-value facets are **comma-separated**. Keys: `search`, `category`, `brand`, `en1822`, `fireRating`,
 `leakageClass`, `cert`. `category` matches the product's `category` **name**; `brand` matches `brand_id`.
@@ -97,7 +123,8 @@ each option given the *other* active filters).
 
 ### Client vs server components
 Server by default. The only `"use client"` files: `FilterSidebar`, `SearchInput`, `SelectionTable`,
-`ContactForm`. Everything else (pages, `DynamicSpecs`, `ModelDecoder`, `ProductCard`, instruments) is server.
+`ContactForm`, `ThemeSwitcher`. Everything else (pages, `DynamicSpecs`, `ModelDecoder`, `ProductCard`,
+instruments) is server.
 
 - `FilterSidebar.tsx` — toggles facets via `router.push` + `useTransition`. **Gotcha:** the spec-facet
   option lists are curated constants at the top of the file (`EN1822_OPTIONS`, `FIRE_RATING_OPTIONS`,

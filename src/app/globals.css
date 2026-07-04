@@ -42,3 +42,19 @@
     }
   }
 }
+
+/* ---------------------------------------------------------------------------
+   Design B ("CMS") theme scope. Applied by src/app/v2/layout.tsx via
+   data-theme="cms". Overrides the Instrument tokens so every token-styled
+   shared component reskins with no per-component edits.
+   See docs/superpowers/specs/2026-06-29-cms-design-b-v2-design.md.
+--------------------------------------------------------------------------- */
+[data-theme="cms"] {
+  --color-paper: #ffffff; /* white ground */
+  --color-ink: #222a35; /* deep corporate navy-ink */
+  --color-steel: #5b6b7d; /* secondary text */
+  --color-rule: #dbe2ea; /* hairlines / separators */
+  --color-signal: #1f6fb8; /* CMS blue: allowed as accent/fill (used with restraint) */
+  --color-carbon: #1a2230; /* dark band anchor */
+  --font-sans: var(--font-cms), ui-sans-serif, system-ui, sans-serif;
+}

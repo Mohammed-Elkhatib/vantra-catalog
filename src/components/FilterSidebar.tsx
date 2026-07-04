@@ -1,7 +1,7 @@
 "use client";
 
 import { useTransition } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Category, Brand } from "@/lib/db";
 import { Filter } from "lucide-react";
 
@@ -71,6 +71,7 @@ function Option({
 
 export default function FilterSidebar({ categories, brands, availableCounts }: FilterSidebarProps) {
   const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
 
@@ -86,7 +87,7 @@ export default function FilterSidebar({ categories, brands, availableCounts }: F
     if (updated.length > 0) params.set(key, updated.join(","));
     else params.delete(key);
     params.delete("page");
-    startTransition(() => router.push(`/products?${params.toString()}`, { scroll: false }));
+    startTransition(() => router.push(`${pathname}?${params.toString()}`, { scroll: false }));
   };
 
   const activeCategories = active("category");
@@ -108,7 +109,7 @@ export default function FilterSidebar({ categories, brands, availableCounts }: F
         </h3>
         {hasActive && (
           <button
-            onClick={() => startTransition(() => router.push("/products", { scroll: false }))}
+            onClick={() => startTransition(() => router.push(pathname, { scroll: false }))}
             disabled={isPending}
             className="font-mono text-[10px] uppercase tracking-[0.12em] text-[var(--color-signal)] hover:underline disabled:opacity-50"
           >

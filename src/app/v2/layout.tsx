@@ -19,10 +19,10 @@ export default function V2Layout({ children }: Readonly<{ children: React.ReactN
           <Link href="/v2" className="flex items-center gap-2.5">
             <span className="grid h-8 w-8 place-items-center bg-[var(--color-signal)] text-sm font-extrabold text-white">V</span>
             <span className="text-xl font-extrabold tracking-tight text-ink">Vantra</span>
-            <span className="text-xs font-semibold uppercase tracking-[0.2em] text-steel">Lebanon</span>
+            <span className="hidden text-xs font-semibold uppercase tracking-[0.2em] text-steel sm:inline">Lebanon</span>
           </Link>
-          <nav className="hidden items-center gap-8 text-sm font-semibold text-steel sm:flex">
-            <Link href="/v2" className="transition-colors hover:text-[var(--color-signal)]">Home</Link>
+          <nav className="flex items-center gap-3 text-sm font-semibold text-steel sm:gap-8">
+            <Link href="/v2" className="hidden transition-colors hover:text-[var(--color-signal)] sm:inline">Home</Link>
             <Link href="/v2/products" className="transition-colors hover:text-[var(--color-signal)]">Products</Link>
             <Link href="/v2/contact" className="transition-colors hover:text-[var(--color-signal)]">Contact</Link>
             <ThemeSwitcher current="b" />

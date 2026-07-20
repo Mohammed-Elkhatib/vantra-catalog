@@ -37,7 +37,7 @@ export function buildProductMetadata(p: Product): Metadata {
 export function buildListingMetadata(): Metadata {
   const title = `Product Catalog | ${SITE}`;
   const description =
-    "Browse and filter medical-grade HVAC air filters, dampers, sound attenuators, and coatings. Open specifications and instant datasheet downloads, no registration.";
+    "Browse and filter medical-grade HVAC air filters, dampers, sound attenuators, and coatings. Full specifications and instant datasheet downloads.";
   return {
     title,
     description,

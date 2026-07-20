@@ -20,13 +20,13 @@ export default async function Home() {
               Medical-grade HVAC · Open catalog
             </p>
             <h1 className="mt-5 text-4xl font-semibold leading-[1.05] tracking-tight text-ink sm:text-6xl">
-              Specifications,
+              Filtration built for
               <br />
-              not PDFs.
+              critical environments.
             </h1>
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-steel">
-              Vantra brings CMS Global&apos;s air filtration, dampers, and acoustic attenuators to Lebanon. Browse,
-              filter, and read every datasheet in the browser. No registration, no gate.
+              Vantra brings CMS Global&apos;s air filtration, dampers, and acoustic attenuators to Lebanon. Browse
+              the range, compare specifications, and download any datasheet instantly.
             </p>
             <div className="mt-9 flex flex-wrap gap-3">
               <Link
@@ -51,8 +51,8 @@ export default async function Home() {
             </div>
             <EfficiencyCurve width={320} height={150} efficiencyLabel="99.995%" />
             <p className="mt-4 border-t border-rule pt-4 text-xs leading-relaxed text-steel">
-              We render the engineering, not just a brochure: efficiency curves, classification scales, pressure
-              gauges, and octave-band acoustics, straight from each product&apos;s data.
+              Efficiency curves, classification scales, pressure gauges, and octave-band acoustics, rendered
+              from each product&apos;s certified test data.
             </p>
           </div>
         </div>
@@ -139,8 +139,7 @@ export default async function Home() {
         <div className="mx-auto max-w-5xl px-4 py-20 text-center sm:px-6 lg:px-8">
           <h2 className="text-2xl font-semibold tracking-tight text-paper sm:text-3xl">Get technical specs instantly</h2>
           <p className="mx-auto mt-4 max-w-2xl text-steel">
-            Skip the registration forms and broken links. Find the exact product for your project and download the
-            datasheet in one click.
+            Find the exact product for your project and download the datasheet in one click.
           </p>
           <Link
             href="/products"

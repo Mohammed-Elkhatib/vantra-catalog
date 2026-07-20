@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://www.ventra-leb.com"),
   title: "Vantra Lebanon | Medical-Grade HVAC & Air Filtration",
   description:
-    "High-efficiency air filtration, dampers, sound attenuators, and coatings for medical, pharmaceutical, and commercial projects in Lebanon. Open catalog, instant datasheets, no registration.",
+    "High-efficiency air filtration, dampers, sound attenuators, and coatings for medical, pharmaceutical, and commercial projects in Lebanon. Full catalog with instant datasheet downloads.",
   openGraph: {
     siteName: "Vantra Lebanon",
     type: "website",

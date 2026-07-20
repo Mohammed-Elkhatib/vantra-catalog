@@ -101,7 +101,7 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
         <div className="flex flex-col gap-4 lg:col-span-1">
           <div className="border border-rule bg-white p-5">
             <h3 className="font-mono text-[10px] uppercase tracking-[0.14em] text-steel">Documents</h3>
-            <p className="mt-1.5 text-xs leading-relaxed text-steel">Ungated. Sourced from CMS Global factories.</p>
+            <p className="mt-1.5 text-xs leading-relaxed text-steel">Technical documents from CMS Global factories.</p>
             <div className="mt-4 flex flex-col gap-2">
               {tdsDoc ? (
                 <a href={tdsDoc.url} download className="group flex items-center gap-3 border border-rule p-3 transition-colors hover:border-ink">

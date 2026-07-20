@@ -23,7 +23,7 @@ export default async function V2Home() {
       <Hero
         eyebrow="Medical-grade HVAC"
         title="Engineered air, delivered with confidence."
-        subtitle="Vantra brings CMS Global's certified air filtration, dampers, and acoustic attenuators to Lebanon. Open catalog, instant datasheets, no registration."
+        subtitle="Vantra brings CMS Global's certified air filtration, dampers, and acoustic attenuators to Lebanon. Browse the full range and download datasheets instantly."
         imageSrc="/v2/hero-hvac-ductwork-corridor.jpg"
       />
 
@@ -110,8 +110,7 @@ export default async function V2Home() {
             Get technical specs instantly
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-white/85">
-            Find the exact product for your project and download the datasheet in one click. No
-            registration, no gate.
+            Find the exact product for your project and download the datasheet in one click.
           </p>
           <Link
             href="/v2/products"
